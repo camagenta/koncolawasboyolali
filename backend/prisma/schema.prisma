@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  super_admin
+  admin_unit
+  alumni
+}
+
+enum StatusUtama {
+  Bekerja
+  Kuliah
+  Wirausaha
+  Belum_Bekerja
+  Lainnya
+}
+
+enum JobType {
+  full_time
+  part_time
+  internship
+}
+
+enum JobStatus {
+  pending
+  approved
+  rejected
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Char(36)
+  googleId     String    @unique @map("google_id")
+  email        String    @unique
+  name         String
+  role         UserRole  @default(alumni)
+  avatarUrl    String?   @map("avatar_url")
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  profile       AlumniProfile?
+  adminUnit     AdminUnit?
+  matchedInduk  BukuIndukRef? @relation("BukuIndukMatch")
+  forumThreads  ForumThread[]
+  forumComments ForumComment[]
+  forumLikes    ForumLike[]
+  forumCategories ForumCategory[]
+  groupMembers  GroupMember[]
+  discussionGroups DiscussionGroup[]
+  sentMessages  ChatMessage[]   @relation("sender")
+  recvMessages  ChatMessage[]   @relation("receiver")
+  jobPostings   JobPosting[]
+  approvedJobs  JobPosting[]    @relation("approver")
+
+  @@map("users")
+}
+
+model BukuIndukRef {
+  id         String   @id @default(uuid()) @db.Char(36)
+  nis        String   @unique
+  nama       String
+  tahunMasuk Int      @map("tahun_masuk")
+  jurusan    String?
+  kelas3     String?  @map("kelas_3")
+  isMatched  Boolean  @default(false) @map("is_matched")
+  matchedBy  String?  @unique @map("matched_by") @db.Char(36)
+  matchedUser User?   @relation("BukuIndukMatch", fields: [matchedBy], references: [id])
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  profiles AlumniProfile[]
+
+  @@map("buku_induk_references")
+}
+
+model AlumniProfile {
+  id                  String      @id @default(uuid()) @db.Char(36)
+  userId              String      @unique @map("user_id") @db.Char(36)
+  user                User        @relation(fields: [userId], references: [id])
+  bukuIndukId         String?     @map("buku_induk_id") @db.Char(36)
+  bukuInduk           BukuIndukRef? @relation(fields: [bukuIndukId], references: [id])
+  nis                 String?
+  namaLengkap         String      @map("nama_lengkap")
+  noHp                String      @map("no_hp")
+  tahunMasuk          Int         @map("tahun_masuk")
+  tahunLulus          Int         @map("tahun_lulus")
+  jurusan             String?
+  kelas1              String?     @map("kelas_1")
+  kelas2              String?     @map("kelas_2")
+  kelas3              String      @map("kelas_3")
+  kotaDomisili        String      @map("kota_domisili")
+  kecamatanAsalBoyolali String   @map("kecamatan_asal_boyolali")
+  alamatLengkap       String?     @map("alamat_lengkap")
+  fotoProfil          String?     @map("foto_profil")
+  linkLinkedin        String?     @map("link_linkedin")
+  linkInstagram       String?     @map("link_instagram")
+  statusUtama         StatusUtama @default(Lainnya) @map("status_utama")
+  isDataFromBukuInduk Boolean     @default(false) @map("is_data_from_buku_induk")
+  createdAt           DateTime    @default(now()) @map("created_at")
+  updatedAt           DateTime    @updatedAt @map("updated_at")
+
+  educations EducationHistory[]
+  careers    CareerHistory[]
+
+  @@map("alumni_profiles")
+}
+
+model EducationHistory {
+  id              String  @id @default(uuid()) @db.Char(36)
+  alumniProfileId String  @map("alumni_profile_id") @db.Char(36)
+  alumniProfile   AlumniProfile @relation(fields: [alumniProfileId], references: [id])
+  jenjang         String
+  institusi       String
+  jurusan         String?
+  tahunMasuk      Int?    @map("tahun_masuk")
+  tahunLulus      Int?    @map("tahun_lulus")
+  status          String
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("education_histories")
+}
+
+model CareerHistory {
+  id              String  @id @default(uuid()) @db.Char(36)
+  alumniProfileId String  @map("alumni_profile_id") @db.Char(36)
+  alumniProfile   AlumniProfile @relation(fields: [alumniProfileId], references: [id])
+  perusahaan      String
+  jabatan         String
+  sektorIndustri  String? @map("sektor_industri")
+  tahunMulai      Int?    @map("tahun_mulai")
+  tahunSelesai    Int?    @map("tahun_selesai")
+  kotaPenempatan  String? @map("kota_penempatan")
+  status          String
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("career_histories")
+}
+
+model ForumCategory {
+  id               String   @id @default(uuid()) @db.Char(36)
+  name             String
+  slug             String   @unique
+  description      String?  @db.Text
+  type             String   @default("public")
+  tahunMasukTarget Int?     @map("tahun_masuk_target")
+  createdBy        String   @map("created_by") @db.Char(36)
+  creator          User     @relation(fields: [createdBy], references: [id])
+  sortOrder        Int      @default(0) @map("sort_order")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  threads ForumThread[]
+
+  @@map("forum_categories")
+}
+
+model ForumThread {
+  id             String   @id @default(uuid()) @db.Char(36)
+  categoryId     String   @map("category_id") @db.Char(36)
+  category       ForumCategory @relation(fields: [categoryId], references: [id])
+  title          String
+  content        String   @db.Text
+  createdBy      String   @map("created_by") @db.Char(36)
+  creator        User     @relation(fields: [createdBy], references: [id])
+  isPinned       Boolean  @default(false) @map("is_pinned")
+  isLocked       Boolean  @default(false) @map("is_locked")
+  totalComments  Int      @default(0) @map("total_comments")
+  lastActivityAt DateTime @default(now()) @map("last_activity_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  comments ForumComment[]
+  likes    ForumLike[]
+
+  @@map("forum_threads")
+}
+
+model ForumComment {
+  id        String   @id @default(uuid()) @db.Char(36)
+  threadId  String   @map("thread_id") @db.Char(36)
+  thread    ForumThread @relation(fields: [threadId], references: [id])
+  parentId  String?  @map("parent_id") @db.Char(36)
+  parent    ForumComment? @relation("ForumCommentReplies", fields: [parentId], references: [id])
+  replies   ForumComment[] @relation("ForumCommentReplies")
+  content   String   @db.Text
+  createdBy String   @map("created_by") @db.Char(36)
+  creator   User     @relation(fields: [createdBy], references: [id])
+  totalLikes Int     @default(0) @map("total_likes")
+  isHidden  Boolean  @default(false) @map("is_hidden")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  likes ForumLike[]
+
+  @@map("forum_comments")
+}
+
+model ForumLike {
+  id        String  @id @default(uuid()) @db.Char(36)
+  userId    String  @map("user_id") @db.Char(36)
+  user      User    @relation(fields: [userId], references: [id])
+  threadId  String? @map("thread_id") @db.Char(36)
+  thread    ForumThread? @relation(fields: [threadId], references: [id])
+  commentId String? @map("comment_id") @db.Char(36)
+  comment   ForumComment? @relation(fields: [commentId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, threadId])
+  @@unique([userId, commentId])
+  @@map("forum_likes")
+}
+
+model DiscussionGroup {
+  id             String   @id @default(uuid()) @db.Char(36)
+  name           String
+  description    String?  @db.Text
+  type           String   @default("public")
+  groupImage     String?  @map("group_image")
+  createdBy      String   @map("created_by") @db.Char(36)
+  creator        User     @relation(fields: [createdBy], references: [id])
+  maxMembers     Int      @default(0) @map("max_members")
+  lastActivityAt DateTime @default(now()) @map("last_activity_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  members   GroupMember[]
+  messages  ChatMessage[]
+
+  @@map("discussion_groups")
+}
+
+model GroupMember {
+  id       String   @id @default(uuid()) @db.Char(36)
+  groupId  String   @map("group_id") @db.Char(36)
+  group    DiscussionGroup @relation(fields: [groupId], references: [id])
+  userId   String   @map("user_id") @db.Char(36)
+  user     User     @relation(fields: [userId], references: [id])
+  role     String   @default("member")
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  @@unique([groupId, userId])
+  @@map("group_members")
+}
+
+model ChatMessage {
+  id          String   @id @default(uuid()) @db.Char(36)
+  senderId    String   @map("sender_id") @db.Char(36)
+  sender      User     @relation("sender", fields: [senderId], references: [id])
+  receiverId  String?  @map("receiver_id") @db.Char(36)
+  receiver    User?    @relation("receiver", fields: [receiverId], references: [id])
+  groupId     String?  @map("group_id") @db.Char(36)
+  group       DiscussionGroup? @relation(fields: [groupId], references: [id])
+  message     String   @db.Text
+  messageType String   @default("text") @map("message_type")
+  fileUrl     String?  @map("file_url")
+  readAt      DateTime? @map("read_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("chat_messages")
+}
+
+model JobPosting {
+  id              String    @id @default(uuid()) @db.Char(36)
+  title           String
+  description     String    @db.Text
+  kategoriBidang  String?   @map("kategori_bidang")
+  lokasi          String?
+  tipe            JobType
+  linkExternal    String    @map("link_external")
+  kontak          String?
+  deadline        DateTime? @db.Date
+  postedBy        String    @map("posted_by") @db.Char(36)
+  poster          User      @relation(fields: [postedBy], references: [id])
+  approvedBy      String?   @map("approved_by") @db.Char(36)
+  approver        User?     @relation("approver", fields: [approvedBy], references: [id])
+  status          JobStatus @default(pending)
+  rejectionReason String?   @map("rejection_reason") @db.Text
+  viewsCount      Int       @default(0) @map("views_count")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("job_postings")
+}
+
+model AdminUnit {
+  id               String   @id @default(uuid()) @db.Char(36)
+  userId           String   @unique @map("user_id") @db.Char(36)
+  user             User     @relation(fields: [userId], references: [id])
+  unitName         String   @map("unit_name")
+  tahunMasukTarget Int?     @map("tahun_masuk_target")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("admin_units")
+}
