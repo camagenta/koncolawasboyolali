@@ -7,13 +7,13 @@
 | **Frontend Web** | Next.js (React) | SSR/SSG, routing built-in, SEO untuk landing page, React ecosystem |
 | **Mobile** | React Native (Expo) | Code sharing dengan web (types, hooks, utils), satu bahasa (JS/TS) |
 | **Backend** | Node.js — NestJS | TypeScript, modular, decorator pattern, dokumentasi otomatis (Swagger) |
-| **Database** | PostgreSQL | Relasional, geospasial (PostGIS untuk peta), performa tinggi |
+| **Database** | MySQL 8+ | Relasional, spatial extensions untuk peta, familiar & mature |
 | **ORM** | Prisma | Type-safe, migration, auto-generate types, relations |
 | **Auth** | Google OAuth 2.0 + JWT | Google SSO login, JWT untuk session |
 | **Storage** | MinIO / S3-compatible | Foto profil, file chat, dokumen |
 | **Realtime** | WebSocket (Socket.io) | Chat, notifikasi real-time |
 | **Map** | Leaflet (MapLibre) | Open source, gratis, ringan |
-| **Search** | PostgreSQL + pg_trgm | Trigram fuzzy search untuk nama |
+| **Search** | MySQL FULLTEXT index | Full-text search native di MySQL |
 | **Deployment** | Vercel (FE) + Railway/Render (BE) | Simple, scalable, affordable for MVP |
 | **CI/CD** | GitHub Actions | Lint, test, build, deploy otomatis |
 
@@ -40,9 +40,9 @@
       ┌─────────┼─────────┐
       ▼         ▼         ▼
 ┌─────────┐ ┌────────┐ ┌──────┐
-│PostgreSQL│ │  MinIO │ │Redis │
+│  MySQL   │ │  MinIO │ │Redis │
 │ (Data)   │ │ (File) │ │(Cache│
-│ (Geo)    │ │        │ │ /Sess│
+│ (Spatial) │ │        │ │ /Sess│
 └─────────┘ └────────┘ └──────┘
 ```
 
@@ -382,7 +382,7 @@ model BukuIndukRef {
 
 ```
 # Backend (.env)
-DATABASE_URL=postgresql://user:pass@localhost:5432/koncolawas
+DATABASE_URL=mysql://user:pass@localhost:3306/koncolawas
 GOOGLE_CLIENT_ID=xxx
 GOOGLE_CLIENT_SECRET=xxx
 GOOGLE_CALLBACK_URL=http://localhost:3001/auth/google/callback
@@ -442,7 +442,7 @@ NEXT_PUBLIC_SOCKET_URL=http://localhost:3001
 - [x] CORS whitelist (frontend domain only)
 - [x] Helmet middleware (security headers)
 - [x] RBAC (Role-Based Access Control) on every endpoint
-- [x] Data encryption at rest (PostgreSQL)
+- [x] Data encryption at rest (MySQL)
 - [x] HTTPS only (production)
 
 ---

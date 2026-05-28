@@ -47,23 +47,21 @@ Tabel utama untuk autentikasi (Google SSO) dan role.
 | avatar_url | VARCHAR(500) | | Foto dari Google |
 | is_active | BOOLEAN | NOT NULL, DEFAULT true | |
 | last_login_at | TIMESTAMP | | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
-CREATE TYPE user_role AS ENUM ('super_admin', 'admin_unit', 'alumni');
-
 CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     google_id VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
-    role user_role NOT NULL DEFAULT 'alumni',
+    role ENUM('super_admin', 'admin_unit', 'alumni') NOT NULL DEFAULT 'alumni',
     avatar_url VARCHAR(500),
     is_active BOOLEAN NOT NULL DEFAULT true,
-    last_login_at TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    last_login_at TIMESTAMP NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 ```
 
@@ -81,21 +79,22 @@ Data referensi dari buku induk (import CSV). Tidak diedit oleh alumni, hanya adm
 | kelas_3 | VARCHAR(20) | | Rombel kelas 3 (opsional) |
 | is_matched | BOOLEAN | NOT NULL, DEFAULT false | Apakah sudah ada alumni yang mengklaim |
 | matched_by | UUID | FK -> users.id, NULLABLE | Alumni yang mengklaim data ini |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE buku_induk_references (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     nis VARCHAR(30) UNIQUE NOT NULL,
     nama VARCHAR(255) NOT NULL,
     tahun_masuk SMALLINT NOT NULL,
     jurusan VARCHAR(10),
     kelas_3 VARCHAR(20),
     is_matched BOOLEAN NOT NULL DEFAULT false,
-    matched_by UUID REFERENCES users(id) ON DELETE SET NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    matched_by CHAR(36),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (matched_by) REFERENCES users(id) ON DELETE SET NULL
 );
 ```
 
@@ -129,16 +128,14 @@ Data profil lengkap alumni. Satu user memiliki satu profil.
 | link_instagram | VARCHAR(500) | | |
 | status_utama | VARCHAR(30) | NOT NULL | Bekerja/Kuliah/Wirausaha/Belum Bekerja/Lainnya |
 | is_data_from_buku_induk | BOOLEAN | NOT NULL, DEFAULT false | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
-CREATE TYPE status_utama AS ENUM ('Bekerja', 'Kuliah', 'Wirausaha', 'Belum Bekerja', 'Lainnya');
-
 CREATE TABLE alumni_profiles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    buku_induk_id UUID REFERENCES buku_induk_references(id) ON DELETE SET NULL,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) UNIQUE NOT NULL,
+    buku_induk_id CHAR(36),
     nis VARCHAR(30),
     nama_lengkap VARCHAR(255) NOT NULL,
     no_hp VARCHAR(20) NOT NULL,
@@ -154,10 +151,12 @@ CREATE TABLE alumni_profiles (
     foto_profil VARCHAR(500),
     link_linkedin VARCHAR(500),
     link_instagram VARCHAR(500),
-    status_utama status_utama NOT NULL DEFAULT 'Lainnya',
+    status_utama ENUM('Bekerja','Kuliah','Wirausaha','Belum Bekerja','Lainnya') NOT NULL DEFAULT 'Lainnya',
     is_data_from_buku_induk BOOLEAN NOT NULL DEFAULT false,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (buku_induk_id) REFERENCES buku_induk_references(id) ON DELETE SET NULL
 );
 ```
 
@@ -175,21 +174,22 @@ Riwayat pendidikan lanjutan alumni.
 | tahun_masuk | SMALLINT | | |
 | tahun_lulus | SMALLINT | | NULL jika masih berlangsung |
 | status | VARCHAR(10) | NOT NULL | Lulus / Sedang |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE education_histories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    alumni_profile_id UUID NOT NULL REFERENCES alumni_profiles(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    alumni_profile_id CHAR(36) NOT NULL,
     jenjang VARCHAR(5) NOT NULL,
     institusi VARCHAR(255) NOT NULL,
     jurusan VARCHAR(255),
     tahun_masuk SMALLINT,
     tahun_lulus SMALLINT,
     status VARCHAR(10) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (alumni_profile_id) REFERENCES alumni_profiles(id) ON DELETE CASCADE
 );
 ```
 
@@ -208,13 +208,13 @@ Riwayat pekerjaan alumni.
 | tahun_selesai | SMALLINT | | NULL jika masih aktif |
 | kota_penempatan | VARCHAR(100) | | |
 | status | VARCHAR(10) | NOT NULL | Aktif / Selesai |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE career_histories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    alumni_profile_id UUID NOT NULL REFERENCES alumni_profiles(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    alumni_profile_id CHAR(36) NOT NULL,
     perusahaan VARCHAR(255) NOT NULL,
     jabatan VARCHAR(255) NOT NULL,
     sektor_industri VARCHAR(100),
@@ -222,8 +222,9 @@ CREATE TABLE career_histories (
     tahun_selesai SMALLINT,
     kota_penempatan VARCHAR(100),
     status VARCHAR(10) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (alumni_profile_id) REFERENCES alumni_profiles(id) ON DELETE CASCADE
 );
 ```
 
@@ -246,22 +247,22 @@ Kategori forum (per angkatan, per topik).
 | created_by | UUID | FK -> users.id, NOT NULL | |
 | sort_order | INT | DEFAULT 0 | |
 | is_active | BOOLEAN | DEFAULT true | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE forum_categories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) UNIQUE NOT NULL,
     description TEXT,
     type VARCHAR(10) NOT NULL DEFAULT 'public',
     tahun_masuk_target SMALLINT,
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_by CHAR(36) NOT NULL,
     sort_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ### 3.2 forum_threads
 
@@ -277,25 +278,26 @@ Thread diskusi dalam kategori.
 | is_pinned | BOOLEAN | DEFAULT false | |
 | is_locked | BOOLEAN | DEFAULT false | |
 | total_comments | INT | DEFAULT 0 | Counter untuk performa |
-| last_activity_at | TIMESTAMP | DEFAULT NOW() | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| last_activity_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE forum_threads (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    category_id UUID NOT NULL REFERENCES forum_categories(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    category_id CHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_by CHAR(36) NOT NULL,
     is_pinned BOOLEAN DEFAULT false,
     is_locked BOOLEAN DEFAULT false,
     total_comments INT DEFAULT 0,
-    last_activity_at TIMESTAMP DEFAULT NOW(),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    last_activity_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    FOREIGN KEY (category_id) REFERENCES forum_categories(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ### 3.3 forum_comments
 
@@ -310,22 +312,24 @@ Komentar / balasan dalam thread. Mendukung nested reply (parent_id).
 | created_by | UUID | FK -> users.id, NOT NULL | |
 | total_likes | INT | DEFAULT 0 | |
 | is_hidden | BOOLEAN | DEFAULT false | Moderasi |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE forum_comments (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    thread_id UUID NOT NULL REFERENCES forum_threads(id) ON DELETE CASCADE,
-    parent_id UUID REFERENCES forum_comments(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    thread_id CHAR(36) NOT NULL,
+    parent_id CHAR(36),
     content TEXT NOT NULL,
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_by CHAR(36) NOT NULL,
     total_likes INT DEFAULT 0,
     is_hidden BOOLEAN DEFAULT false,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    FOREIGN KEY (thread_id) REFERENCES forum_threads(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES forum_comments(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ### 3.4 forum_likes
 
@@ -337,25 +341,25 @@ Like pada thread atau komentar.
 | user_id | UUID | FK -> users.id, NOT NULL | |
 | thread_id | UUID | FK -> forum_threads.id, NULLABLE | |
 | comment_id | UUID | FK -> forum_comments.id, NULLABLE | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 *Constraint: Salah satu thread_id atau comment_id harus diisi, tidak boleh keduanya.*
 
 ```sql
 CREATE TABLE forum_likes (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    thread_id UUID REFERENCES forum_threads(id) ON DELETE CASCADE,
-    comment_id UUID REFERENCES forum_comments(id) ON DELETE CASCADE,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
+    thread_id CHAR(36),
+    comment_id CHAR(36),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_like_target CHECK (
         (thread_id IS NOT NULL AND comment_id IS NULL) OR
         (thread_id IS NULL AND comment_id IS NOT NULL)
     ),
     UNIQUE (user_id, thread_id),
     UNIQUE (user_id, comment_id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ---
 
@@ -374,22 +378,22 @@ Grup diskusi per angkatan atau per topik.
 | group_image | VARCHAR(500) | | |
 | created_by | UUID | FK -> users.id, NOT NULL | |
 | max_members | INT | DEFAULT 0 | 0 = unlimited |
-| last_activity_at | TIMESTAMP | DEFAULT NOW() | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| last_activity_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE discussion_groups (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     name VARCHAR(100) NOT NULL,
     description TEXT,
     type VARCHAR(10) NOT NULL DEFAULT 'public',
     group_image VARCHAR(500),
-    created_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_by CHAR(36) NOT NULL,
     max_members INT DEFAULT 0,
-    last_activity_at TIMESTAMP DEFAULT NOW(),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    last_activity_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ### 4.2 group_members
 
@@ -401,18 +405,19 @@ Anggota grup diskusi.
 | group_id | UUID | FK -> discussion_groups.id, NOT NULL | |
 | user_id | UUID | FK -> users.id, NOT NULL | |
 | role | VARCHAR(10) | NOT NULL, DEFAULT 'member' | admin / member |
-| joined_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| joined_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE group_members (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    group_id UUID NOT NULL REFERENCES discussion_groups(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    group_id CHAR(36) NOT NULL,
+    user_id CHAR(36) NOT NULL,
     role VARCHAR(10) NOT NULL DEFAULT 'member',
-    joined_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    joined_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (group_id, user_id)
+    FOREIGN KEY (group_id) REFERENCES discussion_groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
 ### 4.3 chat_messages
 
@@ -428,27 +433,29 @@ Pesan chat personal (1-on-1) dan grup.
 | message_type | VARCHAR(20) | DEFAULT 'text' | text / image / file |
 | file_url | VARCHAR(500) | | Jika message_type bukan text |
 | read_at | TIMESTAMP | | Kapan dibaca penerima |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 *Constraint: Salah satu receiver_id atau group_id harus diisi.*
 
 ```sql
 CREATE TABLE chat_messages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    sender_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    receiver_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    group_id UUID REFERENCES discussion_groups(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    sender_id CHAR(36) NOT NULL,
+    receiver_id CHAR(36),
+    group_id CHAR(36),
     message TEXT NOT NULL,
     message_type VARCHAR(20) DEFAULT 'text',
     file_url VARCHAR(500),
     read_at TIMESTAMP,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_chat_target CHECK (
         (receiver_id IS NOT NULL AND group_id IS NULL) OR
         (receiver_id IS NULL AND group_id IS NOT NULL)
-    )
+    ),
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (group_id) REFERENCES discussion_groups(id) ON DELETE CASCADE
 );
-```
 
 ---
 
@@ -472,32 +479,31 @@ CREATE TABLE chat_messages (
 | status | VARCHAR(10) | NOT NULL, DEFAULT 'pending' | pending / approved / rejected |
 | rejection_reason | TEXT | | Jika ditolak |
 | views_count | INT | DEFAULT 0 | |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
-CREATE TYPE job_status AS ENUM ('pending', 'approved', 'rejected');
-CREATE TYPE job_type AS ENUM ('full-time', 'part-time', 'internship');
 
 CREATE TABLE job_postings (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     kategori_bidang VARCHAR(100),
     lokasi VARCHAR(100),
-    tipe job_type NOT NULL,
+    tipe ENUM('full-time','part-time','internship') NOT NULL,
     link_external VARCHAR(500) NOT NULL,
     kontak VARCHAR(255),
     deadline DATE,
-    posted_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    approved_by UUID REFERENCES users(id) ON DELETE SET NULL,
-    status job_status NOT NULL DEFAULT 'pending',
+    posted_by CHAR(36) NOT NULL,
+    approved_by CHAR(36),
+    status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
     rejection_reason TEXT,
     views_count INT DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (posted_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL
 );
-```
 
 ---
 
@@ -513,15 +519,16 @@ Unit yang dikelola oleh admin unit (misal per tahun masuk).
 | user_id | UUID | FK -> users.id, UNIQUE, NOT NULL | Admin yang ditugaskan |
 | unit_name | VARCHAR(100) | NOT NULL | Label unit |
 | tahun_masuk_target | SMALLINT | | Target tahun masuk tertentu |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | |
 
 ```sql
 CREATE TABLE admin_units (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) UNIQUE NOT NULL,
     unit_name VARCHAR(100) NOT NULL,
     tahun_masuk_target SMALLINT,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 ```
 
@@ -580,9 +587,9 @@ Enum digunakan untuk nilai yang benar-benar tetap. VARCHAR untuk nilai yang mung
 ### Geospasial (Peta Sebaran)
 Untuk fitur peta sebaran, `kota_domisili` dan `kecamatan_asal_boyolali` bisa di-*geocode* ke koordinat lat/lng. Pertimbangan:
 - **MVP**: Gunakan lookup table kota/kecamatan → koordinat (cached).
-- **Post-MVP**: Gunakan ekstensi PostGIS jika perlu query geospasial kompleks.
+- **Post-MVP**: Gunakan spatial extensions MySQL jika perlu query geospasial kompleks.
 
 ### Full-Text Search
 Untuk pencarian alumni (nama, sekolah, dll), gunakan:
-- **MVP**: `ILIKE` dengan index trigram (`pg_trgm`).
+- **MVP**: `LIKE` dengan index biasa atau FULLTEXT index MySQL.
 - **Post-MVP**: ElasticSearch / MeiliSearch jika data sudah besar.

@@ -134,7 +134,7 @@ Menjadi platform digital terpadu yang menghubungkan seluruh alumni SMA N 1 Boyol
 | **Frontend Web** | React / Next.js — responsive, SPA/SSR |
 | **Mobile** | React Native / Flutter — berbagi logika dengan web |
 | **Backend** | Node.js (Express/NestJS) atau Laravel |
-| **Database** | PostgreSQL (relasional & geospasial untuk peta) |
+| **Database** | MySQL 8+ (relasional & spatial extensions untuk peta) |
 | **Storage** | S3 / MinIO / local storage (foto, dokumen) |
 | **Autentikasi** | Google SSO (OAuth 2.0) sebagai satu-satunya metode login alumni; JWT untuk session |
 | **Map** | Leaflet / Mapbox (peta sebaran) |
