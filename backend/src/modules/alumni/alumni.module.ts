@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ProfilesModule } from './profiles/profiles.module';
-import { EducationModule } from './education/education.module';
-import { CareerModule } from './career/career.module';
+import { ProfilesModule } from './profiles/profiles.module.js';
+import { EducationModule } from './education/education.module.js';
+import { CareerModule } from './career/career.module.js';
 
 @Module({
   imports: [ProfilesModule, EducationModule, CareerModule],
