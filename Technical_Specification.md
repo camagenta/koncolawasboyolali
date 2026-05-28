@@ -394,7 +394,7 @@ MINIO_ACCESS_KEY=xxx
 MINIO_SECRET_KEY=xxx
 MINIO_BUCKET=koncolawas
 REDIS_URL=redis://localhost:6379
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:3002
 
 # Frontend (.env.local)
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
