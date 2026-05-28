@@ -1,0 +1,7 @@
+# Koncolawas — Dokumentasi
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+title: Koncolawas
+description: Aplikasi Manajemen Alumni SMA N 1 Boyolali
+show_downloads: false
