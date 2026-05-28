@@ -1,6 +1,7 @@
 async function getStats() {
   try {
-    const res = await fetch('http://localhost:3001/api/stats/overview', {
+    const apiUrl = process.env.API_INTERNAL_URL || 'http://localhost:3001'
+    const res = await fetch(`${apiUrl}/api/stats/overview`, {
       next: { revalidate: 60 },
     })
     if (!res.ok) return null
@@ -24,7 +25,7 @@ export default async function LandingPage() {
             <span className="font-semibold text-gray-900">IKASMANSA</span>
           </div>
           <a
-            href="http://localhost:3001/api/auth/google"
+            href="/api/auth/google"
             className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
           >
             Login with Google
@@ -44,7 +45,7 @@ export default async function LandingPage() {
             Ikatan Alumni SMA N 1 Boyolali
           </p>
           <a
-            href="http://localhost:3001/api/auth/google"
+            href="/api/auth/google"
             className="inline-flex items-center gap-3 bg-white border border-gray-300 rounded-xl px-8 py-3.5 text-gray-700 font-medium hover:bg-gray-50 transition-colors shadow-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">

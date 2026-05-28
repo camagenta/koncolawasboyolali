@@ -16,8 +16,9 @@ export class AuthController {
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
     const result = await this.authService.login(req.user);
     const userEncoded = Buffer.from(JSON.stringify(result.user)).toString('base64');
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
     return res.redirect(
-      `http://localhost:3002/auth/callback?token=${result.access_token}&user=${userEncoded}`,
+      `${frontendUrl}/auth/callback?token=${result.access_token}&user=${userEncoded}`,
     );
   }
 
