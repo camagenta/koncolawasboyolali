@@ -1,6 +1,7 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service.js';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -12,8 +13,12 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Req() req) {
-    return this.authService.login(req.user);
+  async googleAuthRedirect(@Req() req, @Res() res: Response) {
+    const result = await this.authService.login(req.user);
+    const userEncoded = Buffer.from(JSON.stringify(result.user)).toString('base64');
+    return res.redirect(
+      `http://localhost:3002/auth/callback?token=${result.access_token}&user=${userEncoded}`,
+    );
   }
 
   @Get('me')

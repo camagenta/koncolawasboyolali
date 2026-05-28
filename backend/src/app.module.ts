@@ -9,6 +9,9 @@ import { JobsModule } from './modules/jobs/jobs.module.js';
 import { AdminModule } from './modules/admin/admin.module.js';
 import { MapsModule } from './modules/maps/maps.module.js';
 import { ImportModule } from './modules/import/import.module.js';
+import { NotificationsModule } from './modules/notifications/notifications.module.js';
+import { ActivityLogModule } from './modules/activity-log/activity-log.module.js';
+import { ExportModule } from './modules/export/export.module.js';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { ImportModule } from './modules/import/import.module.js';
     AdminModule,
     MapsModule,
     ImportModule,
+    NotificationsModule,
+    ActivityLogModule,
+    ExportModule,
   ],
 })
 export class AppModule {}

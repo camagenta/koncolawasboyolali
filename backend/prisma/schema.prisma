@@ -58,8 +58,26 @@ model User {
   recvMessages  ChatMessage[]   @relation("receiver")
   jobPostings   JobPosting[]
   approvedJobs  JobPosting[]    @relation("approver")
+  notifications Notification[]
+  activityLogs  ActivityLog[]
 
   @@map("users")
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid()) @db.Char(36)
+  userId     String   @map("user_id") @db.Char(36)
+  action     String
+  entityType String?  @map("entity_type")
+  entityId   String?  @map("entity_id") @db.Char(36)
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([action])
+  @@map("activity_logs")
 }
 
 model BukuIndukRef {
@@ -69,6 +87,8 @@ model BukuIndukRef {
   tahunMasuk Int      @map("tahun_masuk")
   jurusan    String?
   kelas3     String?  @map("kelas_3")
+  noHp       String?  @map("no_hp")
+  alamat     String?  @db.Text
   isMatched  Boolean  @default(false) @map("is_matched")
   matchedBy  String?  @unique @map("matched_by") @db.Char(36)
   matchedUser User?   @relation("BukuIndukMatch", fields: [matchedBy], references: [id])
@@ -288,6 +308,22 @@ model JobPosting {
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
   @@map("job_postings")
+}
+
+model Notification {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  type      String
+  title     String
+  body      String?  @db.Text
+  link      String?
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, isRead])
+  @@map("notifications")
 }
 
 model AdminUnit {
