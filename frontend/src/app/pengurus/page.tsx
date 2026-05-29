@@ -159,8 +159,11 @@ export default function PengurusPage() {
           <p className="text-blue-100 text-sm max-w-2xl mx-auto">
             SMA Negeri 1 Boyolali &mdash; Dewan Pembina | Dewan Pengawas | Pengurus Pusat | Bidang
           </p>
-          <p className="text-blue-200/70 text-xs mt-2">
-            Data dihimpun dari struktur organisasi, data alumni, dan sumber publik
+          <p className="text-blue-100/80 text-xs mt-2">
+            Berdasarkan SK Ketua Umum IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025
+          </p>
+          <p className="text-blue-200/60 text-[10px] mt-0.5">
+            Periode 2025–2029 &bull; Dikukuhkan 30 Mei 2026 di The Sultan Hotel, Jakarta
           </p>
         </div>
 

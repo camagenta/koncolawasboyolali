@@ -25,7 +25,7 @@ export const profiles: Profile[] = [
     ringkasan: 'Lahir di Boyolali, 4 September 1950. Lulusan Mechanical Engineering ITB angkatan 1970. Karir 33 tahun di ExxonMobil sebagai Vice President. Wakil Menteri ESDM pada Kabinet Indonesia Bersatu II (Jan 2013). Alumni ITB.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/400px-Susilo_Siswoutomo_Official.jpg',
     gender: 'Laki-laki',
-    sumber: 'Wikipedia, Kementerian ESDM, SK Ketum IKA SMANSA BOY 2023',
+    sumber: 'Wikipedia, Kementerian ESDM, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
     kontak: { linkedin: 'https://linkedin.com/in/susilo-siswoutomo' }
   },
   {
@@ -52,7 +52,7 @@ export const profiles: Profile[] = [
     ringkasan: 'Pernah menjabat sebagai Panglima Kodam V/Brawijaya. Setelah purnabakti aktif sebagai Wakil Komisaris Utama PT Pindad.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg/250px-Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg',
     gender: 'Laki-laki',
-    sumber: 'TNI AD, PT Pindad, Wikipedia, SK Ketum IKA SMANSA BOY 2023'
+    sumber: 'TNI AD, PT Pindad, Wikipedia, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Dun Sridadi',
@@ -178,7 +178,7 @@ export const profiles: Profile[] = [
     posisi: 'Ketua Bidang II (Organisasi dan Sosial) Reuni Akbar 2013',
     ringkasan: 'Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Ketua Bidang Organisasi dan Sosial.',
     gender: 'Perempuan',
-    sumber: 'Bangashari.ID, SK Ketum IKA SMANSA BOY 2023'
+    sumber: 'Bangashari.ID, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Djoepri Bandang',
@@ -189,8 +189,8 @@ export const profiles: Profile[] = [
     tahunLulus: '±1969',
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Marsusi',
@@ -201,8 +201,8 @@ export const profiles: Profile[] = [
     tahunLulus: '±1971',
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Agung Wardoyo',
@@ -213,8 +213,8 @@ export const profiles: Profile[] = [
     tahunLulus: '±1983',
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
 
   // ==================== DEWAN PENGAWAS ====================
@@ -241,7 +241,7 @@ export const profiles: Profile[] = [
     posisi: 'Wakil Direktur Utama PT Bank Mandiri Tbk (2015-2020)',
     ringkasan: 'Lahir di Boyolali 1959. S1 Peternakan IPB (1981), MBA University of New Orleans (1991). Karir di BRI (1983-2015): Direktur Micro & Small Business, Direktur Commercial Banking. Wakil Direktur Utama Bank Mandiri (2015-2020). Komisaris Independen Indofood. Founder Islamic School Al-A\'raf Persada Indonesia. Owner PT Nugraha Aria Sadana.',
     gender: 'Laki-laki',
-    sumber: 'Bank Mandiri, Indofood, Cemplung.com, SK Ketum IKA SMANSA BOY 2023',
+    sumber: 'Bank Mandiri, Indofood, Cemplung.com, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
     kontak: { linkedin: 'https://linkedin.com/in/sulaiman-arif-arianto', instagram: 'https://instagram.com/sulaimanarif' }
   },
   {
@@ -254,14 +254,15 @@ export const profiles: Profile[] = [
     posisi: 'Mantan Deputi BPKP — Komisaris IFG',
     ringkasan: 'Mantan Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah. Komisaris di IFG (Indonesia Financial Group). Juga menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
     gender: 'Laki-laki',
-    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK Ketum IKA SMANSA BOY 2023'
+    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
-    nama: 'Sayoeti Sukandi',
+    nama: 'Sayideti Sukandi',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Firdaus Muchtar',
@@ -272,7 +273,7 @@ export const profiles: Profile[] = [
     posisi: 'Guru di Dinas Pendidikan Pemuda & Olahraga',
     ringkasan: 'Seorang pendidik di lingkungan Dinas Pendidikan. Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Koordinator Seksi Pemberian Awards.',
     gender: 'Laki-laki',
-    sumber: 'Bangashari.ID, LinkedIn, SK Ketum IKA SMANSA BOY 2023'
+    sumber: 'Bangashari.ID, LinkedIn, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Jaka Pujiyono',
@@ -283,7 +284,7 @@ export const profiles: Profile[] = [
     posisi: 'Senior Partner di Deloitte Indonesia',
     ringkasan: 'Senior Partner di Deloitte Indonesia. Latar belakang industri penerbangan (Indonesian Airline) dan alumni IPB.',
     gender: 'Laki-laki',
-    sumber: 'LinkedIn, Jenova.ai OSINT, SK Ketum IKA SMANSA BOY 2023',
+    sumber: 'LinkedIn, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
     kontak: { linkedin: 'https://linkedin.com/in/jaka-pujiyono' }
   },
   {
@@ -378,7 +379,9 @@ export const profiles: Profile[] = [
     jabatan: 'Sekretaris Jenderal',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Sekretaris Jenderal IKA-Boy',
+    ringkasan: 'Sekretaris Jenderal IKA-Boy periode 2025-2029. Bertugas sebagai Sekretaris dalam struktur pengurus pusat dan bertindak sebagai moderator dalam rapat-rapat organisasi.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Adi Surya Tri Wibowo',
@@ -398,8 +401,8 @@ export const profiles: Profile[] = [
     tahunLulus: '±1987',
     gender: 'Perempuan',
     posisi: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023 (Dr. Subekti Nurmawati).',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025 (Dr. Subekti Nurmawati).',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Risdianto',
@@ -409,8 +412,43 @@ export const profiles: Profile[] = [
     tahunLulus: '±1986',
     gender: 'Laki-laki',
     posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+  },
+  {
+    nama: 'Dandi',
+    jabatan: 'Urusan Komunikasi Organisasi',
+    kategori: 'pengurus-pusat',
+    gender: 'Laki-laki',
+    posisi: 'Urusan Komunikasi Organisasi IKA-Boy',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+  },
+  {
+    nama: 'Elang Sukma',
+    jabatan: 'Urusan Komunikasi Organisasi',
+    kategori: 'pengurus-pusat',
+    gender: 'Laki-laki',
+    posisi: 'Urusan Komunikasi Organisasi IKA-Boy',
+    ringkasan: 'Kontak person untuk konfirmasi kehadiran acara IKA-Boy (0813 2692 9942).',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+  },
+  {
+    nama: 'Iin Wibisono',
+    jabatan: 'Urusan Administrasi Organisasi',
+    kategori: 'pengurus-pusat',
+    gender: 'Laki-laki',
+    posisi: 'Urusan Administrasi Organisasi IKA-Boy',
+    ringkasan: 'Kontak person utama untuk konfirmasi kehadiran acara IKA-Boy (0858 1199 6957).',
+    kontak: { instagram: 'https://instagram.com/jin.wibisono' },
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+  },
+  {
+    nama: 'Endah R',
+    jabatan: 'Urusan Administrasi Organisasi',
+    kategori: 'pengurus-pusat',
+    gender: 'Perempuan',
+    posisi: 'Urusan Administrasi Organisasi IKA-Boy',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Tri Hartono',
@@ -593,8 +631,8 @@ export const profiles: Profile[] = [
     tahunLulus: '±1983',
     gender: 'Laki-laki',
     posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
-    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
-    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
   },
   {
     nama: 'Menuk Sri Sugiarti',
