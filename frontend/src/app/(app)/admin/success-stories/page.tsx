@@ -35,6 +35,7 @@ export default function AdminSuccessStoriesPage() {
   const [editing, setEditing] = useState<SuccessStory | null>(null)
   const [formData, setFormData] = useState<FormData>(emptyForm)
   const [submitting, setSubmitting] = useState(false)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
   const fetchStories = async () => {
     setLoading(true)
@@ -84,12 +85,12 @@ export default function AdminSuccessStoriesPage() {
         isFeatured: formData.isFeatured,
       }
       if (editing) {
-        await fetchApi(`/admin/success-stories/${editing.id}`, {
+        await fetchApi(`/success-stories/${editing.id}`, {
           method: 'PATCH',
           body: JSON.stringify(body),
         })
       } else {
-        await fetchApi('/admin/success-stories', {
+        await fetchApi('/success-stories', {
           method: 'POST',
           body: JSON.stringify(body),
         })
@@ -103,10 +104,44 @@ export default function AdminSuccessStoriesPage() {
     }
   }
 
+  const handleUploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !editing) return
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setError('File harus berupa gambar (jpeg, png, atau webp)')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Ukuran file maksimal 2MB')
+      return
+    }
+    setUploadingPhoto(true)
+    setError('')
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await fetch(`/api/success-stories/${editing.id}/photo`, {
+        method: 'POST',
+        body: formData,
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.message || 'Gagal upload foto')
+      }
+      const updated = await res.json()
+      setFormData(prev => ({ ...prev, photoUrl: updated.photoUrl }))
+      fetchStories()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal upload foto')
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
   const handleDelete = async (story: SuccessStory) => {
     if (!confirm(`Hapus cerita sukses "${story.name}"?`)) return
     try {
-      await fetchApi(`/admin/success-stories/${story.id}`, { method: 'DELETE' })
+      await fetchApi(`/success-stories/${story.id}`, { method: 'DELETE' })
       fetchStories()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Gagal menghapus cerita sukses')
@@ -234,9 +269,31 @@ export default function AdminSuccessStoriesPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Cerita Lengkap</label>
                 <textarea rows={4} value={formData.description} onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">URL Foto</label>
-                <input type="url" value={formData.photoUrl} onChange={(e) => setFormData(prev => ({ ...prev, photoUrl: e.target.value }))} placeholder="https://" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Foto</label>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1">
+                    <input
+                      type="url"
+                      value={formData.photoUrl}
+                      onChange={(e) => setFormData(prev => ({ ...prev, photoUrl: e.target.value }))}
+                      placeholder="https://"
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  {editing && (
+                    <label className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-lg cursor-pointer transition-colors ${uploadingPhoto ? 'bg-gray-100 text-gray-400' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
+                      {uploadingPhoto ? (
+                        <span className="flex items-center gap-1.5">
+                          <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                          Upload
+                        </span>
+                      ) : 'Upload'}
+                      <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleUploadPhoto} className="hidden" disabled={uploadingPhoto} />
+                    </label>
+                  )}
+                </div>
+                <p className="text-xs text-gray-400">Masukkan URL gambar atau upload file (maks 2MB, JPG/PNG/WebP)</p>
               </div>
               <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                 <input type="checkbox" checked={formData.isFeatured} onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))} className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
