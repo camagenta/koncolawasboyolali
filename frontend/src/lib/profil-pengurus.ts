@@ -40,6 +40,7 @@ export const profiles: Profile[] = [
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bupati_Boyolali_Agus_Irawan.png/400px-Bupati_Boyolali_Agus_Irawan.png',
     gender: 'Laki-laki',
     sumber: 'Wikipedia, KPU, Pemkab Boyolali',
+    kontak: { instagram: 'https://instagram.com/agus_irawanofficial' },
   },
   {
     nama: 'Sumardi',
@@ -86,6 +87,7 @@ export const profiles: Profile[] = [
     foto: 'https://fkm.ui.ac.id/wp-content/uploads/2024/09/Prof-Hadi-600x800.jpeg',
     gender: 'Laki-laki',
     sumber: 'FKM UI (fkm.ui.ac.id)',
+    kontak: { linkedin: 'https://linkedin.com/in/hadi-pratomo-4000867' },
   },
   {
     nama: 'Sri Yunanto',
@@ -123,6 +125,7 @@ export const profiles: Profile[] = [
     foto: 'https://cdn.antaranews.com/cache/1200x800/2025/03/25/IMG-20250325-WA0009.jpg',
     gender: 'Laki-laki',
     sumber: 'Polri, Antara News',
+    kontak: { instagram: 'https://instagram.com/kakorlantas_polri' },
   },
   {
     nama: 'Haryanto WS',
@@ -147,6 +150,7 @@ export const profiles: Profile[] = [
     foto: 'https://itb.ac.id/files/dosen/1536-d3dcd904b2a4453733aa5fab94141d3d9482f2bc23c960e55a729ae3041d8fb3.png',
     gender: 'Laki-laki',
     sumber: 'ITB (stei.itb.ac.id), Wikipedia',
+    kontak: { linkedin: 'https://linkedin.com/in/suwarno-suwarno-b6a87318' },
   },
   {
     nama: 'Yusroni',
@@ -230,7 +234,7 @@ export const profiles: Profile[] = [
     foto: 'https://cdn.antaranews.com/cache/1200x800/2022/05/23/IMG_20220523_113014.jpg',
     gender: 'Laki-laki',
     sumber: 'OJK, Antara News',
-    kontak: { linkedin: 'https://linkedin.com/in/wimboh-santosa' }
+    kontak: { linkedin: 'https://linkedin.com/in/wimboh-santoso-39460561' }
   },
   {
     nama: 'Sulaiman Arif Arianto',
@@ -274,6 +278,7 @@ export const profiles: Profile[] = [
     ringkasan: 'Seorang pendidik di lingkungan Dinas Pendidikan. Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Koordinator Seksi Pemberian Awards.',
     gender: 'Laki-laki',
     sumber: 'Bangashari.ID, LinkedIn, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    kontak: { linkedin: 'https://linkedin.com/in/firdaus-muchtar-19192930' },
   },
   {
     nama: 'Jaka Pujiyono',
@@ -353,7 +358,7 @@ export const profiles: Profile[] = [
     foto: 'https://infopemilu.kpu.go.id/berkas-calon/dprri/1683880747_baed8ef8-540a-4cc4-a2f0-578975edb3fa.jpeg',
     gender: 'Laki-laki',
     sumber: 'DPR RI, Espos.id, TribunSolo',
-    kontak: { instagram: 'https://www.instagram.com/didikharyadi.official/', linkedin: 'https://linkedin.com/in/didik-haryadi' }
+    kontak: { instagram: 'https://www.instagram.com/didikharyadi.official/', linkedin: 'https://linkedin.com/in/didik-haryadi-32040237' }
   },
   {
     nama: 'Ibnu Hadyanto',
@@ -376,6 +381,7 @@ export const profiles: Profile[] = [
     posisi: 'Hakim Pengadilan Agama Surakarta',
     ringkasan: 'Lahir di Boyolali; 6 Desember 1964. Hakim di Pengadilan Agama Surakarta. Sebelumnya bertugas di PA Kebumen; PA Bulukumba; PA Selong; PA Praya; dan PA Demak.',
     sumber: 'pa-surakarta.go.id, putusan.mahkamahagung.go.id',
+    kontak: { instagram: 'https://www.instagram.com/alimahfud1/' },
   },
   {
     nama: 'Yulianto',
@@ -436,6 +442,7 @@ export const profiles: Profile[] = [
     posisi: 'Urusan Komunikasi Organisasi IKA-Boy',
     ringkasan: 'Kontak person untuk konfirmasi kehadiran acara IKA-Boy (0813 2692 9942).',
     sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    kontak: { instagram: 'https://www.instagram.com/elangsukma/' },
   },
   {
     nama: 'Iin Wibisono',
@@ -520,6 +527,8 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
     sumber: 'Bangashari.ID',
+    posisi: 'Tenaga Ahli Ditjen Bina Konstruksi Kementerian PUPR',
+    kontak: { linkedin: 'https://linkedin.com/in/joko-karsono-455a2575' },
   },
   {
     nama: 'Joko Suyono',
@@ -572,6 +581,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Sekretaris I.',
     sumber: 'Bangashari.ID',
+    posisi: 'Wakil Ketua Umum IATPI',
   },
   {
     nama: 'Erlita Titis Dewi',
@@ -650,6 +660,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Belum ditemukan data publik',
     sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    kontak: { linkedin: 'https://linkedin.com/in/singgih-wirawan-23796a40' },
   },
   {
     nama: 'Wahono Sukarjo',
@@ -685,6 +696,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
     sumber: 'Bangashari.ID',
+    posisi: 'Koordinator II Bidang Partisipasi Sosial Masyarakat IKA-Boy',
   },
   {
     nama: 'Kristiani',
@@ -702,5 +714,7 @@ export const profiles: Profile[] = [
     gender: 'Perempuan',
     ringkasan: 'Pernah tercatat sebagai Bendahara I dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
     sumber: 'Bangashari.ID',
+    posisi: 'Sub Bidang Sosial Masyarakat IKA-Boy',
+    kontak: { instagram: 'https://www.instagram.com/yuni_boyolali86/' },
   }
 ]

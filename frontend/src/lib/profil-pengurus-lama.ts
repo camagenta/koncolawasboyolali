@@ -19,24 +19,30 @@ export const profilesLama: ProfileLama[] = [
     angkatan: 'A-79',
     ringkasan: 'Arsitek politik utama dan pemegang hegemoni PDIP di Boyolali. Pemrakarsa pembangunan Masjid Gedhe Kabupaten Boyolali di lahan 1;1 hektar. Mantan Ketua IKABI 2019-2022 yang mendorong pemisahan IKA dari IKABI.',
     foto: 'https://www.fokusjateng.com/wp-content/uploads/2024/11/tokoh-PDIP-Boyolali-Seno-Kusumoarjo-1024x576.jpg',
+    posisi: 'Ketua Dewan Pembina IKA SMANSA Boyolali',
   },
   {
     nama: 'Dr. Drs. Budiyanto, S.H., M.H.',
     jabatan: 'Wakil Ketua Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-77'
+    angkatan: 'A-77',
+    posisi: 'Wakil Ketua Dewan Pembina IKA SMANSA Boyolali',
   },
   {
     nama: 'Bupati Boyolali',
     jabatan: 'Anggota Dewan Pembina (ex-officio)',
     kategori: 'dewan-pembina',
-    angkatan: '-'
+    angkatan: '-',
+    ringkasan: 'Jabatan ex-officio. Bupati Boyolali saat ini adalah Agus Irawan (periode 2025-2030). Secara otomatis menjadi Anggota Dewan Pembina IKA SMANSA Boyolali.',
+    posisi: 'Anggota Dewan Pembina (ex-officio)',
   },
   {
     nama: 'Kepala Sekolah SMA N 1 Boyolali',
     jabatan: 'Anggota Dewan Pembina (ex-officio)',
     kategori: 'dewan-pembina',
-    angkatan: '-'
+    angkatan: '-',
+    ringkasan: 'Jabatan ex-officio. Kepala Sekolah SMAN 1 Boyolali saat ini adalah Bambang Prihantoro, S.Pd., M.M. (sejak Juli 2023).',
+    posisi: 'Anggota Dewan Pembina (ex-officio)',
   },
   {
     nama: 'Djoko Kirmanto',
@@ -81,7 +87,8 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Drs. Marsusi, M.Sc., Ph.D.',
     jabatan: 'Anggota Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-69'
+    angkatan: 'A-69',
+    posisi: 'Dekan FMIPA UNS (2002-2007)',
   },
   {
     nama: 'Agung Wardoyo',
@@ -89,6 +96,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-pembina',
     angkatan: 'A-81',
     ringkasan: 'Drs. Agung Wardoyo, Kepala SMA Negeri 1 Boyolali periode 2011-2019 dan Plt 2021-2022. Sebelumnya menjabat Kepala SMA Negeri 3 Boyolali (2011) dan Plt Kepala SMA Negeri 2 Boyolali (2017, 2019-2022). Pensiun sebagai pendidik setelah mengabdi puluhan tahun di lingkungan pendidikan menengah Boyolali.',
+    posisi: 'Mantan Kepala Sekolah SMAN 1 Boyolali (2011-2019, 2021-2022)',
   },
 
   // ==================== DEWAN PENASEHAT ====================
@@ -117,6 +125,7 @@ export const profilesLama: ProfileLama[] = [
     angkatan: 'A-80',
     foto: 'https://data.tempo.co/foto/P1703201500270/oerip-soebagyo-dan-erwin-triwanto',
     ringkasan: 'Inspektur Jenderal Polisi Purnawirawan. Lahir di Tegal, 14 Februari 1960. Kapolda DIY (2015), Kapolda Kalimantan Selatan (2016), Kapolda Kalimantan Barat (2017). Alumni Akpol 1986, satuan Intel. Terakhir menjabat Analis Kebijakan Utama bidang Akpol Lemdiklat Polri (2017-2018).',
+    posisi: 'Perwira Tinggi Polri',
   },
   {
     nama: 'Mayjen TNI (Purn) Juwondo',
@@ -124,6 +133,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-penasehat',
     angkatan: 'A-81',
     ringkasan: 'Mayor Jenderal TNI (Purn) H. Juwondo. Alumni Akademi Militer. Menjabat Kasdam XVI/Pattimura (2014), Tenaga Ahli Pengkaji Bidang Kepemimpinan Lemhannas (2021). Purna tugas 2021. Meninggal dunia dan dimakamkan secara militer di Desa Kauman Lor, Pabelan, Kabupaten Semarang pada Januari 2026.',
+    posisi: 'Kasdam XVI/Pattimura — Diropsdik Lemhannas',
   },
   {
     nama: 'Edy Soetono',
@@ -147,7 +157,8 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Firdaus Muchtar',
     jabatan: 'Anggota Dewan Penasehat',
     kategori: 'dewan-penasehat',
-    angkatan: 'A-82'
+    angkatan: 'A-82',
+    posisi: 'Managing Director Focus Systems',
   },
   {
     nama: 'Risdianto',
@@ -187,7 +198,8 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Prof. Dr. Dwi Sunarti, M.S.',
     jabatan: 'Anggota Dewan Pakar',
     kategori: 'dewan-pakar',
-    angkatan: 'A-75'
+    angkatan: 'A-75',
+    posisi: 'Dosen UNDIP Semarang',
   },
   {
     nama: 'Dr. Ir. Joko Sarjadi, M.S.',
@@ -202,6 +214,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-pakar',
     angkatan: 'A-80',
     ringkasan: 'Dosen Fakultas Pertanian Universitas Sebelas Maret (UNS) Surakarta, Program Studi Proteksi Tanaman. NIP 19610810. H-index Scopus 9. Peneliti di bidang penyakit tanaman, fitopatologi, dan pengendalian hayati. Publikasi internasional di bidang penyakit moler bawang merah, bakteri pustul kedelai, dan Ganoderma pada kelapa sawit.',
+    posisi: 'Dosen Fakultas Pertanian UNS',
   },
   {
     nama: 'Dr. Ir. Jaka Pujiyono, M.S.',
@@ -234,6 +247,7 @@ export const profilesLama: ProfileLama[] = [
     angkatan: 'A-85',
     foto: 'https://nurma.staff.ut.ac.id/wp-content/uploads/sites/169/2024/08/cropped-foto-diri.jpg',
     ringkasan: 'Dekan Fakultas Sains dan Teknologi Universitas Terbuka (UT). Associate Professor di bidang Botani (Taksonomi Tumbuhan). Ph.D. dari IPB University (2020). Peneliti taksonomi tumbuhan dengan publikasi spesies baru Monocarpia kalimantanense dan Monocarpia longipetalum. Berkarir di UT sejak 1991, total 35 tahun pengalaman.',
+    posisi: 'Dekan FST Universitas Terbuka',
   },
   {
     nama: 'Condro Wibowo, S.T.P., M.Sc., Ph.D.',
@@ -241,6 +255,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-pakar',
     angkatan: 'A-93',
     ringkasan: 'Dosen dan peneliti di Universitas Jenderal Soedirman (Unsoed), Fakultas Teknologi Pangan. S1 UGM, S2 dan S3 Georg-August University of Göttingen, Jerman (2008-2012). Menjadi narasumber internasional di Closing Conference NMT Berlin-Potsdam, Jerman (2025). Alumni DIES Training Leibniz University of Hannover. Fokus pada internasionalisasi pendidikan tinggi.',
+    posisi: 'Dosen Teknologi Pangan UNSOED',
   },
   {
     nama: 'Dr. Eng. Ir. Pringgo Widyo Laksono, S.T., M.Eng., IPM.',
@@ -248,6 +263,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-pakar',
     angkatan: 'A-98',
     ringkasan: 'Dosen Teknik Industri Universitas Sebelas Maret (UNS) Surakarta. Profesi Insinyur dan ASEAN Engineer. Pakar di bidang Automation & Smart System Engineering, Intelligent Machine, System and Control Engineering. H-index Scopus 9. Peneliti robotika, exoskeleton rehabilitasi, dan manufaktur berkelanjutan. Aktif dalam pengembangan IoT dan pembelajaran robotika.',
+    posisi: 'Dosen Teknik Industri UNS',
   },
 
   // ==================== PENGURUS PUSAT ====================
@@ -303,6 +319,7 @@ export const profilesLama: ProfileLama[] = [
     angkatan: 'A-90',
     posisi: 'Kepala Dinas Kesehatan Boyolali',
     ringkasan: 'Kepala Dinas Kesehatan Kabupaten Boyolali. Figur sentral dalam manajemen dan mitigasi wabah COVID-19 di Boyolali.',
+    foto: 'https://www.antaranews.com/foto/2021/02/01/ratri-survivalina.jpg',
   },
   {
     nama: 'Dony Mahendra',
@@ -311,6 +328,7 @@ export const profilesLama: ProfileLama[] = [
     subkategori: 'Pimpinan',
     angkatan: 'A-04',
     ringkasan: 'Nama ditemukan di publikasi akademik (STMIK AMIKOM, Universitas Pamulang) namun belum terverifikasi sebagai alumni SMAN 1 Boyolali. Perlu konfirmasi internal.',
+    posisi: 'Teacher',
   },
 
   // Kaur Kesekretariatan
@@ -355,7 +373,8 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Anggota Kesekretariatan',
     kategori: 'pengurus-pusat',
     subkategori: 'Kesekretariatan',
-    angkatan: 'A-03'
+    angkatan: 'A-03',
+    posisi: 'CSR Dept Head',
   },
   {
     nama: 'Ramadhan Wahyu Pradana',
@@ -378,7 +397,8 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Wakil Kaur Hukum',
     kategori: 'pengurus-pusat',
     subkategori: 'Hukum',
-    angkatan: 'A-93'
+    angkatan: 'A-93',
+    posisi: 'Kepala Kejaksaan Negeri Tanjung Jabung Timur',
   },
   {
     nama: 'Restudy Prasetyanto, S.H.',
@@ -433,6 +453,7 @@ export const profilesLama: ProfileLama[] = [
     subkategori: 'Humas',
     angkatan: 'A-91',
     ringkasan: 'Kolonel Cpm Muhamad Choirun, S.E., S.H., M.Hum., M.Han. Perwira Polisi Militer TNI AD. Karir: Danden POM I/1 Siantar (2019), Danpomdam XV/Pattimura (2025). Berpengalaman di bidang hukum militer dan penegakan disiplin TNI.',
+    posisi: 'Danpomdam XV/Pattimura (Kolonel Cpm)',
   },
   {
     nama: 'Nur Indijah',
@@ -460,14 +481,16 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Anggota Humas',
     kategori: 'pengurus-pusat',
     subkategori: 'Humas',
-    angkatan: 'A-12'
+    angkatan: 'A-12',
+    posisi: 'Manager',
   },
   {
     nama: 'Priscila Kusumaningrum',
     jabatan: 'Anggota Humas',
     kategori: 'pengurus-pusat',
     subkategori: 'Humas',
-    angkatan: 'A-07'
+    angkatan: 'A-07',
+    posisi: 'Trade Marketing Manager',
   },
   {
     nama: 'Rusno Setyawan',
@@ -627,7 +650,8 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Anggota Perencanaan & Anggaran',
     kategori: 'pengurus-pusat',
     subkategori: 'Perencanaan & Anggaran',
-    angkatan: 'A-87'
+    angkatan: 'A-87',
+    posisi: 'System Analyst - Garuda Indonesia',
   },
   {
     nama: 'Dwi Suroso',
@@ -707,7 +731,8 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Anggota Bidang Kealmamateran',
     kategori: 'pengurus-pusat',
     subkategori: 'Kealmamateran',
-    angkatan: 'A-13'
+    angkatan: 'A-13',
+    posisi: 'Admin Produksi',
   },
   {
     nama: 'Sigit Budi Sulaksono',
