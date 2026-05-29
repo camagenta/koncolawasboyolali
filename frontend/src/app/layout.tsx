@@ -17,6 +17,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "IKASMANSA - Alumni SMAN 1 Boyolali",
   description: "Platform Ikatan Alumni SMAN 1 Boyolali",
+  icons: {
+    icon: '/logo-sma1.png',
+    shortcut: '/logo-sma1.png',
+    apple: '/logo-sma1.png',
+  },
 };
 
 export default function RootLayout({

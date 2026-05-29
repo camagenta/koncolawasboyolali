@@ -63,8 +63,8 @@ export default function AlumniDirectoryPage() {
           tahunMasuk: filterTahun || null,
           jurusan: filterJurusan || null,
           statusUtama: filterStatus || null,
-          sortBy: 'nama',
-          sortOrder: 'asc',
+          sortBy: 'createdAt',
+          sortOrder: 'desc',
         },
       })
       setData(res.data)
@@ -235,6 +235,8 @@ export default function AlumniDirectoryPage() {
                   <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 mb-3">
                     {alumni.fotoProfil ? (
                       <img src={alumni.fotoProfil} alt={alumni.namaLengkap} className="w-full h-full object-cover" />
+                    ) : alumni.user?.avatarUrl ? (
+                      <img src={alumni.user.avatarUrl} alt={alumni.namaLengkap} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,6 +308,8 @@ export default function AlumniDirectoryPage() {
                   <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 shrink-0">
                     {alumni.fotoProfil ? (
                       <img src={alumni.fotoProfil} alt={alumni.namaLengkap} className="w-full h-full object-cover" />
+                    ) : alumni.user?.avatarUrl ? (
+                      <img src={alumni.user.avatarUrl} alt={alumni.namaLengkap} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
