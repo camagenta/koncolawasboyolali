@@ -102,6 +102,25 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 
 ---
 
+## Session 2026-05-29 (Profil Pengurus IKA)
+
+### Changes
+1. **Halaman `/pengurus`**: Halaman profil pengurus IKA dengan tab (Dewan Pembina/Pengawas/Pengurus Pusat/Bidang), card per profil, ditautkan di footer landing page (tidak di sidebar).
+2. **Data profil lengkap**: ~70+ entries di `lib/profil-pengurus.ts` dengan field: nama, jabatan, estimasi angkatan, posisi terakhir, ringkasan, foto, kontak LinkedIn/IG, sumber.
+3. **Integrasi OSINT jenova.ai**: Data baru — Ibnu Hadyanto (Telkom), Adi Surya Tri Wibowo (Dimensi Gagas), Jaka Pujiyono (Deloitte), Kurnia → Kurnia Adhiwibowo, kontak medsos untuk tokoh publik.
+4. **GitHub sync**: commit `bc9911c`
+5. **Deploy prod**: pull → build → `pm2 restart koncolawas-web` — verified ✅
+
+### Todo — Profil Pengurus (Prioritas)
+1. **Verifikasi Ali Mahfud** — nama terlalu umum, perlu konfirmasi via IKA Boy apakah Full Stack Engineer di Pakuwon Hotels adalah alumni SMAN 1 Boyolali
+2. **Cari foto profil** — via LinkedIn/IG untuk yang belum punya foto (Ali Mahfud, Yulianto, Adi Surya, dll)
+3. **Data masih hilang** — Dun Sridadi, Sayoeti Sukandi, Wartono, Yulianto (ambigu) — hubungi sekretariat IKA via IG @ikasmansaboy atau Facebook
+4. **Tambahkan kontak** — email/LinkedIn/IG untuk semua profil yang memungkinkan
+5. **SEO & meta tags** — untuk halaman `/pengurus`
+6. **Link di footer app-shell** — untuk pengguna yang sudah login (saat ini hanya di landing page)
+
+---
+
 ## Session 2026-05-29
 
 ### Changes
