@@ -10,6 +10,7 @@ export interface Profile {
   foto?: string
   gender?: 'Laki-laki' | 'Perempuan'
   sumber?: string
+  kontak?: { linkedin?: string; instagram?: string; email?: string }
 }
 
 export const profiles: Profile[] = [
@@ -21,10 +22,11 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1968',
     tahunLulus: '±1970',
     posisi: 'Wakil Menteri ESDM (2013-2014)',
-    ringkasan: 'Karir 33 tahun di ExxonMobil. Menjabat Wakil Menteri Energi dan Sumber Daya Mineral pada Kabinet Indonesia Bersatu II.',
+    ringkasan: 'Lulusan ITB Mechanical Engineering. Karir 33 tahun di ExxonMobil sebagai Vice President. Menjabat Wakil Menteri Energi dan Sumber Daya Mineral pada Kabinet Indonesia Bersatu II.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/400px-Susilo_Siswoutomo_Official.jpg',
     gender: 'Laki-laki',
-    sumber: 'Wikipedia, Kementerian ESDM'
+    sumber: 'Wikipedia, Kementerian ESDM',
+    kontak: { linkedin: 'https://linkedin.com/in/susilo-siswoutomo' }
   },
   {
     nama: 'Kandiyono',
@@ -168,10 +170,11 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1973',
     tahunLulus: '±1975',
     posisi: 'Ketua Dewan Komisioner OJK (2017-2022)',
-    ringkasan: 'Ketua Dewan Komisioner Otoritas Jasa Keuangan periode 2017-2022.',
+    ringkasan: 'Guru Besar Ekonomi UNS. Mantan Direktur Eksekutif IMF. Ketua Dewan Komisioner Otoritas Jasa Keuangan periode 2017-2022.',
     foto: 'https://cdn.antaranews.com/cache/1200x800/2022/05/23/IMG_20220523_113014.jpg',
     gender: 'Laki-laki',
-    sumber: 'OJK, Antara News'
+    sumber: 'OJK, Antara News',
+    kontak: { linkedin: 'https://linkedin.com/in/wimboh-santosa' }
   },
   {
     nama: 'Sulaiman Arif Arianto',
@@ -180,19 +183,20 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1977',
     tahunLulus: '±1979',
     posisi: 'Wakil Direktur Utama PT Bank Mandiri Tbk (2015-2020)',
-    ringkasan: 'Lahir di Boyolali tahun 1959. S1 Peternakan IPB (1981), MBA University of New Orleans (1991). Karir di BRI (1983-2015) hingga Direktur Commercial Banking, kemudian Wakil Direktur Utama Bank Mandiri (2015-2020). Saat ini Komisaris Independen Indofood dan pendiri Islamic School Al-A\'raf Persada Indonesia.',
+    ringkasan: 'Lahir di Boyolali 1959. S1 Peternakan IPB (1981), MBA University of New Orleans (1991). Karir di BRI (1983-2015): Direktur Micro & Small Business, Direktur Commercial Banking. Wakil Direktur Utama Bank Mandiri (2015-2020). Komisaris Independen Indofood. Founder Islamic School Al-A\'raf Persada Indonesia. Owner PT Nugraha Aria Sadana.',
     gender: 'Laki-laki',
-    sumber: 'Bank Mandiri, Indofood, Cemplung.com'
+    sumber: 'Bank Mandiri, Indofood, Cemplung.com',
+    kontak: { linkedin: 'https://linkedin.com/in/sulaiman-arif-arianto', instagram: 'https://instagram.com/sulaimanarif' }
   },
   {
     nama: 'Gatot Darmasto',
     namaLengkap: 'Drs. Gatot Darmasto, Ak., MBA., CFrA., CA., CRMA., QIA.',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
-    posisi: 'Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah',
-    ringkasan: 'Deputi di Badan Pengawasan Keuangan dan Pembangunan (BPKP) Pusat. Sebelumnya menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
+    posisi: 'Mantan Deputi BPKP — Komisaris IFG',
+    ringkasan: 'Mantan Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah. Komisaris di IFG (Indonesia Financial Group). Juga menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
     gender: 'Laki-laki',
-    sumber: 'BPKP, Antara News, BNSP'
+    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT'
   },
   {
     nama: 'Sayoeti Sukandi',
@@ -214,10 +218,11 @@ export const profiles: Profile[] = [
     nama: 'Jaka Pujiyono',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
-    posisi: 'Airline Manager di Merpati Nusantara Airlines',
-    ringkasan: 'Manajer penerbangan di Merpati Nusantara Airlines. Juga dikenal sebagai peneliti di bidang manajemen bisnis penerbangan.',
+    posisi: 'Senior Partner di Deloitte Indonesia',
+    ringkasan: 'Senior Partner di Deloitte Indonesia. Latar belakang industri penerbangan (Indonesian Airline) dan alumni IPB.',
     gender: 'Laki-laki',
-    sumber: 'LinkedIn, IISTE'
+    sumber: 'LinkedIn, Jenova.ai OSINT',
+    kontak: { linkedin: 'https://linkedin.com/in/jaka-pujiyono' }
   },
   {
     nama: 'Aloys Sutarto',
@@ -276,25 +281,29 @@ export const profiles: Profile[] = [
     jabatan: 'Ketua Umum',
     kategori: 'pengurus-pusat',
     posisi: 'Anggota DPR RI - Komisi XI (Fraksi PDIP)',
-    ringkasan: 'Anggota DPR RI Dapil Jawa Tengah V periode 2024-2029. Juga Ketua IKA Boy (Ikatan Alumni Boyolali). Pengusaha dan politisi PDIP. Dikenal aksi jalan kaki Jakarta-Boyolali sejauh 540 km sebagai nazar setelah terpilih.',
+    ringkasan: 'Anggota DPR RI Dapil Jawa Tengah V periode 2024-2029. Ketua IKA Boy (Ikatan Alumni Boyolali). Lulusan Universitas Pelita Bangsa & Universitas Krisnadwipayana. Pengusaha dan politisi PDIP. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
     gender: 'Laki-laki',
-    sumber: 'DPR RI, Espos.id, TribunSolo'
+    sumber: 'DPR RI, Espos.id, TribunSolo',
+    kontak: { instagram: 'https://instagram.com/didikharyadi', linkedin: 'https://linkedin.com/in/didik-haryadi' }
   },
   {
     nama: 'Ibnu Hadyanto',
     jabatan: 'Ketua Harian I',
     kategori: 'pengurus-pusat',
-    posisi: 'Ketua Panitia Acara Pengukuhan IKA Boyolali',
+    posisi: 'Head of Project Development Maritime Logistics di PT Telkom Indonesia',
     gender: 'Laki-laki',
-    ringkasan: 'Aktif dalam kepengurusan IKA Boyolali sebagai Ketua Harian I.',
-    sumber: 'Espos.id'
+    ringkasan: 'Profesional di bidang maritim logistik dan pengembangan proyek di PT Telkom Indonesia. Aktif dalam kepengurusan IKA Boyolali.',
+    sumber: 'Espos.id, LinkedIn',
+    kontak: { linkedin: 'https://linkedin.com/in/ibnu-hadyanto', instagram: 'https://instagram.com/ibnuhadyanto' }
   },
   {
     nama: 'Ali Mahfud',
     jabatan: 'Ketua Harian II',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Full Stack Engineer / Cluster IT Manager di MI Pakuwon Hotels Portfolio',
+    ringkasan: '⚠️ Perlu verifikasi — nama "Ali Mahfud" umum. Profil ini paling relevan dengan latar belakang IT di Jawa Timur/Jakarta, tetapi belum terkonfirmasi sebagai alumni SMAN 1 Boyolali.',
+    sumber: 'LinkedIn (perlu verifikasi)'
   },
   {
     nama: 'Yulianto',
@@ -308,7 +317,10 @@ export const profiles: Profile[] = [
     jabatan: 'Sekretaris I',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Founder Dimensi Gagas Prima',
+    ringkasan: 'Profesional di bidang desain dan konstruksi arsitektur interior dengan pengalaman 25 tahun. Founder Dimensi Gagas Prima.',
+    sumber: 'LinkedIn',
+    kontak: { linkedin: 'https://linkedin.com/in/adi-surya-tri-wibowo' }
   },
   {
     nama: 'S. Nurmawati',
@@ -429,11 +441,13 @@ export const profiles: Profile[] = [
     posisi: 'Belum ditemukan data publik'
   },
   {
-    nama: 'Kurnia',
+    nama: 'Kurnia Adhiwibowo',
     jabatan: 'Sub Bidang Database',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Koordinator Sub Bidang Database — Bidang Integrasi & Pemberdayaan Alumni',
+    ringkasan: 'Tidak ditemukan profil publik signifikan. Kemungkinan profesional privat. Nama lengkap: Kurnia Adhiwibowo.',
+    sumber: 'Jenova.ai OSINT — tidak ditemukan jejak digital publik'
   },
   {
     nama: 'Muh Imron',
