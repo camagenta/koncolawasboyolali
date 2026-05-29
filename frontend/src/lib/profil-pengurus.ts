@@ -445,9 +445,14 @@ export const profiles: Profile[] = [
     jabatan: 'Sub Bidang Database',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Koordinator Sub Bidang Database — Bidang Integrasi & Pemberdayaan Alumni',
-    ringkasan: 'Tidak ditemukan profil publik signifikan. Kemungkinan profesional privat. Nama lengkap: Kurnia Adhiwibowo.',
-    sumber: 'Jenova.ai OSINT — tidak ditemukan jejak digital publik'
+    posisi: 'IT Support & Data — BPS / ASN',
+    ringkasan: 'Profesional IT di lingkungan pemerintahan (BPS). Aktif sebagai pemateri reformasi birokrasi & pengembangan ASN. Bergabung di PrakomID (Asosiasi Pranata Komputer Indonesia) dan Yayasan HSI AbdullahRoy sebagai IT Support Dakwah. Handle digital: @camagenta / Kuro.',
+    sumber: 'LinkedIn, Instagram, GitHub, Facebook',
+    kontak: {
+      linkedin: 'https://id.linkedin.com/in/kurniaadhi',
+      instagram: 'https://www.instagram.com/camagenta/',
+      email: 'tersedia di profil LinkedIn'
+    }
   },
   {
     nama: 'Muh Imron',
