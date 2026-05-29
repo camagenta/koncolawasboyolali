@@ -41,6 +41,20 @@
 
 ---
 
+## Workflow Siklus Development
+
+Setiap siklus perubahan WAJIB mengikuti 4 langkah berikut:
+
+1. **Plan** — analisis kebutuhan, buat todo list, bagi tugas ke agent paralel
+2. **Delegate** — dispatch agent untuk setiap task independen
+3. **Build** — `npx next build` (frontend) + `npx nest build` (backend) — pastikan kompilasi sukses
+4. **Check E2E** — jalankan test suite (`npm test`, `npm run test:e2e`, atau verifikasi build output)
+5. **Commit & Push** — git add → commit → push ke GitHub
+
+> Catatan: Jika build gagal, jangan push. Fix dulu sampai build sukses.
+
+---
+
 ## Todo — Pengembangan Selanjutnya
 
 ### High Priority
@@ -93,3 +107,6 @@
 4. **Onboarding flow**: AppShell cek profile setelah login — jika 404 atau tahunMasuk/tahunLulus kosong, redirect ke `/profile`. Banner kuning di profile jika belum lengkap. Tahun Masuk/Lulus diberi red asterisk
 5. **Gravatar fallback**: Foto alumni pakai `user.avatarUrl` (dari Google) jika `fotoProfil` belum ada
 6. **Sorting alumni**: Default diubah ke `createdAt desc` (terbaru duluan)
+7. **Issue #23**: Fix batch import — ganti `create()` loop jadi `createMany()` + chunk 500 rows
+8. **README**: Tambah CHANGELOG section, update fitur table
+9. **Build verification**: `npx next build` + `npx nest build` sukses ✅
