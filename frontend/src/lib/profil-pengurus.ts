@@ -259,6 +259,7 @@ export const profiles: Profile[] = [
     ringkasan: 'Mantan Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah. Komisaris di IFG (Indonesia Financial Group). Juga menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
     gender: 'Laki-laki',
     sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    foto: 'https://fe.uby.ac.id/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-20-at-15.09.47-1152x2048.jpeg',
   },
   {
     nama: 'Sayideti Sukandi',

@@ -187,6 +187,7 @@ export const profilesLama: ProfileLama[] = [
     angkatan: 'A-77',
     posisi: 'Mantan Deputi BPKP — Komisaris IFG',
     ringkasan: 'Deputi Bidang Pengawasan Keuangan di BPKP RI. Arsitek model kapabilitas audit internal (IA-CM) untuk APIP di seluruh Indonesia. Deretan sertifikasi global di bidang akuntansi forensik dan audit internal.',
+    foto: 'https://fe.uby.ac.id/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-20-at-15.09.47-1152x2048.jpeg',
   },
   {
     nama: 'Dr. Drs. Budiman Widodo, M.Si.',
