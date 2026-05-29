@@ -8,3 +8,4 @@ backend/uploads/
 dist/
 node_modules/
 scripts/gcp-service-account.json
+tmp/
