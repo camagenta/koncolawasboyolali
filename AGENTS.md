@@ -327,3 +327,56 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 - **#44** — [UI/UX] Mobile Navigation Redesign — Bottom Nav + More Sheet
 - **#34** — Roadmap direvisi: prioritas baru UI/UX #43 #44 + Business Directory #41 + Volunteer Skill #42. Admin Unit, Gallery, Referral, Donasi ditunda.
 
+---
+
+## Session 2026-05-30 (Extended — MVP2 Implementation)
+
+### Deployment Issues & Fixes
+
+#### Business Directory (#41) — Complete gaps
+- **Fix 1** — Backend `business.service.ts`: Added `mapBusiness()` helper to normalize response shape (`noKontak`→`kontak`, `linkWebsite`→`website`, `linkInstagram`→`instagram`, `alumniProfile.user`→`pemilik` with `{ id, name, avatarUrl }`). Exposed `userId` in detail. Includes related businesses by same owner.
+- **Fix 2** — Profile page: Added "Usaha Saya" tab with full CRUD (list, add via modal, edit, delete confirmation, own `BUSINESS_KATEGORI` constant).
+- **Fix 3** — Business detail page `/bisnis/[id]`: Edit/Hapus buttons for listing owner (checks `useAuth` → `isOwner`), inline edit modal, delete confirmation dialog.
+- **Fix 4** — Admin nav sidebar: Added `/admin/business` link with `BriefcaseIcon`.
+
+#### Volunteer Skill (#42) — Complete gaps
+- Created `/alumni-mengajar/[id]/page.tsx` — skill detail page with edit/delete modals, owner check, loading/error states, info grid.
+- Created `/admin/alumni-skill/page.tsx` — admin panel with table, kategori filter, pagination, delete confirmation.
+- Added "Skill Saya" tab to Profile page — full CRUD (add/edit modal, delete confirmation). Mirrors business tab pattern.
+- Added admin nav link for `Alumni Skill` with `GraduationIcon`.
+
+#### Dashboard & Sidebar (#43)
+- Removed redundant "Beranda" nav group from sidebar (had single child "Dashboard").
+- Dashboard already has unified activity feed from 5 sources (forum, jobs, business, success stories, skills) with infinite scroll.
+
+#### Mobile Navigation (#44)
+- Already implemented: 4 tabs (Beranda, Jaringan, Karir, Lainnya) + BottomSheet component with slide-up animation.
+
+#### Bug Fixes
+- **Profile business tab infinite loop**: Added `businessesFetchedRef` (`useRef(false)`) guard to prevent re-fetch when user has 0 businesses.
+
+#### Alumni Berprestasi — Success Stories (#36 Dashboard Spotlight)
+- **Dashboard**: Added "Alumni Berprestasi" spotlight section between discover cards and footer. Gradient amber/yellow background. Displays up to 5 featured alumni with avatar (initial letter fallback), name, achievement, angkatan. Fetches from `GET /success-stories/featured`.
+- **Seed data**: Created `prisma/seed-success-stories.mjs` with 18 notable alumni entries (Susilo Siswoutomo, Agus Irawan, Wimboh Santoso, Prof. Suwarno, Sumardi, Djoko Kirmanto, Ali Mahfud, Mulyono, Erwin Triwanto, Andy Arvianto, Didik Haryadi, Kurnia Adhiwibowo, Hartanto, Bambang Widjajarso, Adi Surya, Ibnu Hadyanto, Sumarno, Hadi Pratomo). 11 marked `isFeatured: true`. Only inserts if table empty.
+- **Deploy**: Pull → build → seed → verify API ✅
+
+### GitHub Issues Management
+- **#34** MVP2 Plan — Updated & closed (superseded by individual issues)
+- **#36** Success Stories — Dashboard spotlight added, 18 entries seeded, closed
+- **#41** Business Directory — Updated & closed (P1 done, P2/P3 deferred)
+- **#42** Volunteer Skill — Updated & closed (all P1 gaps filled)
+- **#43** Dashboard Feed + Sidebar — Updated & closed (core done, progressive disclosure deferred)
+- **#44** Mobile Navigation — Updated & closed (all items done)
+
+### Build & Deploy
+- Both backend and frontend build passed (Frontend: 30 routes ✅)
+- Committed and pushed to GitHub
+- SSH deploy to production — git pull, seed 18 success stories, verify `GET /api/success-stories/featured` returns 10 featured entries ✅
+- PM2 restart verified
+
+### Todo — Pekerjaan Rumah Business Directory
+- **P2:** Photo upload untuk setiap usaha (current: pakai default icon)
+- **P2:** Fitur "Tertarik" / Express Interest dari user lain
+- **P2:** Testimonial / review untuk setiap usaha
+- **P3:** Approve/reject langsung dari list admin (current: edit modal)
+
