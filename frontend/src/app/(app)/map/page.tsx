@@ -18,7 +18,7 @@ interface AlumniKecamatan {
 }
 
 interface AlumniStatus {
-  statusUtama: string
+  status: string
   count: number
 }
 
@@ -146,19 +146,22 @@ export default function MapPage() {
           )}
 
           <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">
               Status Alumni
             </h3>
+            <p className="text-xs text-gray-400 mb-3">
+              Status pekerjaan utama alumni
+            </p>
             <div className="space-y-2">
               {statusData.length === 0 ? (
                 <p className="text-xs text-gray-400">Belum ada data</p>
               ) : (
                 statusData.map((s) => (
                   <div
-                    key={s.statusUtama}
+                    key={s.status}
                     className="flex items-center justify-between text-sm"
                   >
-                    <span className="text-gray-600 truncate">{s.statusUtama}</span>
+                    <span className="text-gray-600 truncate">{s.status}</span>
                     <span className="font-medium text-gray-900 ml-2">
                       {s.count}
                     </span>
