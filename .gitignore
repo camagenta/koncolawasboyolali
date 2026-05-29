@@ -1,9 +1,10 @@
-node_modules/
-.next/
-dist/
-.env
-.env.local
 *.log
 .DS_Store
+.env
+.env.local
+.next/
 backend/src/generated/
 backend/uploads/
+dist/
+node_modules/
+scripts/gcp-service-account.json
