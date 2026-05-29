@@ -66,10 +66,11 @@ export const profiles: Profile[] = [
     kategori: 'dewan-pembina',
     estimasiAngkatan: '1981',
     tahunLulus: '±1983',
-    posisi: 'Kepala Badan Pemulihan Aset Kejagung',
-    ringkasan: 'Pernah menjabat sebagai Jaksa Agung Muda Intelijen (Jamintel) dan Kepala Badan Pemulihan Aset Kejaksaan Agung.',
+    posisi: 'Kepala Badan Pemulihan Aset Kejaksaan Agung (2024-2025)',
+    ringkasan: 'Lahir di Boyolali, 5 Oktober 1965. Jaksa Agung Muda Intelijen (2022-2024), JAM Pengawasan (2020-2022). Ketua Umum Persatuan Jaksa Indonesia (PJI) 2021-2024.',
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Jaksa_Agung_Muda_Bidang_Intelijen_Amir_Yanto.jpg/250px-Jaksa_Agung_Muda_Bidang_Intelijen_Amir_Yanto.jpg',
     gender: 'Laki-laki',
-    sumber: 'Kejaksaan Agung RI'
+    sumber: 'Wikipedia, Kejaksaan Agung RI'
   },
   {
     nama: 'Hadi Pratomo',
@@ -79,9 +80,9 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1968',
     tahunLulus: '±1970',
     posisi: 'Guru Besar FKM Universitas Indonesia',
-    ringkasan: 'Guru Besar di Fakultas Kesehatan Masyarakat Universitas Indonesia.',
+    ringkasan: 'Guru Besar Departemen Pendidikan Kesehatan dan Ilmu Perilaku FKM UI. Pendidikan: Dr.PH Tulane University, MPH Tulane University, dr Universitas Indonesia. Bidang ajar: Perencanaan & Evaluasi Promosi Kesehatan, Advokasi Promosi Kesehatan.',
     gender: 'Laki-laki',
-    sumber: 'Universitas Indonesia'
+    sumber: 'FKM UI (fkm.ui.ac.id)'
   },
   {
     nama: 'Sri Yunanto',
@@ -90,10 +91,10 @@ export const profiles: Profile[] = [
     kategori: 'dewan-pembina',
     estimasiAngkatan: '1978',
     tahunLulus: '±1980',
-    posisi: 'Guru Besar Ilmu Politik UMJ',
-    ringkasan: 'Guru Besar Ilmu Politik Universitas Muhammadiyah Jakarta, dikukuhkan tahun 2026.',
+    posisi: 'Guru Besar Ilmu Politik FISIP UMJ',
+    ringkasan: 'Dikukuhkan sebagai Guru Besar FISIP UMJ bidang Ilmu Politik dan Humaniora (Jan 2026). PhD dari Universiti Sains Malaysia (2013). Orasi ilmiah: "Pengembangan Soft Power Menuju Indonesia Emas 2045". Dosen Ilmu Politik FISIP UMJ.',
     gender: 'Laki-laki',
-    sumber: 'UMJ'
+    sumber: 'UMJ, Google Scholar, Media Indonesia, SINTA'
   },
   {
     nama: 'Noorlailie Soewarno',
