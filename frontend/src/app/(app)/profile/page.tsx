@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslation } from '@/lib/i18n'
 import { fetchApi } from '@/lib/api'
 
-type Tab = 'data-diri' | 'pendidikan' | 'karir' | 'usaha'
+type Tab = 'data-diri' | 'pendidikan' | 'karir' | 'usaha' | 'skill'
 
 interface ProfileData {
   id: string
@@ -203,11 +203,27 @@ export default function ProfilePage() {
   const [businessSaving, setBusinessSaving] = useState(false)
   const BUSINESS_KATEGORI = ['Kuliner', 'Fashion', 'Teknologi', 'Pendidikan', 'Kesehatan', 'Pertanian', 'Kerajinan', 'Jasa', 'Properti', 'Otomotif', 'Media & Kreatif', 'Lainnya']
 
+  // Skill listings
+  const [skills, setSkills] = useState<any[]>([])
+  const [skillsLoading, setSkillsLoading] = useState(false)
+  const skillsFetchedRef = useRef(false)
+  const [skillModal, setSkillModal] = useState(false)
+  const [editingSkillId, setEditingSkillId] = useState<string | null>(null)
+  const [deleteSkillTarget, setDeleteSkillTarget] = useState<any | null>(null)
+  const [skillForm, setSkillForm] = useState({
+    skill: '', deskripsi: '', kategori: '', format: 'Mentoring', level: 'Pemula', durasi: '', ketersediaan: 'online',
+  })
+  const [skillSaving, setSkillSaving] = useState(false)
+  const SKILL_KATEGORI = ['Teknologi & Programming', 'Bisnis & Kewirausahaan', 'Keuangan & Akuntansi', 'Kesehatan & Farmasi', 'Hukum & Regulasi', 'Pendidikan & Pelatihan', 'Kreatif & Desain', 'Komunikasi & Public Speaking', 'Pertanian & Pangan', 'Teknik & Manufaktur', 'Lainnya']
+  const SKILL_FORMAT = ['Workshop', 'Seminar', 'Webinar', 'Pelatihan', 'Mentoring']
+  const SKILL_LEVEL = ['Pemula', 'Menengah', 'Lanjut']
+
   const tabs: { key: Tab; label: string }[] = [
     { key: 'data-diri', label: 'Data Diri' },
     { key: 'pendidikan', label: 'Riwayat Pendidikan' },
     { key: 'karir', label: 'Riwayat Karir' },
     { key: 'usaha', label: 'Usaha Saya' },
+    { key: 'skill', label: 'Skill Saya' },
   ]
 
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
@@ -528,6 +544,77 @@ export default function ProfilePage() {
       setBusinesses(prev => prev.filter((b: any) => b.id !== deleteBusinessTarget.id))
       showToast('Bisnis berhasil dihapus', 'success')
       setDeleteBusinessTarget(null)
+    } catch (err: any) {
+      showToast(err.message, 'error')
+    }
+  }
+
+  // Skill handlers
+  const fetchSkills = useCallback(async () => {
+    setSkillsLoading(true)
+    try {
+      const data = await fetchApi<any>('/alumni-skill/mine')
+      setSkills(Array.isArray(data) ? data : [])
+    } catch { /* ignore */ }
+    setSkillsLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (activeTab === 'skill' && !skillsFetchedRef.current && !skillsLoading) {
+      skillsFetchedRef.current = true
+      fetchSkills()
+    }
+  }, [activeTab, skillsLoading, fetchSkills])
+
+  const openSkillModal = (sk?: any) => {
+    if (sk) {
+      setSkillForm({
+        skill: sk.skill ?? '',
+        deskripsi: sk.deskripsi ?? '',
+        kategori: sk.kategori ?? '',
+        format: sk.format ?? 'Mentoring',
+        level: sk.level ?? 'Pemula',
+        durasi: sk.durasi ?? '',
+        ketersediaan: sk.ketersediaan ?? 'online',
+      })
+      setEditingSkillId(sk.id)
+    } else {
+      setSkillForm({ skill: '', deskripsi: '', kategori: '', format: 'Mentoring', level: 'Pemula', durasi: '', ketersediaan: 'online' })
+      setEditingSkillId(null)
+    }
+    setSkillModal(true)
+  }
+
+  const saveSkill = async () => {
+    setSkillSaving(true)
+    try {
+      const body: Record<string, any> = {}
+      for (const [key, value] of Object.entries(skillForm)) {
+        if (value !== '') body[key] = value
+      }
+      if (editingSkillId) {
+        await fetchApi(`/alumni-skill/${editingSkillId}`, { method: 'PATCH', body: JSON.stringify(body) })
+        showToast('Skill berhasil diperbarui', 'success')
+      } else {
+        await fetchApi('/alumni-skill', { method: 'POST', body: JSON.stringify(body) })
+        showToast('Skill berhasil ditambahkan', 'success')
+      }
+      setSkillModal(false)
+      fetchSkills()
+    } catch (err: any) {
+      showToast(err.message, 'error')
+    } finally {
+      setSkillSaving(false)
+    }
+  }
+
+  const deleteSkill = async () => {
+    if (!deleteSkillTarget) return
+    try {
+      await fetchApi(`/alumni-skill/${deleteSkillTarget.id}`, { method: 'DELETE' })
+      setSkills(prev => prev.filter((s: any) => s.id !== deleteSkillTarget.id))
+      showToast('Skill berhasil dihapus', 'success')
+      setDeleteSkillTarget(null)
     } catch (err: any) {
       showToast(err.message, 'error')
     }
@@ -1065,6 +1152,175 @@ export default function ProfilePage() {
           />
 
           {activeTab === 'usaha' && businesses.length === 0 && !businessesLoading && <p className="text-sm text-gray-400 py-8 text-center">Memuat data usaha...</p>}
+        </div>
+      )}
+
+      {activeTab === 'skill' && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Skill Saya</h2>
+            <button
+              onClick={() => openSkillModal()}
+              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              + Tambahkan Skill
+            </button>
+          </div>
+
+          {skillsLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
+            </div>
+          ) : skills.length === 0 ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+              <svg className="w-12 h-12 mx-auto text-gray-300 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+              </svg>
+              <p className="text-gray-500 text-sm mb-1">Belum ada skill terdaftar.</p>
+              <p className="text-gray-400 text-xs">Bagikan keahlianmu agar bisa ditemukan alumni lain.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {skills.map((sk: any) => (
+                <div key={sk.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                        {sk.kategori}
+                      </span>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                        sk.isActive ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {sk.isActive ? 'Aktif' : 'Nonaktif'}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-gray-900 truncate">{sk.skill}</h3>
+                    {sk.deskripsi && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{sk.deskripsi}</p>}
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-gray-400">{sk.format}</span>
+                      <span className="text-xs text-gray-300">&middot;</span>
+                      <span className="text-xs text-gray-400">{sk.level}</span>
+                      <span className="text-xs text-gray-300">&middot;</span>
+                      <span className="text-xs text-gray-400">{sk.ketersediaan}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button onClick={() => openSkillModal(sk)} className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button onClick={() => setDeleteSkillTarget(sk)} className="p-1.5 text-gray-400 hover:text-red-600 transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <Modal open={skillModal} onClose={() => setSkillModal(false)}>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              {editingSkillId ? 'Edit Skill' : 'Tambahkan Skill'}
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Skill <span className="text-red-500">*</span></label>
+                <input
+                  value={skillForm.skill}
+                  onChange={e => setSkillForm(p => ({ ...p, skill: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g. React.js, Digital Marketing, ..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori <span className="text-red-500">*</span></label>
+                <select
+                  value={skillForm.kategori}
+                  onChange={e => setSkillForm(p => ({ ...p, kategori: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Kategori</option>
+                  {SKILL_KATEGORI.map(k => <option key={k} value={k}>{k}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                <textarea
+                  value={skillForm.deskripsi}
+                  onChange={e => setSkillForm(p => ({ ...p, deskripsi: e.target.value }))}
+                  rows={3}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Jelaskan skill yang kamu tawarkan..."
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Format</label>
+                  <select
+                    value={skillForm.format}
+                    onChange={e => setSkillForm(p => ({ ...p, format: e.target.value }))}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {SKILL_FORMAT.map(f => <option key={f} value={f}>{f}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
+                  <select
+                    value={skillForm.level}
+                    onChange={e => setSkillForm(p => ({ ...p, level: e.target.value }))}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {SKILL_LEVEL.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Durasi</label>
+                  <input
+                    value={skillForm.durasi}
+                    onChange={e => setSkillForm(p => ({ ...p, durasi: e.target.value }))}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="2 jam, 1 hari, 4 pertemuan"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Ketersediaan</label>
+                  <select
+                    value={skillForm.ketersediaan}
+                    onChange={e => setSkillForm(p => ({ ...p, ketersediaan: e.target.value }))}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="online">Online</option>
+                    <option value="offline">Offline</option>
+                    <option value="hybrid">Hybrid</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 mt-6">
+              <button onClick={() => setSkillModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                Batal
+              </button>
+              <button onClick={saveSkill} disabled={skillSaving} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                {skillSaving ? 'Menyimpan...' : editingSkillId ? 'Simpan' : 'Tambahkan'}
+              </button>
+            </div>
+          </Modal>
+
+          <ConfirmDialog
+            open={!!deleteSkillTarget}
+            title="Hapus Skill"
+            message={`Apakah Anda yakin ingin menghapus skill "${deleteSkillTarget?.skill}"?`}
+            onConfirm={deleteSkill}
+            onCancel={() => setDeleteSkillTarget(null)}
+          />
+
+          {activeTab === 'skill' && skills.length === 0 && !skillsLoading && <p className="text-sm text-gray-400 py-8 text-center">Memuat data skill...</p>}
         </div>
       )}
     </div>

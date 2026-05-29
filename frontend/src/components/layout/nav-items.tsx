@@ -112,13 +112,6 @@ const ChevronIcon = (
 
 export const navGroups: NavGroup[] = [
   {
-    labelKey: 'nav.beranda',
-    icon: DashboardIcon,
-    children: [
-      { href: '/', labelKey: 'nav.dashboard', icon: DashboardIcon },
-    ],
-  },
-  {
     labelKey: 'Jaringan',
     icon: UsersIcon,
     children: [
@@ -155,6 +148,7 @@ export const navGroups: NavGroup[] = [
       { href: '/admin/users', labelKey: 'Pengguna', icon: ProfileIcon },
       { href: '/admin/jobs', labelKey: 'Lowongan', icon: JobsIcon },
       { href: '/admin/business', labelKey: 'Bisnis Alumni', icon: BriefcaseIcon },
+      { href: '/admin/alumni-skill', labelKey: 'Alumni Skill', icon: GraduationIcon },
       { href: '/admin/success-stories', labelKey: 'Cerita Sukses', icon: SuksesIcon },
     ],
   },
