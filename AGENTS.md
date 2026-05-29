@@ -112,7 +112,9 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 
 ### ❌ Belum Terakomodir / Open Issues
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi
-- **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) dengan foto & profil
+
+### ✅ Closed via commit (baru ditutup)
+- **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) — commit `24867cb` (iprakom)
 
 ---
 
@@ -213,7 +215,8 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - Dun Sridadi, Sayoeti Sukandi, Yulianto — tidak ditemukan data publik
 - Mayoritas bidang/sub-bidang tidak punya jejak digital
 
-### Commit history (7 commits dari sesi ini)
+### Commit history (8 commits dari sesi ini)
+- `24867cb` — feat: redesign halaman pengurus periode sebelumnya (iprakom) — closes #40
 - `dc89175` — docs: update session profil pengurus final
 - `e756351` — feat: tambah Prof. Suwarno, koreksi Bupati Agus Irawan, perkaya bio
 - `98df049` — Halaman kepengurusan lama + cross-ref SK
