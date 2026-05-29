@@ -117,10 +117,14 @@ export default function MapClient({ data, mode, onMarkerClick }: MapClientProps)
       markersRef.current.push(marker)
     })
 
-    if (mode === 'kecamatan') {
-      map.setView([-7.5313771, 110.5972919], 14)
-    } else if (data.length > 0) {
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 8 })
+    if (data.length > 0) {
+      const opts: L.FitBoundsOptions = { padding: [40, 40] }
+      if (mode === 'kecamatan') {
+        opts.maxZoom = 11
+      } else {
+        opts.maxZoom = 8
+      }
+      map.fitBounds(bounds, opts)
     }
   }, [data, mode, onMarkerClick, maxCount])
 
