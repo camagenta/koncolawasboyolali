@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { getCityCoord } from '@/lib/city-coords'
@@ -32,22 +32,10 @@ const defaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = defaultIcon
 
-function heatmapColor(value: number): string {
-  const r = Math.min(255, Math.floor(value * 4 * 255))
-  const g = Math.min(255, Math.floor((1 - Math.abs(value - 0.25) * 2) * 255))
-  const b = Math.max(0, Math.floor((1 - value) * 255))
-  return `rgb(${r},${g},${b})`
-}
-
 export default function MapClient({ data, mode, onMarkerClick }: MapClientProps) {
   const mapRef = useRef<L.Map | null>(null)
   const markersRef = useRef<L.Layer[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
-
-  const maxCount = useMemo(
-    () => (data.length > 0 ? Math.max(...data.map((d) => d.count)) : 1),
-    [data],
-  )
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
@@ -91,16 +79,15 @@ export default function MapClient({ data, mode, onMarkerClick }: MapClientProps)
       const coords = getCityCoord(name)
       bounds.extend(coords)
 
-      const intensity = count / maxCount
       const size = Math.max(8, Math.min(30, Math.sqrt(count) * 3))
 
       const marker = L.circleMarker(coords, {
         radius: size,
-        fillColor: heatmapColor(intensity),
-        color: heatmapColor(intensity),
-        weight: 1.5,
-        opacity: 0.8,
-        fillOpacity: Math.max(0.3, Math.min(0.8, intensity * 0.5 + 0.3)),
+        fillColor: '#2563eb',
+        color: '#1d4ed8',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.6,
       }).addTo(map)
 
       marker.bindPopup(
@@ -117,12 +104,10 @@ export default function MapClient({ data, mode, onMarkerClick }: MapClientProps)
       markersRef.current.push(marker)
     })
 
-    if (mode === 'kecamatan') {
-      map.setView([-7.5313771, 110.5972919], 14)
-    } else if (data.length > 0) {
+    if (data.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 8 })
     }
-  }, [data, mode, onMarkerClick, maxCount])
+  }, [data, mode, onMarkerClick])
 
   return <div ref={containerRef} className="w-full h-full rounded-lg" />
 }

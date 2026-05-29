@@ -28,7 +28,13 @@ export class ThreadsService {
       this.prisma.forumThread.count({ where }),
     ]);
 
-    return { data: threads, meta: { total, page, limit, totalPages: Math.ceil(total / limit) } };
+    const mapped = threads.map(({ creator, _count, ...rest }) => ({
+      ...rest,
+      author: creator,
+      commentCount: _count.comments,
+      likeCount: _count.likes,
+    }));
+    return { data: mapped, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findOne(id: string) {
@@ -37,23 +43,12 @@ export class ThreadsService {
       include: {
         creator: { select: { id: true, name: true, avatarUrl: true } },
         category: { select: { id: true, name: true, slug: true } },
-        comments: {
-          where: { parentId: null },
-          orderBy: { createdAt: 'asc' },
-          include: {
-            creator: { select: { id: true, name: true, avatarUrl: true } },
-            replies: {
-              orderBy: { createdAt: 'asc' },
-              include: {
-                creator: { select: { id: true, name: true, avatarUrl: true } },
-              },
-            },
-          },
-        },
+        _count: { select: { comments: true, likes: true } },
       },
     });
     if (!thread) throw new NotFoundException('Thread not found');
-    return thread;
+    const { creator, _count, ...rest } = thread;
+    return { ...rest, author: creator, commentCount: _count.comments, likeCount: _count.likes };
   }
 
   async create(dto: CreateThreadDto, userId: string) {

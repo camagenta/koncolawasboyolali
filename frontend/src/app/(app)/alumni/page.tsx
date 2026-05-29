@@ -11,12 +11,13 @@ interface AlumniCard {
   fotoProfil?: string
   tahunMasuk: number
   jurusan?: string
+  kelas3?: string
   kotaDomisili: string
   statusUtama: string
   user: { id: string; name: string; avatarUrl?: string }
 }
 
-const TAHUN_OPTIONS = Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - i)
+const TAHUN_OPTIONS = Array.from({ length: 80 }, (_, i) => new Date().getFullYear() - i)
 const JURUSAN_OPTIONS = ['IPA', 'IPS', 'Bahasa']
 const STATUS_OPTIONS = ['Bekerja', 'Kuliah', 'Wirausaha', 'Belum_Bekerja', 'Lainnya']
 
@@ -246,7 +247,7 @@ export default function AlumniDirectoryPage() {
                   <p className="text-xs text-gray-500 mt-0.5">Angkatan {alumni.tahunMasuk}</p>
                 </div>
                 <div className="space-y-1.5 text-xs text-gray-500">
-                  {alumni.jurusan && <p className="text-center">{alumni.jurusan}</p>}
+                  {alumni.kelas3 && <p className="text-center">{alumni.kelas3}</p>}
                   <p className="flex items-center justify-center gap-1">
                     <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
@@ -321,7 +322,7 @@ export default function AlumniDirectoryPage() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500 mt-0.5">
-                      Angkatan {alumni.tahunMasuk}{alumni.jurusan && ` · ${alumni.jurusan}`} · {alumni.kotaDomisili}
+                      Angkatan {alumni.tahunMasuk}{alumni.kelas3 && ` · ${alumni.kelas3}`} · {alumni.kotaDomisili}
                     </p>
                   </div>
                   <svg className="w-4 h-4 text-gray-300 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

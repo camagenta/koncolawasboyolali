@@ -12,6 +12,10 @@ export class AdminService {
     const where: any = {};
     if (query.role) where.role = query.role;
     if (query.isActive !== undefined) where.isActive = query.isActive;
+    if (query.q) where.OR = [
+      { name: { contains: query.q } },
+      { email: { contains: query.q } },
+    ];
 
     const page = query.page || 1;
     const limit = query.limit || 20;

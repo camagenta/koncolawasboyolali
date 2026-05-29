@@ -31,6 +31,27 @@ export const cityCoords: Record<string, [number, number]> = {
   Ambon: [-3.6554, 128.1909],
   Jayapura: [-2.5337, 140.7181],
   Boyolali: [-7.5333, 110.5958],
+  Ampel: [-7.4486, 110.5625],
+  Andong: [-7.3761, 110.7481],
+  Banyudono: [-7.5319, 110.6881],
+  Cepogo: [-7.5161, 110.5289],
+  Gladagsari: [-7.4350, 110.5056],
+  Juwangi: [-7.5250, 110.7236],
+  Karanggede: [-7.3583, 110.6639],
+  Kemusu: [-7.3000, 110.7167],
+  Klego: [-7.3500, 110.6889],
+  Mojosongo: [-7.5378, 110.6550],
+  Musuk: [-7.5639, 110.5436],
+  Ngemplak: [-7.4833, 110.6778],
+  Nogosari: [-7.4333, 110.7083],
+  Sambi: [-7.4917, 110.6500],
+  Sawit: [-7.5542, 110.6361],
+  Selo: [-7.5250, 110.4639],
+  Simo: [-7.5167, 110.6917],
+  Tamansari: [-7.4542, 110.5436],
+  Teras: [-7.5000, 110.6333],
+  Wonosamodro: [-7.3833, 110.6167],
+  Wonosegoro: [-7.2833, 110.6833],
   Klaten: [-7.7058, 110.6064],
   Salatiga: [-7.3305, 110.5084],
   Magelang: [-7.4799, 110.2177],
@@ -57,7 +78,7 @@ export function getCityCoord(city: string): [number, number] {
   const normalized = city.trim()
   if (cityCoords[normalized]) return cityCoords[normalized]
   for (const [key, coord] of Object.entries(cityCoords)) {
-    if (normalized.toLowerCase().includes(key.toLowerCase())) return coord
+    if (normalized.toLowerCase() === key.toLowerCase()) return coord
   }
-  return cityCoords.Jakarta
+  return cityCoords.Boyolali
 }

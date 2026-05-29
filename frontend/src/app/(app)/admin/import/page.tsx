@@ -27,8 +27,11 @@ export default function AdminImportPage() {
   const [dragOver, setDragOver] = useState(false)
 
   const [sheetUrl, setSheetUrl] = useState('')
+  const [sheetName, setSheetName] = useState('')
   const [sheetImporting, setSheetImporting] = useState(false)
   const [sheetResult, setSheetResult] = useState<UploadResult | null>(null)
+  const [legacyImporting, setLegacyImporting] = useState(false)
+  const [legacyResult, setLegacyResult] = useState<UploadResult | null>(null)
 
   useEffect(() => {
     fetchApi('/import/buku-induk/status')
@@ -80,9 +83,13 @@ export default function AdminImportPage() {
     setSheetResult(null)
     setSheetImporting(true)
     try {
+      const body: any = { sheetUrl: sheetUrl.trim() }
+      if (sheetName.trim()) {
+        body.sheetRange = `${sheetName.trim()}!A:Z`
+      }
       const result = await fetchApi('/import/buku-induk/from-sheet', {
         method: 'POST',
-        body: JSON.stringify({ sheetUrl: sheetUrl.trim() }),
+        body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
       })
       setSheetResult(result)
@@ -91,6 +98,22 @@ export default function AdminImportPage() {
       setSheetResult({ inserted: 0, errors: [err.message] })
     } finally {
       setSheetImporting(false)
+    }
+  }
+
+  async function handleLegacyImport() {
+    setLegacyResult(null)
+    setLegacyImporting(true)
+    try {
+      const result = await fetchApi('/import/from-legacy', {
+        method: 'POST',
+      })
+      setLegacyResult(result)
+      refreshStatus()
+    } catch (err: any) {
+      setLegacyResult({ inserted: 0, errors: [err.message] })
+    } finally {
+      setLegacyImporting(false)
     }
   }
 
@@ -125,6 +148,32 @@ export default function AdminImportPage() {
 
   return (
     <div className="space-y-8">
+      {/* Migrasi dari Platform Lama */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Migrasi Data Platform Lama</h2>
+        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-3">
+          <p className="text-sm text-gray-500">
+            Import data alumni dari platform lama (koncolawas2005.web.app). Akan mengambil 67 profile alumni
+            yang sudah memiliki email dan otomatis membuatkan akun + profile alumni.
+          </p>
+          <button
+            onClick={handleLegacyImport}
+            disabled={legacyImporting}
+            className="bg-green-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {legacyImporting && <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />}
+            {legacyImporting ? 'Mengimpor...' : 'Migrate from Old Platform'}
+          </button>
+          {legacyResult && !legacyImporting && <ResultCard result={legacyResult} />}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex-1 border-t border-gray-200" />
+        <span className="text-sm text-gray-400 font-medium">Atau</span>
+        <div className="flex-1 border-t border-gray-200" />
+      </div>
+
       {/* Import from Google Sheets */}
       <div>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Import dari Google Sheets</h2>
@@ -149,6 +198,16 @@ export default function AdminImportPage() {
               {sheetImporting && <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />}
               {sheetImporting ? 'Mengimpor...' : 'Fetch & Import'}
             </button>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Nama Sheet (opsional — kosongkan untuk sheet pertama)</label>
+            <input
+              type="text"
+              value={sheetName}
+              onChange={(e) => setSheetName(e.target.value)}
+              placeholder="contoh: DATA ALUMNI atau Sheet1"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
           </div>
           {sheetResult && !sheetImporting && <ResultCard result={sheetResult} />}
         </div>

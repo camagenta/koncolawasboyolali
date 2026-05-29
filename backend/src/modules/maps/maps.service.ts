@@ -33,7 +33,7 @@ export class MapsService {
   }
 
   async getOverview() {
-    const [total, byYear, byStatus] = await Promise.all([
+    const [total, byYear, byStatus, totalForumThreads, totalJobs] = await Promise.all([
       this.prisma.alumniProfile.count(),
       this.prisma.alumniProfile.groupBy({
         by: ['tahunLulus'],
@@ -45,10 +45,14 @@ export class MapsService {
         _count: { id: true },
         orderBy: { _count: { id: 'desc' } },
       }),
+      this.prisma.forumThread.count(),
+      this.prisma.jobPosting.count({ where: { status: 'approved' } }),
     ]);
 
     return {
       total,
+      totalForumThreads,
+      totalJobs,
       byTahunLulus: byYear.map((r) => ({ tahun: r.tahunLulus, count: r._count.id })),
       byStatusUtama: byStatus.map((r) => ({ status: r.statusUtama, count: r._count.id })),
     };

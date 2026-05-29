@@ -61,6 +61,12 @@ const NotificationIcon = (
   </svg>
 )
 
+const SuksesIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7" /><path d="M4 22h16" /><path d="M10 22V12" /><path d="M14 22V12" /><path d="M12 7V4" /><path d="M10 4h4" />
+  </svg>
+)
+
 const ActivityIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
@@ -68,11 +74,12 @@ const ActivityIcon = (
 )
 
 export const navItems: NavItem[] = [
-  { href: '/', labelKey: 'nav.dashboard', icon: DashboardIcon },
-  { href: '/profile', labelKey: 'nav.profile', icon: ProfileIcon, roles: ['alumni'] },
+  { href: '/alumni', labelKey: 'nav.dashboard', icon: DashboardIcon },
+  { href: '/profile', labelKey: 'nav.profile', icon: ProfileIcon },
   { href: '/forum', labelKey: 'nav.forum', icon: ForumIcon },
   { href: '/chat', labelKey: 'nav.chat', icon: ChatIcon },
   { href: '/jobs', labelKey: 'nav.jobs', icon: JobsIcon },
+  { href: '/sukses', labelKey: 'Alumni Berprestasi', icon: SuksesIcon },
   { href: '/map', labelKey: 'nav.map', icon: MapIcon },
   { href: '/notifications', labelKey: 'nav.notifications', icon: NotificationIcon },
   { href: '/admin', labelKey: 'nav.admin', icon: AdminIcon, roles: ['super_admin', 'admin_unit'] },

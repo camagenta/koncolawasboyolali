@@ -15,6 +15,8 @@ interface ProfileData {
   tahunMasuk?: number
   tahunLulus?: number
   jurusan?: string
+  kelas1?: string
+  kelas2?: string
   kelas3?: string
   kotaDomisili?: string
   kecamatanAsalBoyolali?: string
@@ -24,6 +26,7 @@ interface ProfileData {
   statusUtama?: string
   educations?: Education[]
   careers?: Career[]
+  user?: { id: string; name: string; email: string; avatarUrl?: string }
 }
 
 interface Education {
@@ -55,6 +58,8 @@ const SEKTOR_OPTIONS = [
   'Transportasi/Logistik', 'Property/Konstruksi', 'F&B/Hospitality',
   'Organisasi Non-Profit', 'Lainnya',
 ]
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3001'
 
 function LoadingSpinner() {
   return (
@@ -162,7 +167,7 @@ export default function ProfilePage() {
 
   const [form, setForm] = useState({
     namaLengkap: '', noHp: '', tahunMasuk: '', tahunLulus: '',
-    jurusan: '', kelas3: '', kotaDomisili: '', kecamatanAsalBoyolali: '',
+    jurusan: '', kelas1: '', kelas2: '', kelas3: '', kotaDomisili: '', kecamatanAsalBoyolali: '',
     alamatLengkap: '', linkLinkedin: '', linkInstagram: '', statusUtama: '',
   })
 
@@ -205,6 +210,8 @@ export default function ProfilePage() {
         tahunMasuk: data.tahunMasuk?.toString() ?? '',
         tahunLulus: data.tahunLulus?.toString() ?? '',
         jurusan: data.jurusan ?? '',
+        kelas1: data.kelas1 ?? '',
+        kelas2: data.kelas2 ?? '',
         kelas3: data.kelas3 ?? '',
         kotaDomisili: data.kotaDomisili ?? '',
         kecamatanAsalBoyolali: data.kecamatanAsalBoyolali ?? '',
@@ -233,8 +240,9 @@ export default function ProfilePage() {
           body[key] = key === 'tahunMasuk' || key === 'tahunLulus' ? Number(value) : value
         }
       }
+      const method = profile ? 'PUT' : 'POST'
       const updated = await fetchApi('/alumni/profiles/me', {
-        method: 'PUT',
+        method,
         body: JSON.stringify(body),
       })
       setProfile(updated)
@@ -442,7 +450,14 @@ export default function ProfilePage() {
     <div>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Profil Saya</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Profil Saya</h1>
+          {profile?.user?.email && (
+            <p className="text-sm text-gray-500 mt-1">Masuk sebagai {profile.user.email}</p>
+          )}
+        </div>
+      </div>
 
       <div className="border-b border-gray-200 mb-6">
         <nav className="flex gap-6 -mb-px">
@@ -471,7 +486,9 @@ export default function ProfilePage() {
                 {photoPreview ? (
                   <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
                 ) : profile?.fotoProfil ? (
-                  <img src={`http://localhost:3001${profile.fotoProfil}`} alt="Foto Profil" className="w-full h-full object-cover" />
+                  <img src={`${API_URL}${profile.fotoProfil}`} alt="Foto Profil" className="w-full h-full object-cover" />
+                ) : profile?.user?.avatarUrl ? (
+                  <img src={profile.user.avatarUrl} alt="Foto Google" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-400">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -552,6 +569,8 @@ export default function ProfilePage() {
               <InputField label="Tahun Masuk" type="number" value={form.tahunMasuk} onChange={v => setForm(p => ({ ...p, tahunMasuk: v }))} />
               <InputField label="Tahun Lulus" type="number" value={form.tahunLulus} onChange={v => setForm(p => ({ ...p, tahunLulus: v }))} />
               <InputField label="Jurusan" value={form.jurusan} onChange={v => setForm(p => ({ ...p, jurusan: v }))} placeholder="IPA/IPS/Bahasa" />
+              <InputField label="Kelas 1" value={form.kelas1} onChange={v => setForm(p => ({ ...p, kelas1: v }))} placeholder="1.4" />
+              <InputField label="Kelas 2" value={form.kelas2} onChange={v => setForm(p => ({ ...p, kelas2: v }))} placeholder="2.4" />
               <InputField label="Kelas 3" value={form.kelas3} onChange={v => setForm(p => ({ ...p, kelas3: v }))} placeholder="III IPA 1" />
               <InputField label="Kota Domisili" value={form.kotaDomisili} onChange={v => setForm(p => ({ ...p, kotaDomisili: v }))} />
               <InputField label="Kecamatan Asal (Boyolali)" value={form.kecamatanAsalBoyolali} onChange={v => setForm(p => ({ ...p, kecamatanAsalBoyolali: v }))} />

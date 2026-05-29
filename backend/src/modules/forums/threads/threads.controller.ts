@@ -1,13 +1,17 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ThreadsService } from './threads.service.js';
+import { CommentsService } from '../comments/comments.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
 import { QueryThreadsDto } from './dto/query-threads.dto.js';
 
 @Controller('forums/threads')
 export class ThreadsController {
-  constructor(private readonly threadsService: ThreadsService) {}
+  constructor(
+    private readonly threadsService: ThreadsService,
+    private readonly commentsService: CommentsService,
+  ) {}
 
   @Get()
   async findAll(@Query() query: QueryThreadsDto) {
@@ -17,6 +21,11 @@ export class ThreadsController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.threadsService.findOne(id);
+  }
+
+  @Get(':id/comments')
+  async findComments(@Param('id') id: string) {
+    return this.commentsService.findByThread(id);
   }
 
   @Post()

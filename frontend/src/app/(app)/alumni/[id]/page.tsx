@@ -13,6 +13,8 @@ interface PublicProfile {
   tahunMasuk: number
   tahunLulus: number
   jurusan?: string
+  kelas1?: string
+  kelas2?: string
   kelas3: string
   kotaDomisili: string
   statusUtama: string
@@ -188,8 +190,12 @@ export default function AlumniDetailPage() {
             <p className="text-sm font-medium text-gray-900">{profile.tahunLulus}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Jurusan</p>
-            <p className="text-sm font-medium text-gray-900">{profile.jurusan || '-'}</p>
+            <p className="text-xs text-gray-500 mb-0.5">Kelas 1</p>
+            <p className="text-sm font-medium text-gray-900">{profile.kelas1 || '-'}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-0.5">Kelas 2</p>
+            <p className="text-sm font-medium text-gray-900">{profile.kelas2 || '-'}</p>
           </div>
           <div>
             <p className="text-xs text-gray-500 mb-0.5">Kelas 3</p>

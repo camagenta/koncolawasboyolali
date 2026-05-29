@@ -21,17 +21,27 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
   async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) {
     const { id, emails, displayName, photos } = profile;
+    const email = emails[0].value;
     let user = await this.prisma.user.findUnique({ where: { googleId: id } });
-    const isNew = !user;
+    let isNew = false;
     if (!user) {
-      user = await this.prisma.user.create({
-        data: {
-          googleId: id,
-          email: emails[0].value,
-          name: displayName,
-          avatarUrl: photos?.[0]?.value,
-        },
-      });
+      user = await this.prisma.user.findUnique({ where: { email } });
+      if (user) {
+        user = await this.prisma.user.update({
+          where: { id: user.id },
+          data: { googleId: id, lastLoginAt: new Date() },
+        });
+      } else {
+        user = await this.prisma.user.create({
+          data: {
+            googleId: id,
+            email,
+            name: displayName,
+            avatarUrl: photos?.[0]?.value,
+          },
+        });
+        isNew = true;
+      }
     } else {
       user = await this.prisma.user.update({
         where: { id: user.id },

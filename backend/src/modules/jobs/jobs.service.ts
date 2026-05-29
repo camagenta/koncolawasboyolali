@@ -45,7 +45,7 @@ export class JobsService {
       this.prisma.jobPosting.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findOne(id: string) {

@@ -34,8 +34,8 @@ export default function AdminJobsPage() {
     setLoading(true)
     setError('')
     try {
-      const data = await fetchApi(`/admin/jobs?status=${tab}`)
-      setJobs(data.jobs || [])
+      const data = await fetchApi(`/jobs?status=${tab}`)
+      setJobs(data.data || [])
     } catch (err: any) {
       setError(err.message)
     } finally {

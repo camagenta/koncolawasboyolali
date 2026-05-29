@@ -38,6 +38,12 @@ export class ImportController {
     return this.importService.importFromSheet(dto);
   }
 
+  @Post('from-legacy')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  async importFromLegacy() {
+    return this.importService.importFromLegacy();
+  }
+
   @Get('buku-induk/status')
   @UseGuards(AuthGuard('jwt'), AdminGuard)
   async getStatus() {

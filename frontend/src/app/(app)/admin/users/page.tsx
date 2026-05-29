@@ -48,7 +48,7 @@ export default function AdminUsersPage() {
       if (activeFilter) params.set('isActive', activeFilter)
       if (search) params.set('q', search)
       const data = await fetchApi(`/admin/users?${params}`)
-      setUsers(data.users || [])
+      setUsers(data.data || [])
       setTotal(data.total || 0)
     } catch (err: any) {
       setError(err.message)

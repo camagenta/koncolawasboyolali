@@ -52,5 +52,14 @@
   "chat.select_conversation": "Pilih percakapan untuk memulai chat",
   "chat.typing": "sedang mengetik...",
   "chat.load_older": "Muat Pesan Sebelumnya",
-  "chat.create_group": "Buat Grup"
+  "chat.create_group": "Buat Grup",
+  "admin.categories": "Kategori Forum",
+  "admin.categories.title": "Kelola Kategori Forum",
+  "admin.categories.new": "Buat Kategori",
+  "admin.categories.edit": "Edit Kategori",
+  "admin.categories.name": "Nama Kategori",
+  "admin.categories.slug": "Slug",
+  "admin.categories.description": "Deskripsi",
+  "admin.categories.sortOrder": "Urutan",
+  "admin.categories.noData": "Belum ada kategori"
 }

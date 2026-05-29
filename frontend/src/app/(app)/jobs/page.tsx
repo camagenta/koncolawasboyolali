@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/lib/auth-context'
 import { useTranslation } from '@/lib/i18n'
-import { fetchApi } from '@/lib/api'
+import { fetchApi, type PaginatedResponse } from '@/lib/api'
 import { timeAgo } from '@/lib/timeago'
 
 interface Job {
-  _id: string
+  id: string
   title: string
   description: string
   kategoriBidang?: string
@@ -18,8 +18,8 @@ interface Job {
   deadline?: string
   status: 'pending' | 'approved' | 'rejected'
   rejectionReason?: string
-  postedBy: { _id: string; name: string; email: string }
-  views: number
+  poster: { id: string; name: string; email: string }
+  viewsCount: number
   createdAt: string
   updatedAt: string
 }
@@ -106,8 +106,8 @@ export default function JobsPage() {
       if (filterKategori) params.kategoriBidang = filterKategori
       if (filterLokasi) params.lokasi = filterLokasi
       if (filterTipe.length > 0) params.tipe = filterTipe.join(',')
-      const data = await fetchApi<Job[]>('/jobs', { params })
-      setJobs(data)
+      const res = await fetchApi<PaginatedResponse<Job>>('/jobs', { params })
+      setJobs(res.data)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Gagal memuat lowongan')
     } finally {
@@ -324,7 +324,7 @@ export default function JobsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {jobs.map((job) => (
             <div
-              key={job._id}
+              key={job.id}
               className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start justify-between mb-3">
@@ -355,7 +355,7 @@ export default function JobsPage() {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                   </svg>
-                  {job.postedBy?.name || 'Unknown'}
+                  {job.poster?.name || 'Unknown'}
                 </p>
                 {job.lokasi && (
                   <p className="flex items-center gap-1.5">
@@ -626,7 +626,7 @@ export default function JobsPage() {
                     {selectedJob.title}
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">
-                    {selectedJob.postedBy?.name}
+                    {selectedJob.poster?.name}
                   </p>
                 </div>
                 <span
@@ -715,7 +715,7 @@ export default function JobsPage() {
                 )}
                 <div>
                   <span className="font-medium text-gray-700">Dilihat:</span>{' '}
-                  {selectedJob.views} kali
+                  {selectedJob.viewsCount} kali
                 </div>
                 <div>
                   <span className="font-medium text-gray-700">Diposting:</span>{' '}
@@ -747,7 +747,7 @@ export default function JobsPage() {
                 {isAdmin && selectedJob.status === 'pending' && (
                   <div className="flex gap-2">
                     <button
-                      onClick={() => handleApprove(selectedJob._id)}
+                      onClick={() => handleApprove(selectedJob.id)}
                       className="flex-1 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
                     >
                       Setujui
@@ -799,7 +799,7 @@ export default function JobsPage() {
                   {t('common.cancel')}
                 </button>
                 <button
-                  onClick={() => handleReject(selectedJob._id)}
+                  onClick={() => handleReject(selectedJob.id)}
                   disabled={!rejectionReason.trim()}
                   className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
                 >

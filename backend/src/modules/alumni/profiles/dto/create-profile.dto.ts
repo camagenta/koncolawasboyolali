@@ -23,6 +23,14 @@ export class CreateProfileDto {
   jurusan?: string;
 
   @IsString()
+  @IsOptional()
+  kelas1?: string;
+
+  @IsString()
+  @IsOptional()
+  kelas2?: string;
+
+  @IsString()
   @IsNotEmpty()
   kelas3: string;
 

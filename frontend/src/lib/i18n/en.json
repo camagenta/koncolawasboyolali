@@ -52,5 +52,14 @@
   "chat.select_conversation": "Select a conversation to start chatting",
   "chat.typing": "is typing...",
   "chat.load_older": "Load Older Messages",
-  "chat.create_group": "Create Group"
+  "chat.create_group": "Create Group",
+  "admin.categories": "Forum Categories",
+  "admin.categories.title": "Manage Forum Categories",
+  "admin.categories.new": "Create Category",
+  "admin.categories.edit": "Edit Category",
+  "admin.categories.name": "Category Name",
+  "admin.categories.slug": "Slug",
+  "admin.categories.description": "Description",
+  "admin.categories.sortOrder": "Sort Order",
+  "admin.categories.noData": "No categories yet"
 }

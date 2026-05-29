@@ -1,4 +1,4 @@
-import { IsOptional, IsEnum, IsBoolean, IsInt, Min } from 'class-validator';
+import { IsOptional, IsEnum, IsBoolean, IsInt, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export enum UserRoleEnum {
@@ -28,4 +28,8 @@ export class QueryUserDto {
   @Type(() => Boolean)
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsString()
+  q?: string;
 }

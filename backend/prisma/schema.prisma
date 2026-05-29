@@ -35,7 +35,7 @@ enum JobStatus {
 
 model User {
   id           String    @id @default(uuid()) @db.Char(36)
-  googleId     String    @unique @map("google_id")
+  googleId     String?   @unique @map("google_id")
   email        String    @unique
   name         String
   role         UserRole  @default(alumni)
@@ -121,6 +121,10 @@ model AlumniProfile {
   fotoProfil          String?     @map("foto_profil")
   linkLinkedin        String?     @map("link_linkedin")
   linkInstagram       String?     @map("link_instagram")
+  linkFacebook        String?     @map("link_facebook")
+  namaPanggilan       String?     @map("nama_panggilan")
+  pekerjaan           String?     @map("pekerjaan")
+  isPrivate           Boolean     @default(false) @map("is_private")
   statusUtama         StatusUtama @default(Lainnya) @map("status_utama")
   isDataFromBukuInduk Boolean     @default(false) @map("is_data_from_buku_induk")
   createdAt           DateTime    @default(now()) @map("created_at")
@@ -335,4 +339,19 @@ model AdminUnit {
   createdAt        DateTime @default(now()) @map("created_at")
 
   @@map("admin_units")
+}
+
+model SuccessStory {
+  id          String   @id @default(cuid()) @db.Char(36)
+  name        String   @db.VarChar(200)
+  angkatan    Int
+  photoUrl    String?  @db.VarChar(500)
+  achievement String   @db.VarChar(300)
+  description String?  @db.Text
+  isFeatured  Boolean  @default(false)
+  userId      String?  @db.Char(36)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("success_stories")
 }

@@ -9,10 +9,10 @@ import { timeAgo } from '@/lib/timeago'
 
 interface StatsOverview {
   total: number
-  totalForumThreads?: number
-  totalJobs?: number
-  byYear?: { year: string; count: number }[]
-  byStatus?: { status: string; count: number }[]
+  totalForumThreads: number
+  totalJobs: number
+  byTahunLulus?: { tahun: number; count: number }[]
+  byStatusUtama?: { status: string; count: number }[]
 }
 
 interface Thread {
@@ -26,11 +26,11 @@ interface Thread {
 }
 
 interface Job {
-  _id: string
+  id: string
   title: string
   tipe: string
   lokasi?: string
-  postedBy: { _id: string; name: string }
+  poster?: { id: string; name: string }
   createdAt: string
   linkExternal: string
 }
@@ -50,14 +50,14 @@ export default function DashboardPage() {
       try {
         const [statsData, threadsData, jobsData] = await Promise.all([
           fetchApi<StatsOverview>('/stats/overview'),
-          fetchApi<Thread[]>('/forums/threads', {
+          fetchApi<{ data: Thread[] }>('/forums/threads', {
             params: { limit: 5 },
-          }).catch(() => []),
-          fetchApi<Job[]>('/jobs', { params: { limit: 5 } }).catch(() => []),
+          }).catch(() => ({ data: [] })),
+          fetchApi<{ data: Job[] }>('/jobs', { params: { limit: 5 } }).catch(() => ({ data: [] })),
         ])
         setStats(statsData)
-        if (Array.isArray(threadsData)) setRecentThreads(threadsData)
-        if (Array.isArray(jobsData)) setRecentJobs(jobsData)
+        setRecentThreads(threadsData.data)
+        setRecentJobs(jobsData.data)
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Gagal memuat data dashboard'
         setFetchError(message)
@@ -276,7 +276,7 @@ export default function DashboardPage() {
                 ) : (
                   recentJobs.map((job) => (
                     <a
-                      key={job._id}
+                      key={job.id}
                       href={job.linkExternal}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -286,7 +286,7 @@ export default function DashboardPage() {
                         {job.title}
                       </h3>
                       <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400">
-                        <span>{job.postedBy?.name}</span>
+                        <span>{job.poster?.name}</span>
                         {job.lokasi && <span>{job.lokasi}</span>}
                         <span>{timeAgo(job.createdAt)}</span>
                       </div>

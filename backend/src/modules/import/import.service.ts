@@ -123,11 +123,21 @@ export class ImportService {
     }
 
     const data: any = await response.json();
-    const rows: string[][] = data.values;
-    if (!rows || rows.length < 2) {
-      throw new BadRequestException('Sheet is empty or has fewer than 2 rows (header + 1 data row)');
+    const allRows: string[][] = data.values;
+    if (!allRows || allRows.length < 1) {
+      throw new BadRequestException('Sheet is empty');
     }
 
+    // skip leading empty rows to find actual header row
+    let headerIdx = 0;
+    while (headerIdx < allRows.length && (!allRows[headerIdx] || allRows[headerIdx].length === 0 || allRows[headerIdx].every(c => !c))) {
+      headerIdx++;
+    }
+    if (headerIdx >= allRows.length - 1) {
+      throw new BadRequestException('Sheet has no header row with data');
+    }
+
+    const rows = allRows.slice(headerIdx);
     const headers = rows[0].map(h => (h || '').trim().toLowerCase().replace(/[\s.\-]+/g, '_'));
     const idx = (name: string) => headers.indexOf(name.toLowerCase().replace(/[\s.\-]+/g, '_'));
 
@@ -182,7 +192,84 @@ export class ImportService {
       }
     }
 
-    return { inserted: inserted.length, errors, totalRows: rows.length - 1 };
+    return { inserted: inserted.length, errors, totalRows: allRows.length - headerIdx - 1 };
+  }
+
+  async importFromLegacy() {
+    const url = 'https://script.google.com/macros/s/AKfycbz8Gn4lyyCmwYwsD99RLu0kHw0QeWmiPlEtHFCB44-aN20rsXuJNXiHgTX-4erEUd5cBw/exec?action=getAlumni';
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new BadRequestException(`GAS API error: ${await response.text()}`);
+    }
+    const data: any = await response.json();
+    const records = Array.isArray(data) ? data : (data.data || data.records || []);
+
+    let inserted = 0;
+    const errors: string[] = [];
+
+    for (const record of records) {
+      try {
+        const recordEmail = record.email;
+        if (!recordEmail) {
+          errors.push(`Record missing email: ${JSON.stringify(record)}`);
+          continue;
+        }
+
+        let user = await this.prisma.user.findUnique({ where: { email: recordEmail } });
+        if (!user) {
+          user = await this.prisma.user.create({
+            data: {
+              email: recordEmail,
+              name: record.nama_asli_sma || recordEmail,
+              role: 'alumni',
+            },
+          });
+        }
+
+        await this.prisma.alumniProfile.upsert({
+          where: { userId: user.id },
+          update: {
+            namaLengkap: record.nama_asli_sma || '',
+            namaPanggilan: record.nama_panggilan || null,
+            kelas1: record.kelas_1 != null ? String(record.kelas_1) : null,
+            kelas2: record.kelas_2 != null ? String(record.kelas_2) : null,
+            kelas3: record.kelas_3 != null ? String(record.kelas_3) : '',
+            noHp: record.no_whatsapp != null ? String(record.no_whatsapp) : '',
+            kotaDomisili: record.domisili_sekarang || '',
+            kecamatanAsalBoyolali: record.domisili_boyolali || '',
+            pekerjaan: record.pekerjaan_instansi || null,
+            linkFacebook: record.facebook || null,
+            linkInstagram: record.instagram || null,
+            linkLinkedin: record.linkedin || null,
+            isPrivate: record.is_private === true || record.is_private === 'true',
+          },
+          create: {
+            userId: user.id,
+            namaLengkap: record.nama_asli_sma || '',
+            namaPanggilan: record.nama_panggilan || null,
+            kelas1: record.kelas_1 != null ? String(record.kelas_1) : null,
+            kelas2: record.kelas_2 != null ? String(record.kelas_2) : null,
+            kelas3: record.kelas_3 != null ? String(record.kelas_3) : '',
+            noHp: record.no_whatsapp != null ? String(record.no_whatsapp) : '',
+            tahunMasuk: 2002,
+            tahunLulus: 2005,
+            kotaDomisili: record.domisili_sekarang || '',
+            kecamatanAsalBoyolali: record.domisili_boyolali || '',
+            pekerjaan: record.pekerjaan_instansi || null,
+            linkFacebook: record.facebook || null,
+            linkInstagram: record.instagram || null,
+            linkLinkedin: record.linkedin || null,
+            isPrivate: record.is_private === true || record.is_private === 'true',
+          },
+        });
+
+        inserted++;
+      } catch (err: any) {
+        errors.push(`Error processing ${record.email || 'unknown'}: ${err.message}`);
+      }
+    }
+
+    return { inserted, errors };
   }
 
   async getStatus() {

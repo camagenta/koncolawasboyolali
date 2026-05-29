@@ -19,7 +19,7 @@ function CallbackHandler() {
         const user = JSON.parse(atob(userEncoded))
         localStorage.setItem(TOKEN_KEY, token)
         localStorage.setItem(USER_KEY, JSON.stringify(user))
-        router.push('/')
+        router.push('/alumni')
       } catch {
         router.push('/login?error=invalid_data')
       }

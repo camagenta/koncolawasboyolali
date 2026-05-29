@@ -15,7 +15,9 @@ function AdminNav() {
     { href: '/admin/users', label: t('admin.users') },
     { href: '/admin/jobs', label: t('admin.jobs') },
     { href: '/admin/import', label: t('admin.import') },
+    { href: '/admin/categories', label: t('admin.categories') },
     { href: '/admin/activity', label: 'Aktivitas' },
+    { href: '/admin/success-stories', label: 'Success Stories' },
   ]
 
   return (

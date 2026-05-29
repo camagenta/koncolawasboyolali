@@ -11,6 +11,31 @@ export class CommentsService {
     private readonly notificationsService: NotificationsService,
   ) {}
 
+  private mapComment(comment: any) {
+    const { creator, ...rest } = comment;
+    return { ...rest, author: creator };
+  }
+
+  async findByThread(threadId: string) {
+    const comments = await this.prisma.forumComment.findMany({
+      where: { threadId },
+      orderBy: { createdAt: 'asc' },
+      include: {
+        creator: { select: { id: true, name: true, avatarUrl: true } },
+        replies: {
+          orderBy: { createdAt: 'asc' },
+          include: {
+            creator: { select: { id: true, name: true, avatarUrl: true } },
+          },
+        },
+      },
+    });
+    return { data: comments.map(this.mapComment).map((c: any) => ({
+      ...c,
+      replies: c.replies?.map(this.mapComment) || [],
+    })) };
+  }
+
   async create(threadId: string, dto: CreateCommentDto, userId: string) {
     const thread = await this.prisma.forumThread.findUnique({ where: { id: threadId } });
     if (!thread) throw new NotFoundException('Thread not found');
@@ -52,7 +77,7 @@ export class CommentsService {
       });
     }
 
-    return comment;
+    return this.mapComment(comment);
   }
 
   async update(id: string, dto: UpdateCommentDto, userId: string, role: string) {
