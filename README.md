@@ -120,11 +120,14 @@ pm2 save
 | Dashboard Statistik                     | ✅ Selesai    |
 | Admin Panel (users, jobs, kategori)     | ✅ Selesai    |
 | Admin — Import Data Legacy              | ✅ Selesai    |
-| Alumni Berprestasi / Wall of Fame       | 🚧 Progress   |
-| Migrasi Data dari Platform Lama         | 🚧 Progress   |
+| Alumni Berprestasi / Wall of Fame       | ✅ Selesai    |
+| Migrasi Data dari Platform Lama         | ✅ Selesai    |
+| Edu & Career History                    | ✅ Selesai    |
+| Onboarding Flow (tahunMasuk/tahunLulus) | ✅ Selesai    |
+| Google Sheets Import (batch)            | ✅ Selesai    |
+| Gravatar/Google Avatar Fallback         | ✅ Selesai    |
 | Chat Real-time (Socket.IO)              | 📋 Direncanakan |
 | Weekly Digest Email                     | 📋 Direncanakan |
-| Edu & Career History                    | 📋 Direncanakan |
 
 ---
 
@@ -212,8 +215,41 @@ server {
 
 ---
 
+## Changelog
+
+### 2026-05-29
+- **Onboarding flow**: Pengguna baru diarahkan ke `/profile` untuk mengisi tahun masuk & tahun lulus sebelum mengakses fitur lain
+- **Logo & identity**: Logo SMAN 1 Boyolali sebagai favicon + tampil di beranda
+- **Gravatar fallback**: Foto alumni menggunakan Google avatar jika foto profil belum diupload
+- **Sorting alumni**: Default sorting diubah ke `createdAt desc` (terbaru duluan)
+- **Stats fix**: Perbaikan field name mismatch `byYear` → `byTahunLulus`
+- **Login cleanup**: Tombol login tengah di landing page dihapus
+- **Issue patrol**: #36, #35, #33, #31, #24, #32, #23 resolved
+
+### 2026-05-28
+- **Kelas tracking**: `kelas1`, `kelas2`, `kelas3` di model, DTO, form, dan public profile
+- **Success Stories**: Model + CRUD + halaman `/sukses` + admin panel
+- **Import Legacy**: `POST /import/from-legacy` untuk migrasi 67 alumni
+- **Google Sheets import**: `POST /import/from-sheet` + CSV upload
+- **Batch processing**: `createMany` + chunking 500 rows untuk import sheet
+
+### 2026-05-XX (MVP Launch)
+- Google SSO Auth + JWT
+- Alumni profile CRUD dengan foto upload
+- Forum diskusi dengan kategori, thread, reply, pagination
+- Jobs board dengan posting & approval
+- Peta alumni dengan Leaflet + heatmap
+- Dashboard statistik realtime
+- Admin panel (users, jobs, categories, success stories)
+- Chat real-time dengan Socket.IO
+- Notifikasi sistem
+- Multi-bahasa (ID/EN)
+- Responsive mobile layout
+
+---
+
 ## Links
 
-- **Issues**: [GitHub Issues](https://github.com/anomalyco/koncolawas/issues)
+- **Issues**: [GitHub Issues](https://github.com/camagenta/koncolawasboyolali/issues)
 - **Live Site**: [sma.kotakpasir.my.id](https://sma.kotakpasir.my.id)
 - **Dokumentasi Lengkap**: Lihat `PRD_Koncolawas.md`, `Technical_Specification.md`, `Database_Schema_ERD.md`, `UI_UX_Wireframe.md`

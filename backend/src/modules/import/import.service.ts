@@ -141,7 +141,7 @@ export class ImportService {
     const headers = rows[0].map(h => (h || '').trim().toLowerCase().replace(/[\s.\-]+/g, '_'));
     const idx = (name: string) => headers.indexOf(name.toLowerCase().replace(/[\s.\-]+/g, '_'));
 
-    const inserted: any[] = [];
+    const batch: { data: any; rowNum: number }[] = [];
     const errors: any[] = [];
 
     for (let i = 1; i < rows.length; i++) {
@@ -170,29 +170,43 @@ export class ImportService {
         continue;
       }
 
+      batch.push({
+        data: {
+          nis: String(nis).trim(),
+          nama: String(nama).trim(),
+          tahunMasuk,
+          jurusan: jurusan ? String(jurusan).trim() : null,
+          kelas3: kelas3 ? String(kelas3).trim() : null,
+          noHp: noHp ? String(noHp).trim() : null,
+          alamat: alamat ? String(alamat).trim() : null,
+        },
+        rowNum: i + 2,
+      });
+    }
+
+    let inserted = 0;
+    const CHUNK_SIZE = 500;
+
+    for (let offset = 0; offset < batch.length; offset += CHUNK_SIZE) {
+      const chunk = batch.slice(offset, offset + CHUNK_SIZE);
       try {
-        await this.prisma.bukuIndukRef.create({
-          data: {
-            nis: String(nis).trim(),
-            nama: String(nama).trim(),
-            tahunMasuk,
-            jurusan: jurusan ? String(jurusan).trim() : null,
-            kelas3: kelas3 ? String(kelas3).trim() : null,
-            noHp: noHp ? String(noHp).trim() : null,
-            alamat: alamat ? String(alamat).trim() : null,
-          },
+        const result = await this.prisma.bukuIndukRef.createMany({
+          data: chunk.map(r => r.data),
+          skipDuplicates: true,
         });
-        inserted.push({ nis, nama });
-      } catch (err: any) {
-        if (err.code === 'P2002') {
-          errors.push({ row: i + 2, message: `Duplicate NIS: ${nis}` });
-        } else {
-          errors.push({ row: i + 2, message: err.message });
+        inserted += result.count;
+        if (result.count < chunk.length) {
+          errors.push({
+            row: chunk[0].rowNum,
+            message: `Some rows in batch had duplicate NIS values`,
+          });
         }
+      } catch (err: any) {
+        errors.push({ row: chunk[0].rowNum, message: `Batch insert error: ${err.message}` });
       }
     }
 
-    return { inserted: inserted.length, errors, totalRows: allRows.length - headerIdx - 1 };
+    return { inserted, errors, totalRows: allRows.length - headerIdx - 1 };
   }
 
   async importFromLegacy() {
