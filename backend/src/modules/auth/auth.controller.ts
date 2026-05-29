@@ -8,8 +8,19 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get('google')
-  @UseGuards(AuthGuard('google'))
-  async googleAuth() {}
+  googleAuth(@Res() res: Response) {
+    const clientId = process.env.GOOGLE_CLIENT_ID || '';
+    const redirectUri = process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3001/api/auth/google/callback';
+    const url =
+      'https://accounts.google.com/o/oauth2/v2/auth' +
+      `?response_type=code` +
+      `&client_id=${encodeURIComponent(clientId)}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&scope=${encodeURIComponent('email profile')}` +
+      `&access_type=offline` +
+      `&prompt=consent`;
+    return res.redirect(url);
+  }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))

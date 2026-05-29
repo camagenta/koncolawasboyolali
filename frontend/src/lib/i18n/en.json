@@ -11,6 +11,7 @@
   "nav.admin": "Admin",
   "nav.notifications": "Notifications",
   "nav.activity": "Activity",
+  "nav.pengurus": "Board Profiles",
   "auth.login": "Login",
   "auth.login.google": "Sign in with Google",
   "auth.logout": "Logout",

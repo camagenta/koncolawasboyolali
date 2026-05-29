@@ -61,6 +61,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = 'Terjadi kesalahan internal server';
       error = 'Internal Server Error';
+      if (exception instanceof Error) {
+        console.error('Unhandled exception:', exception.message, exception.stack);
+      } else {
+        console.error('Unknown exception:', exception);
+      }
     }
 
     const errorResponse: ErrorResponse = {

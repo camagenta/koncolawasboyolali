@@ -11,6 +11,7 @@
   "nav.admin": "Admin",
   "nav.notifications": "Notifikasi",
   "nav.activity": "Aktivitas",
+  "nav.pengurus": "Pengurus IKA",
   "auth.login": "Masuk",
   "auth.login.google": "Masuk dengan Google",
   "auth.logout": "Keluar",
