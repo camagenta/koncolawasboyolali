@@ -74,9 +74,39 @@ export const cityCoords: Record<string, [number, number]> = {
   Sorong: [-0.8742, 131.2852],
 }
 
+const KECAMATAN_BOYOLALI = new Set([
+  'Ampel', 'Andong', 'Banyudono', 'Boyolali', 'Cepogo', 'Gladagsari',
+  'Juwangi', 'Karanggede', 'Kemusu', 'Klego', 'Mojosongo', 'Musuk',
+  'Ngemplak', 'Nogosari', 'Sambi', 'Sawit', 'Selo', 'Simo',
+  'Tamansari', 'Teras', 'Wonosamodro', 'Wonosegoro'
+])
+
+export function normalizeKecamatan(raw: string): string {
+  if (!raw || !raw.trim()) return ''
+  const trimmed = raw.trim()
+  const lower = trimmed.toLowerCase()
+
+  const cleaned = trimmed
+    .replace(/^(Kec\.|Kecamatan|Kec)\s+/i, '')
+    .replace(/\s+Kota$/i, '')
+    .replace(/[,.]?\s*Boyolali$/i, '')
+    .replace(/^Boyolali\s+/i, '')
+    .trim()
+
+  for (const k of KECAMATAN_BOYOLALI) {
+    if (cleaned.toLowerCase() === k.toLowerCase()) return k
+  }
+  for (const k of KECAMATAN_BOYOLALI) {
+    if (lower === k.toLowerCase()) return k
+  }
+  return ''
+}
+
 export function getCityCoord(city: string): [number, number] {
   const normalized = city.trim()
   if (cityCoords[normalized]) return cityCoords[normalized]
+  const kec = normalizeKecamatan(normalized)
+  if (kec && cityCoords[kec]) return cityCoords[kec]
   for (const [key, coord] of Object.entries(cityCoords)) {
     if (normalized.toLowerCase() === key.toLowerCase()) return coord
   }

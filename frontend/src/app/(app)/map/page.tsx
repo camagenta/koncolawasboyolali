@@ -62,7 +62,9 @@ export default function MapPage() {
     fetchMapData()
   }, [])
 
-  const currentData = activeTab === 'city' ? cityData : kecamatanData
+  const currentData: AlumniCity[] | AlumniKecamatan[] = activeTab === 'city'
+    ? cityData.filter(d => d.kota.trim() !== '')
+    : kecamatanData.filter(d => d.kecamatan.trim() !== '')
   const totalAlumni = currentData.reduce((sum, d) => sum + d.count, 0)
 
   return (
