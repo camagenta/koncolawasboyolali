@@ -61,16 +61,15 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 ## Todo — Pengembangan Selanjutnya
 
 ### High Priority
-- [ ] **Forum diskusi**: real threads/comments dengan fitur reply & pagination
-- [ ] **Registrasi alumni mandiri**: form pendaftaran dengan validasi data
-- [ ] **Upload foto profil**: integrasi dengan endpoint update profile + preview
-- [ ] **Pencarian & filter alumni**: search by nama, angkatan, kelas, kota
+- [ ] **UI/UX Overhaul**: activity feed, sidebar grouping, progressive disclosure
+- [ ] **Mobile Navigation**: bottom nav 4 tab + more sheet
+- [ ] **Business Directory**: direktori usaha alumni dengan approval flow & kategori
+- [ ] **Volunteer Skill / Alumni Mengajar**: direktori keahlian alumni yang bisa di-share
 
 ### Medium Priority
 - [ ] **Dashboard admin**: ringkasan statistik (total alumni, sukses stories, dll)
 - [ ] **Notifikasi email**: konfirmasi registrasi, reset password (jika non-Google)
 - [ ] **Mobile responsive**: refine layout untuk tampilan HP
-- [ ] **Export data alumni**: CSV/Excel download dari admin panel
 - [ ] **CI/CD pipeline**: GitHub Actions untuk lint, build, deploy
 
 ### Low Priority
@@ -80,7 +79,7 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - [ ] **Gallery foto angkatan**: upload & tampilkan foto momen sekolah
 - [ ] **SEO & Open Graph**: meta tags untuk setiap halaman publik
 
-> **Catatan status aktual per 2026-05-29:**
+> **Catatan status aktual per 2026-05-30:**
 > - ✅ **Forum diskusi** — SUDAH implement (threads, nested comments/replies, likes, pagination, categories)
 > - ✅ **Upload foto profil** — SUDAH implement (2MB limit, preview, disk storage, old-file cleanup)
 > - ✅ **Pencarian & filter alumni** — SUDAH implement (search by nama/NIS, filter by tahun/jurusan/status)
@@ -91,6 +90,8 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 > - ❌ **Mobile responsive** — masih perlu refine
 > - ❌ **CI/CD pipeline** — belum ada
 > - ❌ **SEO & Open Graph** — baru terpasang di `/pengurus`, sisanya belum
+> - ❌ **Business Directory** — #41 baru dibuka, belum dikerjakan
+> - ❌ **Volunteer Skill** — #42 baru dibuka, belum dikerjakan
 > 
 > Todo list di atas perlu direvisi — beberapa item sudah selesai tapi belum dihapus/ditandai. Priority sebaiknya difokuskan ke yang benar-benar belum ada.
 
@@ -111,7 +112,11 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - **#39** Login 2x klik fix (state:false, session:false)
 
 ### ❌ Belum Terakomodir / Open Issues
-- **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi
+- **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi (roadmap revised)
+- **#41** MVP2 — Business Directory by Alumni (P1 — baru)
+- **#42** MVP2 — Volunteer Skill / Alumni Mengajar (P2 — baru)
+- **#43** UI/UX — Dashboard Activity Feed + Sidebar Restructure + Progressive Disclosure (P1 — baru)
+- **#44** UI/UX — Mobile Navigation Redesign (P1 — baru)
 
 ### ✅ Closed via commit (baru ditutup)
 - **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) — commit `24867cb` (iprakom)
@@ -279,4 +284,46 @@ Google Sheet (master data)
 - `npm run build` backend sukses ✅
 - `pm2 restart koncolawas-web koncolawas-api` ✅
 - Live verified: `/pengurus` (Susilo, Agus Irawan, Sumardi ✅), `/pengurus/sebelumnya` (Seno Kusumoarjo, Budiyanto ✅)
+
+---
+
+## Session 2026-05-30 (MVP2 Planning — Business Directory)
+
+### PM Analysis: Ide dari Founder
+
+Founder menyampaikan 7 area pengembangan untuk MVP2. Sebagai PM kritis, dilakukan validasi:
+
+| Ide | Verdict | Alasan |
+|-----|---------|--------|
+| **Business Directory** | ✅ **P1 - Kerjakan** | Inti permintaan. CRUD sederhana, high impact, no payment integration |
+| **Volunteer Skill** | ✅ **P2 - Kerjakan** | Clear value, relatif ringan, integrasi profil |
+| **Collaboration (Cari Mitra)** | ✅ **P3 - Bagian dari Bisnis** | Flag + admin mediasi, lightweight |
+| Job Opportunity | ❌ **Skip** | Sudah ada Jobs Board |
+| Promotion tipis-tipis | ❌ **Skip** | Tercover Business Directory |
+| Program SMA | ⏸️ **Tunda** | Terlalu broad, perlu definisi |
+| Crowd Funding | ⏸️ **Tunda ke MVP3** | Butuh payment gateway, legal, risiko tinggi |
+
+### Issues Created
+- **#41** — [MVP2] Business Directory by Alumni (P1)
+- **#42** — [MVP2] Volunteer Skill / Alumni Mengajar (P2)
+- **#34** — Roadmap direvisi: Business Directory & Volunteer Skill sebagai prioritas baru. Admin Unit, Gallery, Referral, Donasi ditunda.
+
+### Teknis
+- **Business Directory**: model `AlumniBusiness`, enum `BusinessCategory` + `BusinessStatus`, approval flow, upload foto, halaman `/bisnis`
+- **Volunteer Skill**: model `AlumniSkill` + `SkillRequest`, enum `SkillFormat` + `SkillLevel`, halaman `/alumni-mengajar`
+- Pattern mengikuti `success-stories` (controller + service + dto + module, tanpa base CRUD)
+- Frontend: halaman baru di `(app)/bisnis` dan `(app)/alumni-mengajar` sebagai Client Component, pakai `fetchApi` dari `@/lib/api`
+
+### UI/UX Analisis Feature Bloat
+Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
+1. **Activity Feed** — Dashboard jadi unified feed lintas fitur (bukan 3 KPI card + 2 widget terisolasi)
+2. **Sidebar Grouping** — 10 menu flat → 4 kategori expandable (Jaringan, Karir & Usaha, Komunitas, Profil)
+3. **Progressive Disclosure** — fitur muncul bertahap berdasarkan stage user (baru login → profile OK → aktif → senior)
+
+### Issues Created
+- **#41** — [MVP2] Business Directory by Alumni (P1)
+- **#42** — [MVP2] Volunteer Skill / Alumni Mengajar (P2)
+- **#43** — [UI/UX] Dashboard Activity Feed + Sidebar Restructure + Progressive Disclosure
+- **#44** — [UI/UX] Mobile Navigation Redesign — Bottom Nav + More Sheet
+- **#34** — Roadmap direvisi: prioritas baru UI/UX #43 #44 + Business Directory #41 + Volunteer Skill #42. Admin Unit, Gallery, Referral, Donasi ditunda.
 
