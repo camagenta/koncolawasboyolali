@@ -345,7 +345,7 @@ export const profiles: Profile[] = [
     jabatan: 'Ketua Umum',
     kategori: 'pengurus-pusat',
     posisi: 'Anggota DPR RI - Komisi XI (Fraksi PDIP)',
-    ringkasan: 'Anggota DPR RI Dapil Jawa Tengah V periode 2024-2029. Ketua IKA Boy (Ikatan Alumni Boyolali). Lulusan Universitas Pelita Bangsa & Universitas Krisnadwipayana. Pengusaha dan politisi PDIP. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
+    ringkasan: 'Lahir di Boyolali, 12 November 1976. Anggota DPR RI Dapil Jawa Tengah V (Boyolali, Solo, Sukoharjo) periode 2024-2029 — Komisi XI (Keuangan). Ketua IKA Boy (Ikatan Alumni Boyolali). S1 Teknik Informatika Universitas Pelita Bangsa, S1 Hukum & S2 MH Universitas Krisnadwipayana. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
     foto: 'https://infopemilu.kpu.go.id/berkas-calon/dprri/1683880747_baed8ef8-540a-4cc4-a2f0-578975edb3fa.jpeg',
     gender: 'Laki-laki',
     sumber: 'DPR RI, Espos.id, TribunSolo',

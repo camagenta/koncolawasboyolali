@@ -175,3 +175,31 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - `npm run build` backend sukses
 - `pm2 restart koncolawas-api koncolawas-web` ✅
 - Live test: logo compressed ✅, "Masuk sebagai Alumni" ✅, Google SVG ✅, stats (71, 4, 1) ✅, no header ✅, 1 login button ✅
+
+---
+
+## Session 2026-05-29 (Profil Pengurus — Final)
+
+### Changes
+1. **Bupati Boyolali dikoreksi**: Kandiyono → **Agus Irawan** (bupati terpilih 2025-2030) + foto Wikipedia.
+2. **Prof. Suwarno ditambahkan**: Guru Besar Teknik Elektro ITB, top 2% Stanford, foto dari ITB.
+3. **Bio diperkaya**: Susilo Siswoutomo (lahir Boyolali, ITB 1970), Wimboh Santoso (S1 UNS 1983, PhD Loughborough), Agus Suryonugroho (Akpol 1991), Didik Haryadi (lahir 12 Nov 1976).
+4. **SEO meta tags**: title/description/OG untuk `/pengurus`.
+5. **Footer link**: "Profil Pengurus IKA" di app-shell untuk user login.
+6. **Halaman `/pengurus/sebelumnya`**: Struktur 2022-2025 dari SK, 80+ entri.
+7. **Cross‑reference SK**: 10 profil dicocokkan dengan angkatan A-xx.
+
+### Data terverifikasi (Perplexity + OSINT)
+- **Ali Mahfud** → Drs. H. Ali Mahfud, S.H. — Hakim PA Surakarta (bukan Full Stack Engineer)
+- **Andy Arvianto** → Dir. SDM PT Pertamina (Juni 2025)
+- **Bambang Widjajarso** → Trainer Pusdiklat PSDM Kemenkeu
+- **Wartono** → IG @wartonoboyolali
+
+### Blocked (perlu kontak internal)
+- Dun Sridadi, Sayoeti Sukandi, Yulianto — tidak ditemukan data publik
+- Mayoritas bidang/sub-bidang tidak punya jejak digital
+
+### Build & Deploy
+- `npx next build` sukses — 25 routes
+- push → ssh pull → build → `pm2 restart koncolawas-web koncolawas-api` ✅
+- Live verified: "SMANSA - Alumni SMAN 1 Boyolali" ✅, footer pengurus ✅
