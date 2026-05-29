@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { profiles, type Profile } from '@/lib/profil-pengurus'
 
 const kategoriLabels: Record<string, string> = {
@@ -124,6 +124,30 @@ function TabButton({ active, onClick, label, icon }: { active: boolean; onClick:
 
 export default function PengurusPage() {
   const [activeTab, setActiveTab] = useState<string>('dewan-pembina')
+
+  useEffect(() => {
+    document.title = 'Profil Pengurus IKA - SMA N 1 Boyolali'
+
+    const setMeta = (name: string, content: string, property?: string) => {
+      const attr = property ? 'property' : 'name'
+      const key = property || name
+      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLElement | null
+      if (el) {
+        el.setAttribute('content', content)
+      } else {
+        el = document.createElement('meta')
+        el.setAttribute(attr, key)
+        el.setAttribute('content', content)
+        document.head.appendChild(el)
+      }
+    }
+
+    setMeta('description', 'Profil lengkap pengurus Ikatan Alumni SMA Negeri 1 Boyolali periode 2025-2030 — Dewan Pembina, Dewan Pengawas, Pengurus Pusat, dan Bidang.')
+    setMeta('og:title', 'Profil Pengurus IKA - SMA N 1 Boyolali', 'og:title')
+    setMeta('og:description', 'Profil lengkap pengurus Ikatan Alumni SMA Negeri 1 Boyolali periode 2025-2030 — Dewan Pembina, Dewan Pengawas, Pengurus Pusat, dan Bidang.', 'og:description')
+    setMeta('og:type', 'website', 'og:type')
+    setMeta('og:url', 'https://ikasmansaboy.com/pengurus', 'og:url')
+  }, [])
 
   const filtered = profiles.filter((p) => p.kategori === activeTab)
 

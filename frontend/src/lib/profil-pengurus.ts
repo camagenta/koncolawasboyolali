@@ -262,6 +262,7 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1991',
     tahunLulus: '±1993',
     posisi: 'Direktur Perencanaan Korporat & Pengembangan Bisnis PT PLN',
+    foto: 'https://asset-2.tribunnews.com/tribunnewswiki/foto/bank/images/Hartanto-Wibowo-2.jpg',
     ringkasan: 'Lahir di Boyolali, 9 Februari 1976. Karir di PT PLN sejak 2003. Pernah menjabat sebagai Direktur Energi Primer PLN (2022) dan Direktur Keuangan & SDM PT PLN Batubara. Diangkat sebagai Direktur Perencanaan Korporat & Pengembangan Bisnis PLN pada September 2022.',
     gender: 'Laki-laki',
     sumber: 'PLN, CNN Indonesia, CNBC Indonesia'
@@ -271,7 +272,8 @@ export const profiles: Profile[] = [
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    kontak: { instagram: 'https://instagram.com/wartonoboyolali' }
   },
 
   // ==================== PENGURUS PUSAT ====================
@@ -282,6 +284,7 @@ export const profiles: Profile[] = [
     kategori: 'pengurus-pusat',
     posisi: 'Anggota DPR RI - Komisi XI (Fraksi PDIP)',
     ringkasan: 'Anggota DPR RI Dapil Jawa Tengah V periode 2024-2029. Ketua IKA Boy (Ikatan Alumni Boyolali). Lulusan Universitas Pelita Bangsa & Universitas Krisnadwipayana. Pengusaha dan politisi PDIP. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
+    foto: 'https://infopemilu.kpu.go.id/berkas-calon/dprri/1683880747_baed8ef8-540a-4cc4-a2f0-578975edb3fa.jpeg',
     gender: 'Laki-laki',
     sumber: 'DPR RI, Espos.id, TribunSolo',
     kontak: { instagram: 'https://instagram.com/didikharyadi', linkedin: 'https://linkedin.com/in/didik-haryadi' }
@@ -298,12 +301,15 @@ export const profiles: Profile[] = [
   },
   {
     nama: 'Ali Mahfud',
+    namaLengkap: 'Drs. H. Ali Mahfud, S.H.',
     jabatan: 'Ketua Harian II',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Full Stack Engineer / Cluster IT Manager di MI Pakuwon Hotels Portfolio',
-    ringkasan: '⚠️ Perlu verifikasi — nama "Ali Mahfud" umum. Profil ini paling relevan dengan latar belakang IT di Jawa Timur/Jakarta, tetapi belum terkonfirmasi sebagai alumni SMAN 1 Boyolali.',
-    sumber: 'LinkedIn (perlu verifikasi)'
+    estimasiAngkatan: '1980',
+    tahunLulus: '±1982',
+    posisi: 'Hakim Pengadilan Agama Surakarta',
+    ringkasan: 'Lahir di Boyolali, 6 Desember 1964. Hakim di Pengadilan Agama Surakarta. Sebelumnya bertugas di PA Kebumen, PA Bulukumba, PA Selong, PA Praya, dan PA Demak.',
+    sumber: 'pa-surakarta.go.id, putusan.mahkamahagung.go.id'
   },
   {
     nama: 'Yulianto',
@@ -373,14 +379,20 @@ export const profiles: Profile[] = [
     jabatan: 'Ketua Bidang Pengembangan Organisasi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Direktur SDM PT Pertamina (Persero)',
+    ringkasan: 'Diangkat sebagai Direktur SDM PT Pertamina (Persero) pada Juni 2025. Sebelumnya Marketing Director PT Pertamina Trans Kontinental. Pengalaman 22+ tahun di Pertamina Group. MBA Energy Business Management UGM.',
+    sumber: 'LinkedIn, Equilar, Kementerian BUMN',
+    kontak: { linkedin: 'https://linkedin.com/in/andyarvianto' }
   },
   {
-    nama: 'Bambang Widjayarso',
+    nama: 'Bambang Widjajarso',
     jabatan: 'Wakil Ketua Bidang Pengembangan Organisasi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Trainer Kepemimpinan & Soft Skills — Pusdiklat PSDM Kemenkeu',
+    ringkasan: 'Internal Audit Trainer di Pusdiklat SDM Kementerian Keuangan sejak 1994, menjadi trainer leadership & soft skills sejak 2009. Juga dosen di STAN.',
+    sumber: 'LinkedIn',
+    kontak: { linkedin: 'https://linkedin.com/in/bambang-widjajarso-6044494a', instagram: 'https://instagram.com/widjajarso' }
   },
   {
     nama: 'Joko Karsono',
