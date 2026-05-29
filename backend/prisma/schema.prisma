@@ -13,6 +13,42 @@ enum UserRole {
   alumni
 }
 
+enum BusinessCategory {
+  Kuliner
+  Fashion
+  Teknologi
+  Pendidikan
+  Kesehatan
+  Properti
+  Otomotif
+  Jasa_Profesional
+  Retail
+  Kreatif_Media
+  Pertanian
+  Lainnya
+}
+
+enum BusinessStatus {
+  active
+  inactive
+  pending
+  rejected
+}
+
+enum SkillFormat {
+  Workshop
+  Seminar
+  Webinar
+  Pelatihan
+  Mentoring
+}
+
+enum SkillLevel {
+  Pemula
+  Menengah
+  Lanjut
+}
+
 enum StatusUtama {
   Bekerja
   Kuliah
@@ -132,6 +168,9 @@ model AlumniProfile {
 
   educations EducationHistory[]
   careers    CareerHistory[]
+  businesses AlumniBusiness[]
+  skills     AlumniSkill[]
+  skillRequests SkillRequest[]
 
   @@map("alumni_profiles")
 }
@@ -354,4 +393,65 @@ model SuccessStory {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("success_stories")
+}
+
+model AlumniBusiness {
+  id              String           @id @default(uuid()) @db.Char(36)
+  userId          String           @map("user_id") @db.Char(36)
+  alumniProfile   AlumniProfile    @relation(fields: [userId], references: [userId])
+  namaUsaha       String           @map("nama_usaha")
+  deskripsi       String?          @db.Text
+  kategori        BusinessCategory
+  noKontak        String?          @map("no_kontak")
+  linkWebsite     String?          @map("link_website")
+  linkInstagram   String?          @map("link_instagram")
+  fotoUsaha1      String?          @map("foto_usaha_1")
+  fotoUsaha2      String?          @map("foto_usaha_2")
+  fotoUsaha3      String?          @map("foto_usaha_3")
+  alamat          String?          @db.Text
+  cariMitra       Boolean          @default(false) @map("cari_mitra")
+  status          BusinessStatus   @default(pending)
+  rejectionReason String?          @map("rejection_reason") @db.Text
+  viewsCount      Int              @default(0) @map("views_count")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@index([kategori])
+  @@map("alumni_businesses")
+}
+
+model AlumniSkill {
+  id            String      @id @default(uuid()) @db.Char(36)
+  userId        String      @map("user_id") @db.Char(36)
+  alumniProfile AlumniProfile @relation(fields: [userId], references: [userId])
+  skill         String
+  deskripsi     String?     @db.Text
+  kategori      String
+  format        SkillFormat
+  level         SkillLevel  @default(Pemula)
+  durasi        String?
+  ketersediaan  String      @default("online")
+  isActive      Boolean     @default(true) @map("is_active")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([kategori])
+  @@map("alumni_skills")
+}
+
+model SkillRequest {
+  id            String      @id @default(uuid()) @db.Char(36)
+  requesterId   String      @map("requester_id") @db.Char(36)
+  alumniProfile AlumniProfile @relation(fields: [requesterId], references: [userId])
+  skillKategori String      @map("skill_kategori")
+  deskripsi     String      @db.Text
+  format        SkillFormat?
+  isFulfilled   Boolean     @default(false) @map("is_fulfilled")
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  @@index([requesterId])
+  @@map("skill_requests")
 }
