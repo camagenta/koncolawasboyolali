@@ -22,23 +22,24 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1969',
     tahunLulus: '±1971',
     posisi: 'Wakil Menteri ESDM (2013-2014)',
-    ringkasan: 'Lulusan ITB Mechanical Engineering. Karir 33 tahun di ExxonMobil sebagai Vice President. Menjabat Wakil Menteri Energi dan Sumber Daya Mineral pada Kabinet Indonesia Bersatu II.',
+    ringkasan: 'Lahir di Boyolali, 4 September 1950. Lulusan Mechanical Engineering ITB angkatan 1970. Karir 33 tahun di ExxonMobil sebagai Vice President. Wakil Menteri ESDM pada Kabinet Indonesia Bersatu II (Jan 2013). Alumni ITB.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/400px-Susilo_Siswoutomo_Official.jpg',
     gender: 'Laki-laki',
     sumber: 'Wikipedia, Kementerian ESDM, SK Ketum IKA SMANSA BOY 2023',
     kontak: { linkedin: 'https://linkedin.com/in/susilo-siswoutomo' }
   },
   {
-    nama: 'Kandiyono',
-    namaLengkap: 'Kandiyono, S.H., M.Hum.',
-    jabatan: 'Dewan Pembina - Anggota',
+    nama: 'Agus Irawan',
+    namaLengkap: 'Agus Irawan, S.STP.',
+    jabatan: 'Dewan Pembina - Anggota (ex-officio)',
     kategori: 'dewan-pembina',
-    estimasiAngkatan: '1990',
-    tahunLulus: '±1992',
+    estimasiAngkatan: '1999',
+    tahunLulus: '±2002',
     posisi: 'Bupati Boyolali (2025-2030)',
-    ringkasan: 'Bupati Boyolali periode 2025-2030. Menjabat sebagai anggota Dewan Pembina secara ex-officio.',
+    ringkasan: 'Lahir di Ngemplak, Boyolali, 10 September 1983. Bupati Boyolali periode 2025-2030 (dilantik 20 Feb 2025). Sebelumnya ASN di Dispora Surakarta. Partai Gerindra. Menjabat ex-officio sebagai anggota Dewan Pembina.',
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bupati_Boyolali_Agus_Irawan.png/400px-Bupati_Boyolali_Agus_Irawan.png',
     gender: 'Laki-laki',
-    sumber: 'Pemkab Boyolali'
+    sumber: 'Wikipedia, KPU, Pemkab Boyolali'
   },
   {
     nama: 'Sumardi',
@@ -118,7 +119,7 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1984',
     tahunLulus: '±1986',
     posisi: 'Kakorlantas Polri',
-    ringkasan: 'Menjabat sebagai Kepala Korps Lalu Lintas Polri sejak Januari 2025.',
+    ringkasan: 'Lahir di Boyolali, 15 Agustus 1968. Lulusan Akpol 1991. Sebelumnya Wakapolda Jawa Tengah. Menjabat Kakorlantas Polri sejak Jan 2025. Menerima Presisi Award 2026.',
     foto: 'https://cdn.antaranews.com/cache/1200x800/2025/03/25/IMG-20250325-WA0009.jpg',
     gender: 'Laki-laki',
     sumber: 'Polri, Antara News'
@@ -133,6 +134,19 @@ export const profiles: Profile[] = [
     ringkasan: 'Direktur Bisnis Regional Jawa Madura Bali PT PLN (Persero).',
     gender: 'Laki-laki',
     sumber: 'PT PLN (Persero)'
+  },
+  {
+    nama: 'Suwarno',
+    namaLengkap: 'Prof. Dr. Ir. Suwarno, M.T.',
+    jabatan: 'Dewan Pembina - Anggota',
+    kategori: 'dewan-pembina',
+    estimasiAngkatan: '1985',
+    tahunLulus: '±1987',
+    posisi: 'Guru Besar Teknik Elektro ITB',
+    ringkasan: 'Guru Besar Teknik Elektro ITB sejak 2010. S1 ITB (1988), S2 ITB (1991), PhD Nagoya University Jepang (1996). Top 2% ilmuwan paling berpengaruh dunia versi Stanford University (2021–2025). Mantan Dekan STEI ITB (2011–2015). Senior Member IEEE. Editor-in-Chief IJEEI.',
+    foto: 'https://itb.ac.id/files/dosen/1536-d3dcd904b2a4453733aa5fab94141d3d9482f2bc23c960e55a729ae3041d8fb3.png',
+    gender: 'Laki-laki',
+    sumber: 'ITB (stei.itb.ac.id), Wikipedia'
   },
   {
     nama: 'Yusroni',
@@ -212,7 +226,7 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1973',
     tahunLulus: '±1975',
     posisi: 'Ketua Dewan Komisioner OJK (2017-2022)',
-    ringkasan: 'Guru Besar Ekonomi UNS. Mantan Direktur Eksekutif IMF. Ketua Dewan Komisioner Otoritas Jasa Keuangan periode 2017-2022.',
+    ringkasan: 'Lahir di Boyolali, 15 Maret 1957. S1 Ekonomi UNS (1983), MSc University of Illinois (1993), PhD Financial Economics Loughborough University (1999). Guru Besar Manajemen Risiko UNS. Kepala Perwakilan BI New York (2012). Dirut Bank Mandiri. Ketua DK OJK 2017-2022.',
     foto: 'https://cdn.antaranews.com/cache/1200x800/2022/05/23/IMG_20220523_113014.jpg',
     gender: 'Laki-laki',
     sumber: 'OJK, Antara News',
