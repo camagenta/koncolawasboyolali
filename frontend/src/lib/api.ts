@@ -117,7 +117,7 @@ export async function fetchApi<T = any>(
     if (typeof window !== 'undefined') {
       localStorage.removeItem('ikasmansa_token')
       localStorage.removeItem('ikasmansa_user')
-      window.location.href = '/login'
+      window.location.href = '/'
     }
     throw new Error('Sesi telah berakhir. Silakan login kembali.')
   }
@@ -143,7 +143,7 @@ export async function downloadBlob(url: string, filename: string): Promise<void>
   if (res.status === 401) {
     localStorage.removeItem('ikasmansa_token')
     localStorage.removeItem('ikasmansa_user')
-    window.location.href = '/login'
+    window.location.href = '/'
     throw new Error('Sesi telah berakhir. Silakan login kembali.')
   }
 

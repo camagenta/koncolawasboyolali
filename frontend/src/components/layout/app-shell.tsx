@@ -24,7 +24,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/login')
+      router.push('/')
     }
   }, [isLoading, isAuthenticated, router])
 

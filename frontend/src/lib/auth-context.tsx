@@ -63,8 +63,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(USER_KEY)
     setState({ token: null, user: null })
-    router.push('/login')
-  }, [router])
+    window.location.href = '/'
+  }, [])
 
   const getToken = useCallback(() => {
     if (state.token) return state.token

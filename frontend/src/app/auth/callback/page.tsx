@@ -21,10 +21,10 @@ function CallbackHandler() {
         localStorage.setItem(USER_KEY, JSON.stringify(user))
         router.push('/alumni')
       } catch {
-        router.push('/login?error=invalid_data')
+        router.push('/?error=invalid_data')
       }
     } else {
-      router.push('/login?error=no_token')
+      router.push('/?error=no_token')
     }
   }, [searchParams, router])
 

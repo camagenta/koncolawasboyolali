@@ -16,21 +16,6 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/logo-sma1.png" alt="Logo SMAN 1 Boyolali" className="w-8 h-8 rounded-lg" />
-            <span className="font-semibold text-gray-900">IKASMANSA</span>
-          </div>
-          <a
-            href="/api/auth/google"
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-          >
-            Login with Google
-          </a>
-        </div>
-      </header>
-
       <main className="flex-1">
         <section className="max-w-6xl mx-auto px-4 py-20 md:py-32 text-center">
           <img src="/logo-sma1.png" alt="Logo SMAN 1 Boyolali" className="w-24 h-24 mx-auto mb-6" />
@@ -40,6 +25,12 @@ export default async function LandingPage() {
           <p className="text-xl text-gray-500 mb-10 max-w-lg mx-auto">
             Ikatan Alumni SMA N 1 Boyolali
           </p>
+          <a
+            href="/api/auth/google"
+            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl text-base font-medium hover:bg-blue-700 transition-colors shadow-lg"
+          >
+            Login with Google
+          </a>
         </section>
 
         {stats && (
