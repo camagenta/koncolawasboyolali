@@ -187,6 +187,15 @@ export default function PengurusPage() {
         <div className="text-center py-4 text-xs text-gray-400 border-t border-gray-200 bg-white">
           IKA SMA Negeri 1 Boyolali &bull; Data dihimpun dari sumber publik &bull; Terakhir diperbarui: Mei 2026
         </div>
+
+        <div className="bg-amber-50 border-t border-amber-200 px-4 py-3 text-center">
+          <p className="text-xs text-amber-800">
+            📜 Lihat struktur kepengurusan{' '}
+            <a href="/pengurus/sebelumnya" className="font-semibold text-amber-900 underline hover:text-amber-700">
+              periode sebelumnya (2022–2025)
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )

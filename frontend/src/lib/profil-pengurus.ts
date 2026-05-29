@@ -19,13 +19,13 @@ export const profiles: Profile[] = [
     nama: 'Susilo Siswoutomo',
     jabatan: 'Dewan Pembina - Ketua',
     kategori: 'dewan-pembina',
-    estimasiAngkatan: '1968',
-    tahunLulus: '±1970',
+    estimasiAngkatan: '1969',
+    tahunLulus: '±1971',
     posisi: 'Wakil Menteri ESDM (2013-2014)',
     ringkasan: 'Lulusan ITB Mechanical Engineering. Karir 33 tahun di ExxonMobil sebagai Vice President. Menjabat Wakil Menteri Energi dan Sumber Daya Mineral pada Kabinet Indonesia Bersatu II.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/400px-Susilo_Siswoutomo_Official.jpg',
     gender: 'Laki-laki',
-    sumber: 'Wikipedia, Kementerian ESDM',
+    sumber: 'Wikipedia, Kementerian ESDM, SK Ketum IKA SMANSA BOY 2023',
     kontak: { linkedin: 'https://linkedin.com/in/susilo-siswoutomo' }
   },
   {
@@ -45,12 +45,13 @@ export const profiles: Profile[] = [
     namaLengkap: 'Mayjen TNI (Purn.) Sumardi',
     jabatan: 'Dewan Pembina - Anggota',
     kategori: 'dewan-pembina',
-    estimasiAngkatan: '1974',
-    tahunLulus: '±1977',
+    estimasiAngkatan: '1979',
+    tahunLulus: '±1981',
     posisi: 'Pangdam V/Brawijaya (2015-2016)',
     ringkasan: 'Pernah menjabat sebagai Panglima Kodam V/Brawijaya. Setelah purnabakti aktif sebagai Wakil Komisaris Utama PT Pindad.',
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg/250px-Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg',
     gender: 'Laki-laki',
-    sumber: 'TNI AD, PT Pindad'
+    sumber: 'TNI AD, PT Pindad, Wikipedia, SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Dun Sridadi',
@@ -77,10 +78,11 @@ export const profiles: Profile[] = [
     namaLengkap: 'Prof. dr. Hadi Pratomo, MPH, Dr.PH',
     jabatan: 'Dewan Pembina - Anggota',
     kategori: 'dewan-pembina',
-    estimasiAngkatan: '1968',
-    tahunLulus: '±1970',
+    estimasiAngkatan: '1969',
+    tahunLulus: '±1971',
     posisi: 'Guru Besar FKM Universitas Indonesia',
     ringkasan: 'Guru Besar Departemen Pendidikan Kesehatan dan Ilmu Perilaku FKM UI. Pendidikan: Dr.PH Tulane University, MPH Tulane University, dr Universitas Indonesia. Bidang ajar: Perencanaan & Evaluasi Promosi Kesehatan, Advokasi Promosi Kesehatan.',
+    foto: 'https://fkm.ui.ac.id/wp-content/uploads/2024/09/Prof-Hadi-600x800.jpeg',
     gender: 'Laki-laki',
     sumber: 'FKM UI (fkm.ui.ac.id)'
   },
@@ -153,13 +155,52 @@ export const profiles: Profile[] = [
     sumber: 'Tabloid Lugas, Film Indonesia'
   },
   {
-    nama: 'Tati Saroso',
+    nama: 'Tatik Saroso',
+    namaLengkap: 'Tatik Saroso',
     jabatan: 'Dewan Pembina - Anggota',
     kategori: 'dewan-pembina',
+    estimasiAngkatan: '1967',
+    tahunLulus: '±1969',
     posisi: 'Ketua Bidang II (Organisasi dan Sosial) Reuni Akbar 2013',
     ringkasan: 'Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Ketua Bidang Organisasi dan Sosial.',
     gender: 'Perempuan',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID, SK Ketum IKA SMANSA BOY 2023'
+  },
+  {
+    nama: 'Djoepri Bandang',
+    namaLengkap: 'Dr. Djoepri Bandang',
+    jabatan: 'Dewan Pembina - Anggota',
+    kategori: 'dewan-pembina',
+    estimasiAngkatan: '1967',
+    tahunLulus: '±1969',
+    gender: 'Laki-laki',
+    posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+  },
+  {
+    nama: 'Marsusi',
+    namaLengkap: 'Drs. Marsusi',
+    jabatan: 'Dewan Pembina - Anggota',
+    kategori: 'dewan-pembina',
+    estimasiAngkatan: '1969',
+    tahunLulus: '±1971',
+    gender: 'Laki-laki',
+    posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
+  },
+  {
+    nama: 'Agung Wardoyo',
+    namaLengkap: 'Agung Wardoyo',
+    jabatan: 'Dewan Pembina - Anggota',
+    kategori: 'dewan-pembina',
+    estimasiAngkatan: '1981',
+    tahunLulus: '±1983',
+    gender: 'Laki-laki',
+    posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
   },
 
   // ==================== DEWAN PENGAWAS ====================
@@ -181,12 +222,12 @@ export const profiles: Profile[] = [
     nama: 'Sulaiman Arif Arianto',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
-    estimasiAngkatan: '1977',
-    tahunLulus: '±1979',
+    estimasiAngkatan: '1976',
+    tahunLulus: '±1978',
     posisi: 'Wakil Direktur Utama PT Bank Mandiri Tbk (2015-2020)',
     ringkasan: 'Lahir di Boyolali 1959. S1 Peternakan IPB (1981), MBA University of New Orleans (1991). Karir di BRI (1983-2015): Direktur Micro & Small Business, Direktur Commercial Banking. Wakil Direktur Utama Bank Mandiri (2015-2020). Komisaris Independen Indofood. Founder Islamic School Al-A\'raf Persada Indonesia. Owner PT Nugraha Aria Sadana.',
     gender: 'Laki-laki',
-    sumber: 'Bank Mandiri, Indofood, Cemplung.com',
+    sumber: 'Bank Mandiri, Indofood, Cemplung.com, SK Ketum IKA SMANSA BOY 2023',
     kontak: { linkedin: 'https://linkedin.com/in/sulaiman-arif-arianto', instagram: 'https://instagram.com/sulaimanarif' }
   },
   {
@@ -194,10 +235,12 @@ export const profiles: Profile[] = [
     namaLengkap: 'Drs. Gatot Darmasto, Ak., MBA., CFrA., CA., CRMA., QIA.',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
+    estimasiAngkatan: '1977',
+    tahunLulus: '±1979',
     posisi: 'Mantan Deputi BPKP — Komisaris IFG',
     ringkasan: 'Mantan Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah. Komisaris di IFG (Indonesia Financial Group). Juga menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
     gender: 'Laki-laki',
-    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT'
+    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Sayoeti Sukandi',
@@ -210,19 +253,23 @@ export const profiles: Profile[] = [
     nama: 'Firdaus Muchtar',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
+    estimasiAngkatan: '1982',
+    tahunLulus: '±1984',
     posisi: 'Guru di Dinas Pendidikan Pemuda & Olahraga',
     ringkasan: 'Seorang pendidik di lingkungan Dinas Pendidikan. Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Koordinator Seksi Pemberian Awards.',
     gender: 'Laki-laki',
-    sumber: 'Bangashari.ID, LinkedIn'
+    sumber: 'Bangashari.ID, LinkedIn, SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Jaka Pujiyono',
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
+    estimasiAngkatan: '1982',
+    tahunLulus: '±1984',
     posisi: 'Senior Partner di Deloitte Indonesia',
     ringkasan: 'Senior Partner di Deloitte Indonesia. Latar belakang industri penerbangan (Indonesian Airline) dan alumni IPB.',
     gender: 'Laki-laki',
-    sumber: 'LinkedIn, Jenova.ai OSINT',
+    sumber: 'LinkedIn, Jenova.ai OSINT, SK Ketum IKA SMANSA BOY 2023',
     kontak: { linkedin: 'https://linkedin.com/in/jaka-pujiyono' }
   },
   {
@@ -333,15 +380,23 @@ export const profiles: Profile[] = [
     nama: 'S. Nurmawati',
     jabatan: 'Sekretaris II',
     kategori: 'pengurus-pusat',
+    estimasiAngkatan: '1985',
+    tahunLulus: '±1987',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023 (Dr. Subekti Nurmawati).',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Risdianto',
     jabatan: 'Bendahara Umum',
     kategori: 'pengurus-pusat',
+    estimasiAngkatan: '1984',
+    tahunLulus: '±1986',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Tri Hartono',
@@ -520,8 +575,12 @@ export const profiles: Profile[] = [
     nama: 'Wahono Sukarjo',
     jabatan: 'Ketua Bidang Partisipasi Sosial Masyarakat',
     kategori: 'bidang',
+    estimasiAngkatan: '1981',
+    tahunLulus: '±1983',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
+    ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK Ketum IKA SMANSA BOY 2023.',
+    sumber: 'SK Ketum IKA SMANSA BOY 2023'
   },
   {
     nama: 'Menuk Sri Sugiarti',
