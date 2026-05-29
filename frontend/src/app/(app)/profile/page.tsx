@@ -193,6 +193,7 @@ export default function ProfilePage() {
   // Business listings
   const [businesses, setBusinesses] = useState<any[]>([])
   const [businessesLoading, setBusinessesLoading] = useState(false)
+  const businessesFetchedRef = useRef(false)
   const [businessModal, setBusinessModal] = useState(false)
   const [editingBusinessId, setEditingBusinessId] = useState<string | null>(null)
   const [deleteBusinessTarget, setDeleteBusinessTarget] = useState<any | null>(null)
@@ -470,10 +471,11 @@ export default function ProfilePage() {
   }, [])
 
   useEffect(() => {
-    if (activeTab === 'usaha' && businesses.length === 0 && !businessesLoading) {
+    if (activeTab === 'usaha' && !businessesFetchedRef.current && !businessesLoading) {
+      businessesFetchedRef.current = true
       fetchBusinesses()
     }
-  }, [activeTab, businesses.length, businessesLoading, fetchBusinesses])
+  }, [activeTab, businessesLoading, fetchBusinesses])
 
   const openBusinessModal = (biz?: any) => {
     if (biz) {
