@@ -1,9 +1,16 @@
 import type { ReactNode } from 'react'
 
-interface NavItem {
+export interface NavItem {
   href: string
   labelKey: string
   icon: ReactNode
+  roles?: string[]
+}
+
+export interface NavGroup {
+  labelKey: string
+  icon: ReactNode
+  children: NavItem[]
   roles?: string[]
 }
 
@@ -73,15 +80,85 @@ const ActivityIcon = (
   </svg>
 )
 
-export const navItems: NavItem[] = [
-  { href: '/alumni', labelKey: 'nav.dashboard', icon: DashboardIcon },
-  { href: '/profile', labelKey: 'nav.profile', icon: ProfileIcon },
-  { href: '/forum', labelKey: 'nav.forum', icon: ForumIcon },
-  { href: '/chat', labelKey: 'nav.chat', icon: ChatIcon },
-  { href: '/jobs', labelKey: 'nav.jobs', icon: JobsIcon },
-  { href: '/sukses', labelKey: 'Alumni Berprestasi', icon: SuksesIcon },
-  { href: '/map', labelKey: 'nav.map', icon: MapIcon },
-  { href: '/notifications', labelKey: 'nav.notifications', icon: NotificationIcon },
-  { href: '/admin', labelKey: 'nav.admin', icon: AdminIcon, roles: ['super_admin', 'admin_unit'] },
-  { href: '/admin/activity', labelKey: 'nav.activity', icon: ActivityIcon, roles: ['super_admin', 'admin_unit'] },
+const UsersIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+)
+
+const BriefcaseIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+  </svg>
+)
+
+const GraduationIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
+  </svg>
+)
+
+const MoreIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" />
+  </svg>
+)
+
+const ChevronIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+)
+
+export const navGroups: NavGroup[] = [
+  {
+    labelKey: 'nav.beranda',
+    icon: DashboardIcon,
+    children: [
+      { href: '/', labelKey: 'nav.dashboard', icon: DashboardIcon },
+    ],
+  },
+  {
+    labelKey: 'Jaringan',
+    icon: UsersIcon,
+    children: [
+      { href: '/alumni', labelKey: 'Cari Alumni', icon: AlumniIcon },
+      { href: '/map', labelKey: 'nav.map', icon: MapIcon },
+      { href: '/chat', labelKey: 'nav.chat', icon: ChatIcon },
+    ],
+  },
+  {
+    labelKey: 'Karir & Usaha',
+    icon: JobsIcon,
+    children: [
+      { href: '/jobs', labelKey: 'nav.jobs', icon: JobsIcon },
+      { href: '/bisnis', labelKey: 'Direktori Bisnis', icon: BriefcaseIcon },
+      { href: '/alumni-mengajar', labelKey: 'Alumni Mengajar', icon: GraduationIcon },
+    ],
+  },
+  {
+    labelKey: 'Komunitas',
+    icon: ForumIcon,
+    children: [
+      { href: '/forum', labelKey: 'nav.forum', icon: ForumIcon },
+      { href: '/sukses', labelKey: 'Alumni Berprestasi', icon: SuksesIcon },
+      { href: '/notifications', labelKey: 'nav.notifications', icon: NotificationIcon },
+    ],
+  },
+  {
+    labelKey: 'nav.admin',
+    icon: AdminIcon,
+    roles: ['super_admin', 'admin_unit'],
+    children: [
+      { href: '/admin', labelKey: 'Dashboard Admin', icon: AdminIcon },
+      { href: '/admin/activity', labelKey: 'Aktivitas', icon: ActivityIcon },
+      { href: '/admin/users', labelKey: 'Pengguna', icon: ProfileIcon },
+      { href: '/admin/jobs', labelKey: 'Lowongan', icon: JobsIcon },
+      { href: '/admin/success-stories', labelKey: 'Cerita Sukses', icon: SuksesIcon },
+    ],
+  },
 ]
+
+export const navItems: NavItem[] = navGroups.flatMap(g => g.children)
+
+export { ChevronIcon, DashboardIcon, AlumniIcon, JobsIcon, MoreIcon }

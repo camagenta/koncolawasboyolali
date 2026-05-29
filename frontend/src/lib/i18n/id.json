@@ -1,6 +1,7 @@
 {
   "app.name": "IKASMANSA",
   "app.tagline": "Ikatan Alumni SMAN 1 Boyolali",
+  "nav.beranda": "Beranda",
   "nav.dashboard": "Dashboard",
   "nav.profile": "Profil",
   "nav.forum": "Forum",
