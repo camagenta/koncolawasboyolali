@@ -154,6 +154,7 @@ export const navGroups: NavGroup[] = [
       { href: '/admin/activity', labelKey: 'Aktivitas', icon: ActivityIcon },
       { href: '/admin/users', labelKey: 'Pengguna', icon: ProfileIcon },
       { href: '/admin/jobs', labelKey: 'Lowongan', icon: JobsIcon },
+      { href: '/admin/business', labelKey: 'Bisnis Alumni', icon: BriefcaseIcon },
       { href: '/admin/success-stories', labelKey: 'Cerita Sukses', icon: SuksesIcon },
     ],
   },

@@ -1,9 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { fetchApi } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
+
+const BUSINESS_KATEGORI = ['Kuliner', 'Fashion', 'Teknologi', 'Pendidikan', 'Kesehatan', 'Pertanian', 'Kerajinan', 'Jasa', 'Properti', 'Otomotif', 'Media & Kreatif', 'Lainnya']
 
 interface BusinessOwner {
   id: string
@@ -33,11 +36,19 @@ export default function BisnisDetailPage() {
   const params = useParams()
   const router = useRouter()
   const id = params.id as string
+  const { user } = useAuth()
 
   const [business, setBusiness] = useState<BusinessDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
+  const [editModal, setEditModal] = useState(false)
+  const [editForm, setEditForm] = useState({ namaUsaha: '', deskripsi: '', kategori: '', kontak: '', website: '', instagram: '', alamat: '', cariMitra: false })
+  const [editSaving, setEditSaving] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const isOwner = user && business?.pemilik?.id === user.id
 
   useEffect(() => {
     if (!id) return
@@ -53,6 +64,51 @@ export default function BisnisDetailPage() {
     navigator.clipboard.writeText(window.location.href)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const openEditModal = () => {
+    if (!business) return
+    setEditForm({
+      namaUsaha: business.namaUsaha,
+      deskripsi: business.deskripsi ?? '',
+      kategori: business.kategori,
+      kontak: business.kontak ?? '',
+      website: business.website ?? '',
+      instagram: business.instagram ?? '',
+      alamat: business.alamat ?? '',
+      cariMitra: business.isCariMitra,
+    })
+    setEditModal(true)
+  }
+
+  const saveEdit = async () => {
+    setEditSaving(true)
+    try {
+      const body: Record<string, any> = {}
+      for (const [key, value] of Object.entries(editForm)) {
+        if (value !== '' && value !== false) body[key] = value
+        if (key === 'cariMitra') body[key] = value
+      }
+      const updated = await fetchApi(`/business/${id}`, { method: 'PATCH', body: JSON.stringify(body) })
+      setBusiness((prev) => prev ? { ...prev, ...updated, isCariMitra: editForm.cariMitra } : prev)
+      setEditModal(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal memperbarui bisnis')
+    } finally {
+      setEditSaving(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    setDeleteLoading(true)
+    try {
+      await fetchApi(`/business/${id}`, { method: 'DELETE' })
+      router.push('/bisnis')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal menghapus bisnis')
+    } finally {
+      setDeleteLoading(false)
+    }
   }
 
   if (loading) {
@@ -143,15 +199,39 @@ export default function BisnisDetailPage() {
               </span>
             )}
           </div>
-          <button
-            onClick={copyLink}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-            </svg>
-            {copied ? 'Tersalin!' : 'Bagikan'}
-          </button>
+          <div className="flex items-center gap-2">
+            {isOwner && (
+              <>
+                <button
+                  onClick={openEditModal}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  Edit
+                </button>
+                <button
+                  onClick={() => setDeleteConfirm(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                >
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Hapus
+                </button>
+              </>
+            )}
+            <button
+              onClick={copyLink}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              {copied ? 'Tersalin!' : 'Bagikan'}
+            </button>
+          </div>
         </div>
 
         <h1 className="text-2xl font-bold text-gray-900 mb-1">{business.namaUsaha}</h1>
@@ -250,6 +330,110 @@ export default function BisnisDetailPage() {
                 </svg>
               </Link>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-xl w-full max-w-lg shadow-xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">Edit Usaha</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Usaha <span className="text-red-500">*</span></label>
+                <input
+                  value={editForm.namaUsaha}
+                  onChange={e => setEditForm(p => ({ ...p, namaUsaha: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori <span className="text-red-500">*</span></label>
+                <select
+                  value={editForm.kategori}
+                  onChange={e => setEditForm(p => ({ ...p, kategori: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {BUSINESS_KATEGORI.map(k => <option key={k} value={k}>{k}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                <textarea
+                  value={editForm.deskripsi}
+                  onChange={e => setEditForm(p => ({ ...p, deskripsi: e.target.value }))}
+                  rows={3}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">No. Kontak</label>
+                  <input value={editForm.kontak} onChange={e => setEditForm(p => ({ ...p, kontak: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                  <input value={editForm.website} onChange={e => setEditForm(p => ({ ...p, website: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://..." />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
+                  <input value={editForm.instagram} onChange={e => setEditForm(p => ({ ...p, instagram: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="@username" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                  <input value={editForm.alamat} onChange={e => setEditForm(p => ({ ...p, alamat: e.target.value }))} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={editForm.cariMitra}
+                  onChange={e => setEditForm(p => ({ ...p, cariMitra: e.target.checked }))}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">Cari mitra kerja sama</span>
+              </label>
+            </div>
+            <div className="flex justify-end gap-3 p-6 border-t border-gray-100">
+              <button onClick={() => setEditModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                Batal
+              </button>
+              <button onClick={saveEdit} disabled={editSaving} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                {editSaving ? 'Menyimpan...' : 'Simpan'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirm */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-xl w-full max-w-sm shadow-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Hapus Usaha</h3>
+            <p className="text-sm text-gray-500 mb-4">
+              Apakah Anda yakin ingin menghapus &ldquo;{business?.namaUsaha}&rdquo;? Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteConfirm(false)}
+                className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={deleteLoading}
+                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50"
+              >
+                {deleteLoading ? 'Menghapus...' : 'Hapus'}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslation } from '@/lib/i18n'
 import { fetchApi } from '@/lib/api'
 
-type Tab = 'data-diri' | 'pendidikan' | 'karir'
+type Tab = 'data-diri' | 'pendidikan' | 'karir' | 'usaha'
 
 interface ProfileData {
   id: string
@@ -190,10 +190,23 @@ export default function ProfilePage() {
   const [editingCareerId, setEditingCareerId] = useState<string | null>(null)
   const [deleteCareerTarget, setDeleteCareerTarget] = useState<Career | null>(null)
 
+  // Business listings
+  const [businesses, setBusinesses] = useState<any[]>([])
+  const [businessesLoading, setBusinessesLoading] = useState(false)
+  const [businessModal, setBusinessModal] = useState(false)
+  const [editingBusinessId, setEditingBusinessId] = useState<string | null>(null)
+  const [deleteBusinessTarget, setDeleteBusinessTarget] = useState<any | null>(null)
+  const [businessForm, setBusinessForm] = useState({
+    namaUsaha: '', deskripsi: '', kategori: '', kontak: '', website: '', instagram: '', alamat: '', cariMitra: false,
+  })
+  const [businessSaving, setBusinessSaving] = useState(false)
+  const BUSINESS_KATEGORI = ['Kuliner', 'Fashion', 'Teknologi', 'Pendidikan', 'Kesehatan', 'Pertanian', 'Kerajinan', 'Jasa', 'Properti', 'Otomotif', 'Media & Kreatif', 'Lainnya']
+
   const tabs: { key: Tab; label: string }[] = [
     { key: 'data-diri', label: 'Data Diri' },
     { key: 'pendidikan', label: 'Riwayat Pendidikan' },
     { key: 'karir', label: 'Riwayat Karir' },
+    { key: 'usaha', label: 'Usaha Saya' },
   ]
 
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
@@ -442,6 +455,77 @@ export default function ProfilePage() {
       setCareers(prev => prev.filter(c => c.id !== deleteCareerTarget.id))
       showToast('Karir berhasil dihapus', 'success')
       setDeleteCareerTarget(null)
+    } catch (err: any) {
+      showToast(err.message, 'error')
+    }
+  }
+
+  const fetchBusinesses = useCallback(async () => {
+    setBusinessesLoading(true)
+    try {
+      const data = await fetchApi<any>('/business/mine')
+      setBusinesses(Array.isArray(data) ? data : [])
+    } catch { /* ignore */ }
+    setBusinessesLoading(false)
+  }, [])
+
+  useEffect(() => {
+    if (activeTab === 'usaha' && businesses.length === 0 && !businessesLoading) {
+      fetchBusinesses()
+    }
+  }, [activeTab, businesses.length, businessesLoading, fetchBusinesses])
+
+  const openBusinessModal = (biz?: any) => {
+    if (biz) {
+      setBusinessForm({
+        namaUsaha: biz.namaUsaha ?? '',
+        deskripsi: biz.deskripsi ?? '',
+        kategori: biz.kategori ?? '',
+        kontak: biz.kontak ?? '',
+        website: biz.website ?? '',
+        instagram: biz.instagram ?? '',
+        alamat: biz.alamat ?? '',
+        cariMitra: biz.isCariMitra ?? biz.cariMitra ?? false,
+      })
+      setEditingBusinessId(biz.id)
+    } else {
+      setBusinessForm({ namaUsaha: '', deskripsi: '', kategori: '', kontak: '', website: '', instagram: '', alamat: '', cariMitra: false })
+      setEditingBusinessId(null)
+    }
+    setBusinessModal(true)
+  }
+
+  const saveBusiness = async () => {
+    setBusinessSaving(true)
+    try {
+      const body: Record<string, any> = {}
+      for (const [key, value] of Object.entries(businessForm)) {
+        if (value !== '' && value !== false) body[key] = value
+        if (key === 'cariMitra') body[key] = value
+      }
+      if (editingBusinessId) {
+        await fetchApi(`/business/${editingBusinessId}`, { method: 'PATCH', body: JSON.stringify(body) })
+        showToast('Bisnis berhasil diperbarui', 'success')
+      } else {
+        await fetchApi('/business', { method: 'POST', body: JSON.stringify(body) })
+        showToast('Bisnis berhasil didaftarkan', 'success')
+      }
+      setBusinessModal(false)
+      fetchBusinesses()
+    } catch (err: any) {
+      showToast(err.message, 'error')
+    } finally {
+      setBusinessSaving(false)
+    }
+  }
+
+  const deleteBusiness = async () => {
+    if (!deleteBusinessTarget) return
+    try {
+      await fetchApi(`/business/${deleteBusinessTarget.id}`, { method: 'DELETE' })
+      setBusinesses(prev => prev.filter((b: any) => b.id !== deleteBusinessTarget.id))
+      showToast('Bisnis berhasil dihapus', 'success')
+      setDeleteBusinessTarget(null)
     } catch (err: any) {
       showToast(err.message, 'error')
     }
@@ -849,6 +933,136 @@ export default function ProfilePage() {
             onConfirm={deleteCareer}
             onCancel={() => setDeleteCareerTarget(null)}
           />
+        </div>
+      )}
+
+      {activeTab === 'usaha' && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Usaha Saya</h2>
+            <button
+              onClick={() => openBusinessModal()}
+              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              + Daftarkan Usaha
+            </button>
+          </div>
+
+          {businessesLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
+            </div>
+          ) : businesses.length === 0 ? (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+              <svg className="w-12 h-12 mx-auto text-gray-300 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              <p className="text-gray-500 text-sm mb-1">Belum ada usaha terdaftar.</p>
+              <p className="text-gray-400 text-xs">Daftarkan usahamu agar bisa ditemukan alumni lain.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {businesses.map((biz: any) => (
+                <div key={biz.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                        {biz.kategori}
+                      </span>
+                      {biz.isCariMitra && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
+                          Cari Mitra
+                        </span>
+                      )}
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                        biz.status === 'active' ? 'bg-green-100 text-green-800' :
+                        biz.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {biz.status === 'active' ? 'Aktif' : biz.status === 'pending' ? 'Pending' : 'Ditolak'}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-gray-900 truncate">{biz.namaUsaha}</h3>
+                    {biz.deskripsi && <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{biz.deskripsi}</p>}
+                    <p className="text-xs text-gray-400 mt-1">{biz.viewsCount ?? 0} dilihat</p>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button onClick={() => openBusinessModal(biz)} className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button onClick={() => setDeleteBusinessTarget(biz)} className="p-1.5 text-gray-400 hover:text-red-600 transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <Modal open={businessModal} onClose={() => setBusinessModal(false)}>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              {editingBusinessId ? 'Edit Usaha' : 'Daftarkan Usaha'}
+            </h3>
+            <div className="space-y-4">
+              <InputField label="Nama Usaha" value={businessForm.namaUsaha} onChange={v => setBusinessForm(p => ({ ...p, namaUsaha: v }))} required />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori <span className="text-red-500">*</span></label>
+                <select
+                  value={businessForm.kategori}
+                  onChange={e => setBusinessForm(p => ({ ...p, kategori: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Kategori</option>
+                  {BUSINESS_KATEGORI.map(k => <option key={k} value={k}>{k}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
+                <textarea
+                  value={businessForm.deskripsi}
+                  onChange={e => setBusinessForm(p => ({ ...p, deskripsi: e.target.value }))}
+                  rows={3}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Deskripsikan usaha Anda..."
+                />
+              </div>
+              <InputField label="No. Kontak" value={businessForm.kontak} onChange={v => setBusinessForm(p => ({ ...p, kontak: v }))} placeholder="08xxxxxxxxxx" />
+              <InputField label="Website" type="url" value={businessForm.website} onChange={v => setBusinessForm(p => ({ ...p, website: v }))} placeholder="https://..." />
+              <InputField label="Instagram" value={businessForm.instagram} onChange={v => setBusinessForm(p => ({ ...p, instagram: v }))} placeholder="@username" />
+              <InputField label="Alamat" value={businessForm.alamat} onChange={v => setBusinessForm(p => ({ ...p, alamat: v }))} />
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={businessForm.cariMitra}
+                  onChange={e => setBusinessForm(p => ({ ...p, cariMitra: e.target.checked }))}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">Saya cari mitra kerja sama</span>
+              </label>
+            </div>
+            <div className="flex justify-end gap-3 mt-6">
+              <button onClick={() => setBusinessModal(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                Batal
+              </button>
+              <button onClick={saveBusiness} disabled={businessSaving} className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                {businessSaving ? 'Menyimpan...' : editingBusinessId ? 'Simpan' : 'Daftarkan'}
+              </button>
+            </div>
+          </Modal>
+
+          <ConfirmDialog
+            open={!!deleteBusinessTarget}
+            title="Hapus Usaha"
+            message={`Apakah Anda yakin ingin menghapus usaha "${deleteBusinessTarget?.namaUsaha}"?`}
+            onConfirm={deleteBusiness}
+            onCancel={() => setDeleteBusinessTarget(null)}
+          />
+
+          {activeTab === 'usaha' && businesses.length === 0 && !businessesLoading && <p className="text-sm text-gray-400 py-8 text-center">Memuat data usaha...</p>}
         </div>
       )}
     </div>

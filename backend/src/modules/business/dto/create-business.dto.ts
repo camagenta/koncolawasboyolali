@@ -16,15 +16,15 @@ export class CreateBusinessDto {
 
   @IsString()
   @IsOptional()
-  noKontak?: string;
+  kontak?: string;
 
   @IsString()
   @IsOptional()
-  linkWebsite?: string;
+  website?: string;
 
   @IsString()
   @IsOptional()
-  linkInstagram?: string;
+  instagram?: string;
 
   @IsString()
   @IsOptional()

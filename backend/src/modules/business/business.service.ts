@@ -4,6 +4,21 @@ import { CreateBusinessDto } from './dto/create-business.dto.js';
 import { UpdateBusinessDto } from './dto/update-business.dto.js';
 import { BusinessStatus } from '../../generated/prisma/index.js';
 
+function mapBusiness(b: any) {
+  const { alumniProfile, cariMitra, noKontak, linkWebsite, linkInstagram, fotoUsaha1, fotoUsaha2, fotoUsaha3, ...rest } = b;
+  return {
+    ...rest,
+    kontak: noKontak ?? undefined,
+    website: linkWebsite ?? undefined,
+    instagram: linkInstagram ?? undefined,
+    fotoUsaha: fotoUsaha1 ?? fotoUsaha2 ?? fotoUsaha3 ?? undefined,
+    isCariMitra: cariMitra,
+    pemilik: alumniProfile?.user
+      ? { id: alumniProfile.user.id, name: alumniProfile.user.name, avatarUrl: alumniProfile.user.avatarUrl }
+      : null,
+  };
+}
+
 @Injectable()
 export class BusinessService {
   constructor(private readonly prisma: PrismaService) {}
@@ -36,7 +51,7 @@ export class BusinessService {
       this.prisma.alumniBusiness.count({ where }),
     ]);
 
-    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
+    return { data: data.map(mapBusiness), total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findById(id: string) {
@@ -51,7 +66,23 @@ export class BusinessService {
       },
     });
     if (!business) throw new NotFoundException('Business not found');
-    return business;
+
+    // Fetch other businesses by same user
+    const otherBusinesses = await this.prisma.alumniBusiness.findMany({
+      where: { userId: business.userId, id: { not: id }, status: BusinessStatus.active },
+      select: { id: true, namaUsaha: true, kategori: true, fotoUsaha1: true },
+      take: 5,
+    });
+
+    return {
+      ...mapBusiness(business),
+      otherBusinesses: otherBusinesses.map((ob) => ({
+        id: ob.id,
+        namaUsaha: ob.namaUsaha,
+        kategori: ob.kategori,
+        fotoUsaha: ob.fotoUsaha1 ?? undefined,
+      })),
+    };
   }
 
   async findByUserId(userId: string) {
@@ -68,9 +99,9 @@ export class BusinessService {
         namaUsaha: dto.namaUsaha,
         deskripsi: dto.deskripsi,
         kategori: dto.kategori,
-        noKontak: dto.noKontak,
-        linkWebsite: dto.linkWebsite,
-        linkInstagram: dto.linkInstagram,
+        noKontak: dto.kontak,
+        linkWebsite: dto.website,
+        linkInstagram: dto.instagram,
         alamat: dto.alamat,
         cariMitra: dto.cariMitra ?? false,
       },
@@ -78,12 +109,23 @@ export class BusinessService {
   }
 
   async update(id: string, userId: string, dto: UpdateBusinessDto) {
-    const business = await this.findById(id);
+    const business = await this.prisma.alumniBusiness.findUnique({ where: { id } });
+    if (!business) throw new NotFoundException('Business not found');
     if (business.userId !== userId) throw new ForbiddenException('Not your business listing');
+
+    const data: any = {};
+    if (dto.namaUsaha !== undefined) data.namaUsaha = dto.namaUsaha;
+    if (dto.deskripsi !== undefined) data.deskripsi = dto.deskripsi;
+    if (dto.kategori !== undefined) data.kategori = dto.kategori;
+    if (dto.kontak !== undefined) data.noKontak = dto.kontak;
+    if (dto.website !== undefined) data.linkWebsite = dto.website;
+    if (dto.instagram !== undefined) data.linkInstagram = dto.instagram;
+    if (dto.alamat !== undefined) data.alamat = dto.alamat;
+    if (dto.cariMitra !== undefined) data.cariMitra = dto.cariMitra;
 
     return this.prisma.alumniBusiness.update({
       where: { id },
-      data: dto,
+      data,
     });
   }
 
