@@ -13,6 +13,8 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { ActivityLogModule } from './modules/activity-log/activity-log.module.js';
 import { ExportModule } from './modules/export/export.module.js';
 import { SuccessStoriesModule } from './modules/success-stories/success-stories.module.js';
+import { BusinessModule } from './modules/business/business.module.js';
+import { AlumniSkillModule } from './modules/alumni-skill/alumni-skill.module.js';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { SuccessStoriesModule } from './modules/success-stories/success-stories.
     ActivityLogModule,
     ExportModule,
     SuccessStoriesModule,
+    BusinessModule,
+    AlumniSkillModule,
   ],
 })
 export class AppModule {}
