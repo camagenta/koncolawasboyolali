@@ -43,7 +43,8 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-pembina',
     angkatan: 'A-61',
     posisi: 'Menteri PU (2004–2014)',
-    ringkasan: 'Menteri Pekerjaan Umum selama satu dekade penuh. Arsitek penyelesaian Jembatan Suramadu dan Jalan Tol Cipularang. Dikenal sederhana — menolak pengawalan saat pulang kampung ke Boyolali.'
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/a/af/Kabinet_djoko.jpg',
+    ringkasan: 'Menteri Pekerjaan Umum selama satu dekade penuh (2004–2014), periode terlama dalam sejarah Indonesia. Arsitek penyelesaian Jembatan Suramadu dan Jalan Tol Trans-Jawa. Lahir di Pengging, Boyolali, 5 Juli 1943. Alumni Teknik Sipil UGM (1969) dan IHE-Delft Belanda.'
   },
   {
     nama: 'Susilo Siswoutomo',
@@ -58,8 +59,9 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Anggota Dewan Pembina',
     kategori: 'dewan-pembina',
     angkatan: 'A-76',
-    posisi: 'Wakil Direktur Utama Bank Mandiri',
-    ringkasan: 'Puncak karier perbankan sebagai Wakil Presiden Direktur PT Bank Mandiri (Persero) Tbk. Pemegang sertifikasi manajemen risiko level tertinggi (Level 5).'
+    posisi: 'Komisaris Independen Indofood — Mantan Wakil Dirut Bank Mandiri',
+    foto: 'https://www.indofood.com/leader/sulaiman-arif-arianto',
+    ringkasan: 'Puncak karier perbankan sebagai Wakil Presiden Direktur PT Bank Mandiri (Persero) Tbk (2015–2020). Sebelumnya 30+ tahun di BRI hingga Direktur Commercial Banking. Saat ini Komisaris Independen Indofood. Pendiri Islamic School Al-A\'raf Persada Indonesia. Sarjana Peternakan IPB (1981), MBA University of New Orleans (1991).'
   },
   {
     nama: 'Dr. Djoepri Bandang, Ak.',
@@ -93,7 +95,8 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-penasehat',
     angkatan: 'A-79',
     posisi: 'Kepala Staf TNI AD (2015–2018)',
-    ringkasan: 'Jenderal bintang empat, mantan KSAD. Karier dibentuk di infanteri bareng hijau. Dikenal rendah hati dan religius — memulai pernikahan tanpa rumah pribadi. Pangdam Jaya, Pangkostrad, KSAD.'
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/d/d2/Jenderal_TNI_Mulyono.jpg',
+    ringkasan: 'Jenderal bintang empat, mantan KSAD (2015–2018). Lahir di Boyolali, 12 Januari 1961. Lulus Akabay 1983, karier di infanteri. Pangdam Jaya, Pangkostrad, KSAD. Dikenal rendah hati dan religius — memulai pernikahan tanpa rumah pribadi.'
   },
   {
     nama: 'Mayjen TNI (Purn) Sumardi',
@@ -101,6 +104,7 @@ export const profilesLama: ProfileLama[] = [
     kategori: 'dewan-penasehat',
     angkatan: 'A-79',
     posisi: 'Dankodiklat TNI — Pangdam V/Brawijaya',
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg/250px-Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg',
     ringkasan: 'Jenderal bintang dua dari Kopassus (Baret Merah). Gubernur Akmil, Pangdam V/Brawijaya, Dankodiklat TNI. Karier dihabiskan di pasukan elite dan pendidikan militer.'
   },
   {
@@ -202,7 +206,10 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Prof. Dr. Ir. Suwarno, M.T.',
     jabatan: 'Anggota Dewan Pakar',
     kategori: 'dewan-pakar',
-    angkatan: 'A-83'
+    angkatan: 'A-83',
+    posisi: 'Guru Besar Teknik Elektro ITB — Top 2% Stanford',
+    foto: 'https://itb.ac.id/files/dosen/1536-d3dcd904b2a4453733aa5fab94141d3d9482f2bc23c960e55a729ae3041d8fb3.png',
+    ringkasan: 'Guru Besar Teknik Elektro ITB sejak 2010. Ph.D. dari Nagoya University (1996). Top 2% ilmuwan berpengaruh dunia versi Stanford (2021–2025). 370+ publikasi internasional, h-index 26. Mantan Dekan STEI ITB (2011–2015). Insinyur Profesional Utama (IPU).'
   },
   {
     nama: 'Prof. Dr. Sudarmin, M.Si.',
@@ -238,7 +245,8 @@ export const profilesLama: ProfileLama[] = [
     subkategori: 'Pimpinan',
     angkatan: 'A-90',
     posisi: 'Sekretaris Daerah Provinsi Jawa Tengah',
-    ringkasan: 'Sekda Provinsi Jawa Tengah, komandan birokrasi tertinggi di provinsi. Memegang kontrol langsung atas arus administrasi dan distribusi anggaran sektoral se-Jawa Tengah.'
+    // foto: butuh foto portrait — tersedia di portal humas.jatengprov.go.id
+    ringkasan: 'Sekda Provinsi Jawa Tengah sejak 2021. Lahir di Boyolali, 14 Mei 1970. Karier dari Auditor Inspektorat → Kepala BPKAD → Sekda. Sempat masuk bursa calon Pj Gubernur Jateng. Komandan birokrasi tertinggi di provinsi.'
   },
   {
     nama: 'Wahyu Irawan',
