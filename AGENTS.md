@@ -225,8 +225,58 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - `5a0047a` — update: Kurnia Adhiwibowo — data lengkap (BPS)
 - `2994241` — docs: update AGENTS.md — todo profil pengurus & session log
 
+## Session 2026-05-30 — OSINT Profil Pengurus (Paralel Agent)
+
+### Changes
+1. **Google Sheets sync**: Kedua sheet (`PENGURUS LAMA` & `PENGURUS BARU`) diseragamkan — 24 kolom identik (No–Catatan Internal). Bold header + freeze row.
+2. **OSINT 4 agent paralel**: 
+   - **LAMA Top** (33 profil: Dewan Pembina + Penasehat + Pakar) → 10 foto, 9 LinkedIn, 6 Wikipedia, 20 ringkasan baru
+   - **LAMA Pusat** (62 profil) → 4 foto, 2 LinkedIn, 12 ringkasan baru, 47 tanpa jejak digital
+   - **BARU Top** (28 profil: Dewan Pembina + Pengawas) → 7 foto, 6 LinkedIn, 4 Instagram, 15 ringkasan diperkaya
+   - **BARU Staff** (39 profil: Pengurus Pusat + Bidang) → 1 foto, 8 LinkedIn, 6 Instagram, 39 ringkasan
+3. **Sheet → TypeScript sync**: Script `sync-sheet-to-ts.js` mengupdate `profil-pengurus.ts` (+271 field patches) dan `profil-pengurus-lama.ts` (+50 field patches) — foto, ringkasan, LinkedIn, Instagram, kontak, gender, sumber dari hasil OSINT.
+4. **Figur kunci teridentifikasi**: 
+   - LAMA: Jend. Mulyono, Mayjen Sumardi, Djoko Kirmanto, Irjen Erwin Triwanto, Prof. Suwarno (semua +Wikipedia & foto), Sumarno (Sekda Jateng), Yoyok Hery (Warung SS), Ratri Survivalina (Kadinkes)
+   - BARU: Andy Arvianto (Dir SDM Pertamina), Kurnia Adhiwibowo (BPS), Adi Surya Tri Wibowo (Ketum HDII), Ibnu Hadyanto (Telkom), Jaka Pujiyono (Deloitte)
+5. **Unified pipeline**: `export-sheet-json.js` → `merge-osint-results.js` → `sync-sheet-to-ts.js`
+
+### Sheet → Code Pipeline
+```
+Google Sheet (master data)
+  → export-sheet-json.js (baseline JSON per kategori)
+  → OSINT agents (webSearch, findings JSON)
+  → merge-osint-results.js (push ke sheet)
+  → sync-sheet-to-ts.js (patch TypeScript dari sheet)
+  → npx next build + npm run build + pm2 restart
+```
+
+### Delta (PENGURUS LAMA)
+| Field | Sebelum | Sesudah |
+|-------|---------|---------|
+| Foto | 5 | **13** |
+| Ringkasan | 12 | **93** |
+| Wikipedia | 0 | **8** |
+| LinkedIn | 0 | **6** |
+| Instagram | 0 | **2** |
+| Sumber | 0 | **31** |
+
+### Delta (PENGURUS BARU)
+| Field | Sebelum | Sesudah |
+|-------|---------|---------|
+| Foto | 10 | **12** |
+| Ringkasan | 43 | **65** |
+| Wikipedia | 0 | **6** |
+| LinkedIn | 0 | **10** |
+| Instagram | 0 | **9** |
+| Sumber | 46 | **66** |
+
+### Remaining P1 (butuh foto)
+- **82 profil LAMA** + **55 profil BARU** = **137 tanpa foto**
+- Foto sumber terbuka adalah bottleneck; perlu kontak internal IKA via IG/FB
+
 ### Build & Deploy
-- `npx next build` sukses — 25 routes
-- push → ssh pull → build → `pm2 restart koncolawas-web koncolawas-api` ✅
-- Live verified: "SMANSA - Alumni SMAN 1 Boyolali" ✅, footer pengurus ✅
+- `npx next build` sukses — 26 routes ✅
+- `npm run build` backend sukses ✅
+- `pm2 restart koncolawas-web koncolawas-api` ✅
+- Live verified: `/pengurus` (Susilo, Agus Irawan, Sumardi ✅), `/pengurus/sebelumnya` (Seno Kusumoarjo, Budiyanto ✅)
 

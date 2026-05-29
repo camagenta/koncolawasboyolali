@@ -22,7 +22,7 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1969',
     tahunLulus: '±1971',
     posisi: 'Wakil Menteri ESDM (2013-2014)',
-    ringkasan: 'Lahir di Boyolali, 4 September 1950. Lulusan Mechanical Engineering ITB angkatan 1970. Karir 33 tahun di ExxonMobil sebagai Vice President. Wakil Menteri ESDM pada Kabinet Indonesia Bersatu II (Jan 2013). Alumni ITB.',
+    ringkasan: 'Lahir di Boyolali; 4 September 1950. Lulusan Mechanical Engineering ITB angkatan 1970. Karir 33 tahun di ExxonMobil sebagai Vice President. Wakil Menteri ESDM pada Kabinet Indonesia Bersatu II (Jan 2013). Alumni ITB.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/400px-Susilo_Siswoutomo_Official.jpg',
     gender: 'Laki-laki',
     sumber: 'Wikipedia, Kementerian ESDM, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
@@ -36,10 +36,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1999',
     tahunLulus: '±2002',
     posisi: 'Bupati Boyolali (2025-2030)',
-    ringkasan: 'Lahir di Ngemplak, Boyolali, 10 September 1983. Bupati Boyolali periode 2025-2030 (dilantik 20 Feb 2025). Sebelumnya ASN di Dispora Surakarta. Partai Gerindra. Menjabat ex-officio sebagai anggota Dewan Pembina.',
+    ringkasan: 'Lahir di Ngemplak; Boyolali; 10 September 1983. Bupati Boyolali periode 2025-2030 (dilantik 20 Feb 2025). Sebelumnya ASN di Dispora Surakarta. Partai Gerindra. Menjabat ex-officio sebagai anggota Dewan Pembina.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bupati_Boyolali_Agus_Irawan.png/400px-Bupati_Boyolali_Agus_Irawan.png',
     gender: 'Laki-laki',
-    sumber: 'Wikipedia, KPU, Pemkab Boyolali'
+    sumber: 'Wikipedia, KPU, Pemkab Boyolali',
   },
   {
     nama: 'Sumardi',
@@ -52,14 +52,14 @@ export const profiles: Profile[] = [
     ringkasan: 'Pernah menjabat sebagai Panglima Kodam V/Brawijaya. Setelah purnabakti aktif sebagai Wakil Komisaris Utama PT Pindad.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg/250px-Komando_Pembina_Doktrin%2C_Pendidikan_dan_Latihan_Sumardi.jpg',
     gender: 'Laki-laki',
-    sumber: 'TNI AD, PT Pindad, Wikipedia, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'TNI AD, PT Pindad, Wikipedia, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Dun Sridadi',
     jabatan: 'Dewan Pembina - Anggota',
     kategori: 'dewan-pembina',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
   },
   {
     nama: 'Amir Yanto',
@@ -69,10 +69,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1981',
     tahunLulus: '±1983',
     posisi: 'Kepala Badan Pemulihan Aset Kejaksaan Agung (2024-2025)',
-    ringkasan: 'Lahir di Boyolali, 5 Oktober 1965. Jaksa Agung Muda Intelijen (2022-2024), JAM Pengawasan (2020-2022). Ketua Umum Persatuan Jaksa Indonesia (PJI) 2021-2024.',
+    ringkasan: 'Lahir di Boyolali; 5 Oktober 1965. Jaksa Agung Muda Intelijen (2022-2024); JAM Pengawasan (2020-2022). Ketua Umum Persatuan Jaksa Indonesia (PJI) 2021-2024.',
     foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Jaksa_Agung_Muda_Bidang_Intelijen_Amir_Yanto.jpg/250px-Jaksa_Agung_Muda_Bidang_Intelijen_Amir_Yanto.jpg',
     gender: 'Laki-laki',
-    sumber: 'Wikipedia, Kejaksaan Agung RI'
+    sumber: 'Wikipedia, Kejaksaan Agung RI',
   },
   {
     nama: 'Hadi Pratomo',
@@ -82,10 +82,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1969',
     tahunLulus: '±1971',
     posisi: 'Guru Besar FKM Universitas Indonesia',
-    ringkasan: 'Guru Besar Departemen Pendidikan Kesehatan dan Ilmu Perilaku FKM UI. Pendidikan: Dr.PH Tulane University, MPH Tulane University, dr Universitas Indonesia. Bidang ajar: Perencanaan & Evaluasi Promosi Kesehatan, Advokasi Promosi Kesehatan.',
+    ringkasan: 'Guru Besar Departemen Pendidikan Kesehatan dan Ilmu Perilaku FKM UI. Pendidikan: Dr.PH Tulane University; MPH Tulane University; dr Universitas Indonesia. Bidang ajar: Perencanaan & Evaluasi Promosi Kesehatan; Advokasi Promosi Kesehatan.',
     foto: 'https://fkm.ui.ac.id/wp-content/uploads/2024/09/Prof-Hadi-600x800.jpeg',
     gender: 'Laki-laki',
-    sumber: 'FKM UI (fkm.ui.ac.id)'
+    sumber: 'FKM UI (fkm.ui.ac.id)',
   },
   {
     nama: 'Sri Yunanto',
@@ -97,7 +97,7 @@ export const profiles: Profile[] = [
     posisi: 'Guru Besar Ilmu Politik FISIP UMJ',
     ringkasan: 'Dikukuhkan sebagai Guru Besar FISIP UMJ bidang Ilmu Politik dan Humaniora (Jan 2026). PhD dari Universiti Sains Malaysia (2013). Orasi ilmiah: "Pengembangan Soft Power Menuju Indonesia Emas 2045". Dosen Ilmu Politik FISIP UMJ.',
     gender: 'Laki-laki',
-    sumber: 'UMJ, Google Scholar, Media Indonesia, SINTA'
+    sumber: 'UMJ, Google Scholar, Media Indonesia, SINTA',
   },
   {
     nama: 'Noorlailie Soewarno',
@@ -109,7 +109,7 @@ export const profiles: Profile[] = [
     posisi: 'Guru Besar FEB Universitas Airlangga',
     ringkasan: 'Guru Besar di Fakultas Ekonomi dan Bisnis Universitas Airlangga.',
     gender: 'Perempuan',
-    sumber: 'Universitas Airlangga'
+    sumber: 'Universitas Airlangga',
   },
   {
     nama: 'Agus Suryonugroho',
@@ -119,10 +119,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1984',
     tahunLulus: '±1986',
     posisi: 'Kakorlantas Polri',
-    ringkasan: 'Lahir di Boyolali, 15 Agustus 1968. Lulusan Akpol 1991. Sebelumnya Wakapolda Jawa Tengah. Menjabat Kakorlantas Polri sejak Jan 2025. Menerima Presisi Award 2026.',
+    ringkasan: 'Lahir di Boyolali; 15 Agustus 1968. Lulusan Akpol 1991. Sebelumnya Wakapolda Jawa Tengah. Menjabat Kakorlantas Polri sejak Jan 2025. Menerima Presisi Award 2026.',
     foto: 'https://cdn.antaranews.com/cache/1200x800/2025/03/25/IMG-20250325-WA0009.jpg',
     gender: 'Laki-laki',
-    sumber: 'Polri, Antara News'
+    sumber: 'Polri, Antara News',
   },
   {
     nama: 'Haryanto WS',
@@ -133,7 +133,7 @@ export const profiles: Profile[] = [
     posisi: 'Direktur Bisnis Regional Jawa Madura Bali, PT PLN',
     ringkasan: 'Direktur Bisnis Regional Jawa Madura Bali PT PLN (Persero).',
     gender: 'Laki-laki',
-    sumber: 'PT PLN (Persero)'
+    sumber: 'PT PLN (Persero)',
   },
   {
     nama: 'Suwarno',
@@ -143,10 +143,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1985',
     tahunLulus: '±1987',
     posisi: 'Guru Besar Teknik Elektro ITB',
-    ringkasan: 'Guru Besar Teknik Elektro ITB sejak 2010. S1 ITB (1988), S2 ITB (1991), PhD Nagoya University Jepang (1996). Top 2% ilmuwan paling berpengaruh dunia versi Stanford University (2021–2025). Mantan Dekan STEI ITB (2011–2015). Senior Member IEEE. Editor-in-Chief IJEEI.',
+    ringkasan: 'Guru Besar Teknik Elektro ITB sejak 2010. S1 ITB (1988); S2 ITB (1991); PhD Nagoya University Jepang (1996). Top 2% ilmuwan paling berpengaruh dunia versi Stanford University (2021–2025). Mantan Dekan STEI ITB (2011–2015). Senior Member IEEE. Editor-in-Chief IJEEI.',
     foto: 'https://itb.ac.id/files/dosen/1536-d3dcd904b2a4453733aa5fab94141d3d9482f2bc23c960e55a729ae3041d8fb3.png',
     gender: 'Laki-laki',
-    sumber: 'ITB (stei.itb.ac.id), Wikipedia'
+    sumber: 'ITB (stei.itb.ac.id), Wikipedia',
   },
   {
     nama: 'Yusroni',
@@ -156,7 +156,7 @@ export const profiles: Profile[] = [
     posisi: 'Ketua Perkumpulan Keluarga Besar Boyolali (PKBB)',
     ringkasan: 'Tokoh masyarakat Boyolali. Ketua Perkumpulan Keluarga Besar Boyolali (PKBB) dan Ketua Paguyuban Masyarakat Boyolali. Aktif dalam kegiatan sosial kemasyarakatan.',
     gender: 'Laki-laki',
-    sumber: 'CNN Indonesia, Metro TV, Tabloid Lugas'
+    sumber: 'CNN Indonesia, Metro TV, Tabloid Lugas',
   },
   {
     nama: 'Ibnu Widodo',
@@ -166,7 +166,7 @@ export const profiles: Profile[] = [
     posisi: 'Sesepuh Paguyuban Alumni Boyolali (PAKDE)',
     ringkasan: 'Tokoh sesepuh Paguyuban Alumni Boyolali. Juga dikenal sebagai aktor senior Indonesia dengan nama panggung Ibnu Gundul dengan lebih dari 80 judul film.',
     gender: 'Laki-laki',
-    sumber: 'Tabloid Lugas, Film Indonesia'
+    sumber: 'Tabloid Lugas, Film Indonesia',
   },
   {
     nama: 'Tatik Saroso',
@@ -178,7 +178,7 @@ export const profiles: Profile[] = [
     posisi: 'Ketua Bidang II (Organisasi dan Sosial) Reuni Akbar 2013',
     ringkasan: 'Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Ketua Bidang Organisasi dan Sosial.',
     gender: 'Perempuan',
-    sumber: 'Bangashari.ID, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'Bangashari.ID, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Djoepri Bandang',
@@ -190,7 +190,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Marsusi',
@@ -202,7 +202,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Agung Wardoyo',
@@ -214,7 +214,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Pengurus IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Pembina IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
 
   // ==================== DEWAN PENGAWAS ====================
@@ -226,7 +226,7 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1973',
     tahunLulus: '±1975',
     posisi: 'Ketua Dewan Komisioner OJK (2017-2022)',
-    ringkasan: 'Lahir di Boyolali, 15 Maret 1957. S1 Ekonomi UNS (1983), MSc University of Illinois (1993), PhD Financial Economics Loughborough University (1999). Guru Besar Manajemen Risiko UNS. Kepala Perwakilan BI New York (2012). Dirut Bank Mandiri. Ketua DK OJK 2017-2022.',
+    ringkasan: 'Lahir di Boyolali; 15 Maret 1957. S1 Ekonomi UNS (1983); MSc University of Illinois (1993); PhD Financial Economics Loughborough University (1999). Guru Besar Manajemen Risiko UNS. Kepala Perwakilan BI New York (2012). Dirut Bank Mandiri. Ketua DK OJK 2017-2022.',
     foto: 'https://cdn.antaranews.com/cache/1200x800/2022/05/23/IMG_20220523_113014.jpg',
     gender: 'Laki-laki',
     sumber: 'OJK, Antara News',
@@ -239,10 +239,10 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1976',
     tahunLulus: '±1978',
     posisi: 'Wakil Direktur Utama PT Bank Mandiri Tbk (2015-2020)',
-    ringkasan: 'Lahir di Boyolali 1959. S1 Peternakan IPB (1981), MBA University of New Orleans (1991). Karir di BRI (1983-2015): Direktur Micro & Small Business, Direktur Commercial Banking. Wakil Direktur Utama Bank Mandiri (2015-2020). Komisaris Independen Indofood. Founder Islamic School Al-A\'raf Persada Indonesia. Owner PT Nugraha Aria Sadana.',
+    ringkasan: 'Lahir di Boyolali 1959. S1 Peternakan IPB (1981); MBA University of New Orleans (1991). Karir di BRI (1983-2015): Direktur Micro & Small Business; Direktur Commercial Banking. Wakil Direktur Utama Bank Mandiri (2015-2020). Komisaris Independen Indofood. Founder Islamic School Al-A\\\'raf Persada Indonesia. Owner PT Nugraha Aria Sadana.',
     gender: 'Laki-laki',
     sumber: 'Bank Mandiri, Indofood, Cemplung.com, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
-    kontak: { linkedin: 'https://linkedin.com/in/sulaiman-arif-arianto', instagram: 'https://instagram.com/sulaimanarif' }
+    kontak: { linkedin: 'https://linkedin.com/in/sulaiman-arif-arianto-388a081a6', instagram: 'https://instagram.com/sulaimanarif' }
   },
   {
     nama: 'Gatot Darmasto',
@@ -254,7 +254,7 @@ export const profiles: Profile[] = [
     posisi: 'Mantan Deputi BPKP — Komisaris IFG',
     ringkasan: 'Mantan Deputi Kepala BPKP Bidang Pengawasan Penyelenggaraan Keuangan Daerah. Komisaris di IFG (Indonesia Financial Group). Juga menjabat sebagai Deputi Bidang Akuntan Negara BPKP. Asesor tersertifikasi BNSP.',
     gender: 'Laki-laki',
-    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'BPKP, Antara News, BNSP, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Sayideti Sukandi',
@@ -262,7 +262,7 @@ export const profiles: Profile[] = [
     kategori: 'dewan-pengawas',
     gender: 'Laki-laki',
     posisi: 'Belum ditemukan data publik',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Firdaus Muchtar',
@@ -273,7 +273,7 @@ export const profiles: Profile[] = [
     posisi: 'Guru di Dinas Pendidikan Pemuda & Olahraga',
     ringkasan: 'Seorang pendidik di lingkungan Dinas Pendidikan. Aktif dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Koordinator Seksi Pemberian Awards.',
     gender: 'Laki-laki',
-    sumber: 'Bangashari.ID, LinkedIn, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'Bangashari.ID, LinkedIn, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Jaka Pujiyono',
@@ -285,7 +285,7 @@ export const profiles: Profile[] = [
     ringkasan: 'Senior Partner di Deloitte Indonesia. Latar belakang industri penerbangan (Indonesian Airline) dan alumni IPB.',
     gender: 'Laki-laki',
     sumber: 'LinkedIn, Jenova.ai OSINT, SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
-    kontak: { linkedin: 'https://linkedin.com/in/jaka-pujiyono' }
+    kontak: { linkedin: 'https://linkedin.com/in/jaka-pujiyono-1a244b2b' }
   },
   {
     nama: 'Aloys Sutarto',
@@ -294,7 +294,7 @@ export const profiles: Profile[] = [
     posisi: 'CEO/Founder MultiIntegra Technology Group',
     ringkasan: 'Founder dan CEO MultiIntegra Technology Group (MITG). Juga pemilik MaxOne Hotel Loji Kridanggo Boyolali (hotel bintang tiga tertinggi di Boyolali). Pembina Yayasan Kuas Global Academia bidang pendidikan perhotelan. Background di bidang teknologi informasi.',
     gender: 'Laki-laki',
-    sumber: 'ANTARA News, Fokus Jateng, JATENGPOS'
+    sumber: 'ANTARA News, Fokus Jateng, JATENGPOS',
   },
   {
     nama: 'Bambang Supardi',
@@ -302,9 +302,10 @@ export const profiles: Profile[] = [
     jabatan: 'Dewan Pengawas - Anggota',
     kategori: 'dewan-pengawas',
     posisi: 'Staf Khusus Kasad (Kepala Staf Angkatan Darat)',
-    ringkasan: 'Alumni Akademi Militer 1988, kecabangan Kavaleri. Purnawirawan TNI bintang dua. Setelah purnabakti aktif di politik.',
+    ringkasan: 'Alumni Akademi Militer 1988; kecabangan Kavaleri. Purnawirawan TNI bintang dua. Setelah purnabakti aktif di politik.',
     gender: 'Laki-laki',
-    sumber: 'Wahana News, Merdeka.com, ANTARA News'
+    sumber: 'Wahana News, Merdeka.com, ANTARA News',
+    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Bambang_Supardi.jpg',
   },
   {
     nama: 'Imam Santosa',
@@ -316,7 +317,7 @@ export const profiles: Profile[] = [
     posisi: 'Guru Besar Etnomusikologi, ISI Surakarta',
     ringkasan: 'Guru Besar bidang Etnomusikologi di Institut Seni Indonesia (ISI) Surakarta.',
     gender: 'Laki-laki',
-    sumber: 'ISI Surakarta'
+    sumber: 'ISI Surakarta',
   },
   {
     nama: 'Hartanto Wibowo',
@@ -326,9 +327,9 @@ export const profiles: Profile[] = [
     tahunLulus: '±1993',
     posisi: 'Direktur Perencanaan Korporat & Pengembangan Bisnis PT PLN',
     foto: 'https://asset-2.tribunnews.com/tribunnewswiki/foto/bank/images/Hartanto-Wibowo-2.jpg',
-    ringkasan: 'Lahir di Boyolali, 9 Februari 1976. Karir di PT PLN sejak 2003. Pernah menjabat sebagai Direktur Energi Primer PLN (2022) dan Direktur Keuangan & SDM PT PLN Batubara. Diangkat sebagai Direktur Perencanaan Korporat & Pengembangan Bisnis PLN pada September 2022.',
+    ringkasan: 'Lahir di Boyolali; 9 Februari 1976. Karir di PT PLN sejak 2003. Pernah menjabat sebagai Direktur Energi Primer PLN (2022) dan Direktur Keuangan & SDM PT PLN Batubara. Diangkat sebagai Direktur Perencanaan Korporat & Pengembangan Bisnis PLN pada September 2022.',
     gender: 'Laki-laki',
-    sumber: 'PLN, CNN Indonesia, CNBC Indonesia'
+    sumber: 'PLN, CNN Indonesia, CNBC Indonesia',
   },
   {
     nama: 'Wartono',
@@ -336,7 +337,9 @@ export const profiles: Profile[] = [
     kategori: 'dewan-pengawas',
     gender: 'Laki-laki',
     posisi: 'Belum ditemukan data publik',
-    kontak: { instagram: 'https://instagram.com/wartonoboyolali' }
+    kontak: { instagram: 'https://instagram.com/wartonoboyolali' },
+    ringkasan: 'Dosen. Instagram: @wartonoboyolali (perlu verifikasi internal apakah akun pribadi).',
+    sumber: 'Instagram',
   },
 
   // ==================== PENGURUS PUSAT ====================
@@ -346,11 +349,11 @@ export const profiles: Profile[] = [
     jabatan: 'Ketua Umum',
     kategori: 'pengurus-pusat',
     posisi: 'Anggota DPR RI - Komisi XI (Fraksi PDIP)',
-    ringkasan: 'Lahir di Boyolali, 12 November 1976. Anggota DPR RI Dapil Jawa Tengah V (Boyolali, Solo, Sukoharjo) periode 2024-2029 — Komisi XI (Keuangan). Ketua IKA Boy (Ikatan Alumni Boyolali). S1 Teknik Informatika Universitas Pelita Bangsa, S1 Hukum & S2 MH Universitas Krisnadwipayana. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
+    ringkasan: 'Lahir di Boyolali; 12 November 1976. Anggota DPR RI Dapil Jawa Tengah V (Boyolali; Solo; Sukoharjo) periode 2024-2029 — Komisi XI (Keuangan). Ketua IKA Boy (Ikatan Alumni Boyolali). S1 Teknik Informatika Universitas Pelita Bangsa; S1 Hukum & S2 MH Universitas Krisnadwipayana. Dikenal aksi jalan kaki Jakarta-Boyolali 540 km sebagai nazar.',
     foto: 'https://infopemilu.kpu.go.id/berkas-calon/dprri/1683880747_baed8ef8-540a-4cc4-a2f0-578975edb3fa.jpeg',
     gender: 'Laki-laki',
     sumber: 'DPR RI, Espos.id, TribunSolo',
-    kontak: { instagram: 'https://instagram.com/didikharyadi', linkedin: 'https://linkedin.com/in/didik-haryadi' }
+    kontak: { instagram: 'https://www.instagram.com/didikharyadi.official/', linkedin: 'https://linkedin.com/in/didik-haryadi' }
   },
   {
     nama: 'Ibnu Hadyanto',
@@ -360,7 +363,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     ringkasan: 'Profesional di bidang maritim logistik dan pengembangan proyek di PT Telkom Indonesia. Aktif dalam kepengurusan IKA Boyolali.',
     sumber: 'Espos.id, LinkedIn',
-    kontak: { linkedin: 'https://linkedin.com/in/ibnu-hadyanto', instagram: 'https://instagram.com/ibnuhadyanto' }
+    kontak: { linkedin: 'https://linkedin.com/in/ibnu-hadyanto-b9a791112', instagram: 'https://instagram.com/ibnuhadyanto' }
   },
   {
     nama: 'Ali Mahfud',
@@ -371,8 +374,8 @@ export const profiles: Profile[] = [
     estimasiAngkatan: '1980',
     tahunLulus: '±1982',
     posisi: 'Hakim Pengadilan Agama Surakarta',
-    ringkasan: 'Lahir di Boyolali, 6 Desember 1964. Hakim di Pengadilan Agama Surakarta. Sebelumnya bertugas di PA Kebumen, PA Bulukumba, PA Selong, PA Praya, dan PA Demak.',
-    sumber: 'pa-surakarta.go.id, putusan.mahkamahagung.go.id'
+    ringkasan: 'Lahir di Boyolali; 6 Desember 1964. Hakim di Pengadilan Agama Surakarta. Sebelumnya bertugas di PA Kebumen; PA Bulukumba; PA Selong; PA Praya; dan PA Demak.',
+    sumber: 'pa-surakarta.go.id, putusan.mahkamahagung.go.id',
   },
   {
     nama: 'Yulianto',
@@ -381,7 +384,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Sekretaris Jenderal IKA-Boy',
     ringkasan: 'Sekretaris Jenderal IKA-Boy periode 2025-2029. Bertugas sebagai Sekretaris dalam struktur pengurus pusat dan bertindak sebagai moderator dalam rapat-rapat organisasi.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Adi Surya Tri Wibowo',
@@ -391,7 +394,8 @@ export const profiles: Profile[] = [
     posisi: 'Founder Dimensi Gagas Prima',
     ringkasan: 'Profesional di bidang desain dan konstruksi arsitektur interior dengan pengalaman 25 tahun. Founder Dimensi Gagas Prima.',
     sumber: 'LinkedIn',
-    kontak: { linkedin: 'https://linkedin.com/in/adi-surya-tri-wibowo' }
+    kontak: { linkedin: 'https://linkedin.com/in/adi-surya-triwibowo-1875b6197', instagram: 'https://www.instagram.com/adi.surya.triwibowo/' },
+    foto: 'https://digma.design/adi.surya.triwibowo',
   },
   {
     nama: 'S. Nurmawati',
@@ -402,7 +406,7 @@ export const profiles: Profile[] = [
     gender: 'Perempuan',
     posisi: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Pakar IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025 (Dr. Subekti Nurmawati).',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Risdianto',
@@ -413,7 +417,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Dandi',
@@ -421,7 +425,8 @@ export const profiles: Profile[] = [
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
     posisi: 'Urusan Komunikasi Organisasi IKA-Boy',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    ringkasan: 'Urusan Komunikasi Organisasi IKA-Boy. Nama terlalu umum — tidak ditemukan jejak digital publik yang jelas terkait identitas sebagai alumni SMAN 1 Boyolali.',
   },
   {
     nama: 'Elang Sukma',
@@ -430,7 +435,7 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Urusan Komunikasi Organisasi IKA-Boy',
     ringkasan: 'Kontak person untuk konfirmasi kehadiran acara IKA-Boy (0813 2692 9942).',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Iin Wibisono',
@@ -440,7 +445,7 @@ export const profiles: Profile[] = [
     posisi: 'Urusan Administrasi Organisasi IKA-Boy',
     ringkasan: 'Kontak person utama untuk konfirmasi kehadiran acara IKA-Boy (0858 1199 6957).',
     kontak: { instagram: 'https://instagram.com/jin.wibisono' },
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Endah R',
@@ -448,28 +453,34 @@ export const profiles: Profile[] = [
     kategori: 'pengurus-pusat',
     gender: 'Perempuan',
     posisi: 'Urusan Administrasi Organisasi IKA-Boy',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
+    ringkasan: 'Urusan Administrasi Organisasi IKA-Boy. Nama tidak lengkap — tidak ditemukan jejak digital publik.',
   },
   {
     nama: 'Tri Hartono',
     jabatan: 'Bendahara I',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Bendahara I IKA-Boy. Nama sangat umum — tidak ditemukan jejak digital publik yang jelas.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Chrismiyastuti',
     jabatan: 'Bendahara II',
     kategori: 'pengurus-pusat',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Bendahara II IKA-Boy. Nama unik tetapi tidak ditemukan jejak digital publik.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Gigih Fajar',
     jabatan: 'Urusan Dana Internal',
     kategori: 'pengurus-pusat',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Sri Hastuti',
@@ -478,7 +489,7 @@ export const profiles: Profile[] = [
     gender: 'Perempuan',
     posisi: 'Anggota Seksi Dana Reuni Akbar 2013',
     ringkasan: 'Terlibat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai anggota Seksi Dana.',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID',
   },
 
   // ==================== BIDANG ====================
@@ -498,7 +509,7 @@ export const profiles: Profile[] = [
     kategori: 'bidang',
     gender: 'Laki-laki',
     posisi: 'Trainer Kepemimpinan & Soft Skills — Pusdiklat PSDM Kemenkeu',
-    ringkasan: 'Internal Audit Trainer di Pusdiklat SDM Kementerian Keuangan sejak 1994, menjadi trainer leadership & soft skills sejak 2009. Juga dosen di STAN.',
+    ringkasan: 'Internal Audit Trainer di Pusdiklat SDM Kementerian Keuangan sejak 1994; menjadi trainer leadership & soft skills sejak 2009. Juga dosen di STAN.',
     sumber: 'LinkedIn',
     kontak: { linkedin: 'https://linkedin.com/in/bambang-widjajarso-6044494a', instagram: 'https://instagram.com/widjajarso' }
   },
@@ -508,42 +519,51 @@ export const profiles: Profile[] = [
     kategori: 'bidang',
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID',
   },
   {
     nama: 'Joko Suyono',
     jabatan: 'Koordinator II Bidang Pengembangan Organisasi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Koordinator II Bidang Pengembangan Organisasi IKA-Boy. Nama sangat umum — tidak ditemukan jejak digital publik.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Gatot Rahmanto',
     jabatan: 'Sub Bidang Almamater',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Sri Sunarti P',
     jabatan: 'Anggota Sub Bidang Almamater',
     kategori: 'bidang',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Anggota Sub Bidang Almamater IKA-Boy. Nama tidak lengkap — tidak ditemukan jejak digital publik.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Retno Purwaningsih',
     jabatan: 'Ketua Bidang Integrasi & Pemberdayaan Alumni',
     kategori: 'bidang',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Ketua Bidang Integrasi & Pemberdayaan Alumni IKA-Boy. Nama umum — tidak ditemukan jejak digital publik yang jelas terkait SMAN 1 Boyolali.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Agus Wahyudi',
     jabatan: 'Wakil Ketua Bidang Integrasi & Pemberdayaan Alumni',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Wakil Ketua Bidang Integrasi & Pemberdayaan Alumni IKA-Boy. Nama sangat umum — tidak ditemukan jejak digital publik.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Fajar Eko Ananto',
@@ -551,14 +571,15 @@ export const profiles: Profile[] = [
     kategori: 'bidang',
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013 sebagai Sekretaris I.',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID',
   },
   {
     nama: 'Erlita Titis Dewi',
     jabatan: 'Koordinator II Bidang Integrasi & Pemberdayaan Alumni',
     kategori: 'bidang',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Kurnia Adhiwibowo',
@@ -568,60 +589,67 @@ export const profiles: Profile[] = [
     posisi: 'IT Support & Data — BPS / ASN',
     ringkasan: 'Profesional IT di lingkungan pemerintahan (BPS). Aktif sebagai pemateri reformasi birokrasi & pengembangan ASN. Bergabung di PrakomID (Asosiasi Pranata Komputer Indonesia) dan Yayasan HSI AbdullahRoy sebagai IT Support Dakwah. Handle digital: @camagenta / Kuro.',
     sumber: 'LinkedIn, Instagram, GitHub, Facebook',
-    kontak: {
-      linkedin: 'https://id.linkedin.com/in/kurniaadhi',
+    kontak: { linkedin: 'https://linkedin.com/in/kurniaadhi',
       instagram: 'https://www.instagram.com/camagenta/',
-      email: 'tersedia di profil LinkedIn'
-    }
+      email: 'tersedia di profil LinkedIn' }
   },
   {
     nama: 'Muh Imron',
     jabatan: 'Sub Bidang Sinergi Alumni',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Agus Winarno',
     jabatan: 'Ketua Bidang Ekonomi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Ketua Bidang Ekonomi IKA-Boy. Nama sangat umum — tidak ditemukan jejak digital publik yang jelas terkait SMAN 1 Boyolali.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Tri Setyo Utomo',
     jabatan: 'Wakil Ketua Bidang Ekonomi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Wakil Ketua Bidang Ekonomi IKA-Boy. Nama umum — tidak ditemukan jejak digital publik yang jelas.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Wargino',
     jabatan: 'Koordinator I Bidang Ekonomi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Dharu Nugroho',
     jabatan: 'Koordinator II Bidang Ekonomi',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Eko Darmono',
     jabatan: 'Sub Bidang Dana dan Usaha',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Singgih Wirawan',
     jabatan: 'UMKM/Ekonomi Kreatif',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Wahono Sukarjo',
@@ -632,21 +660,23 @@ export const profiles: Profile[] = [
     gender: 'Laki-laki',
     posisi: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025',
     ringkasan: 'Anggota Dewan Penasehat IKA SMANSA BOY periode 2022-2025 sesuai SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025.',
-    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025'
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Menuk Sri Sugiarti',
     jabatan: 'Wakil Ketua Bidang Partisipasi Sosial Masyarakat',
     kategori: 'bidang',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Hari Setyono',
     jabatan: 'Koordinator I Bidang Partisipasi Sosial Masyarakat',
     kategori: 'bidang',
     gender: 'Laki-laki',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Gunawan Wibisono',
@@ -654,14 +684,16 @@ export const profiles: Profile[] = [
     kategori: 'bidang',
     gender: 'Laki-laki',
     ringkasan: 'Pernah tercatat dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID',
   },
   {
     nama: 'Kristiani',
     jabatan: 'Sub Bidang Silaturahmi Alumni',
     kategori: 'bidang',
     gender: 'Perempuan',
-    posisi: 'Belum ditemukan data publik'
+    posisi: 'Belum ditemukan data publik',
+    ringkasan: 'Sub Bidang Silaturahmi Alumni IKA-Boy. Nama terlalu umum — tidak ditemukan jejak digital publik.',
+    sumber: 'SK IKA-Boy No. 001/KEP/KETUM/IKA-Boy/X/2025',
   },
   {
     nama: 'Yuni Etty',
@@ -669,6 +701,6 @@ export const profiles: Profile[] = [
     kategori: 'bidang',
     gender: 'Perempuan',
     ringkasan: 'Pernah tercatat sebagai Bendahara I dalam kepanitiaan Reuni Akbar SMPN 1 dan SMAN 1 Boyolali tahun 2013.',
-    sumber: 'Bangashari.ID'
+    sumber: 'Bangashari.ID',
   }
 ]

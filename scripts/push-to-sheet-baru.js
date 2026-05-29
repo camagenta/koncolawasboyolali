@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const SPREADSHEET_ID = '1_-3Lh0-NIVkcbvHAbMjT59J4K1bZr1FGKRZrF6NUe7M';
-const SHEET_NAME = 'PENGURUS LAMA';
+const SHEET_NAME = 'PENGURUS BARU';
 const KEY_PATH = path.join(__dirname, 'gcp-service-account.json');
 
 const HEADER = [
@@ -18,9 +18,9 @@ const HEADER = [
 
 const KATEGORI_MAP = {
   'dewan-pembina': 'Dewan Pembina',
-  'dewan-penasehat': 'Dewan Penasehat',
-  'dewan-pakar': 'Dewan Pakar',
+  'dewan-pengawas': 'Dewan Pengawas',
   'pengurus-pusat': 'Pengurus Pusat',
+  'bidang': 'Bidang',
 };
 
 async function main() {
@@ -36,7 +36,7 @@ async function main() {
 
   const sheets = google.sheets({ version: 'v4', auth });
 
-  const tsPath = path.join(__dirname, '..', 'frontend', 'src', 'lib', 'profil-pengurus-lama.ts');
+  const tsPath = path.join(__dirname, '..', 'frontend', 'src', 'lib', 'profil-pengurus.ts');
   const content = fs.readFileSync(tsPath, 'utf8');
   const profiles = extractProfiles(content);
 
@@ -49,29 +49,29 @@ async function main() {
     const kebutuhan = [];
     if (needsPhoto) kebutuhan.push('Foto');
     if (needsRingkasan) kebutuhan.push('Profil');
-    kebutuhan.push('LinkedIn');
-    kebutuhan.push('Wikipedia');
-    const status = (!p.foto || !p.ringkasan) ? '❌ Belum' : '🟡 Partial';
+    if (!p.kontak?.linkedin) kebutuhan.push('LinkedIn');
+    if (!p.kontak?.instagram) kebutuhan.push('Instagram');
+    const status = (!p.foto || !p.ringkasan || (p.kontak && !p.kontak.linkedin)) ? '❌ Belum' : '🟡 Partial';
 
     rows.push([
       i + 1,
       KATEGORI_MAP[p.kategori] || p.kategori,
-      p.subkategori || '',
+      '',
       p.jabatan || '',
       p.nama || '',
       p.namaLengkap || '',
-      p.angkatan || '',
-      '',
+      p.estimasiAngkatan || '',
+      p.tahunLulus || '',
       p.posisi || '',
       (p.ringkasan || '').replace(/\n/g, ' ').replace(/,/g, ';'),
       p.foto || '',
-      '',
-      '',
+      p.gender || '',
+      p.sumber || '',
       `https://www.google.com/search?q=${encodeURIComponent(p.nama)}+site:id.wikipedia.org`,
-      `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(p.nama)}`,
+      p.kontak?.linkedin || `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(p.nama)}`,
+      p.kontak?.instagram || '',
       '',
-      '',
-      '',
+      p.kontak?.email || '',
       status,
       '',
       '',
@@ -147,7 +147,7 @@ function extractProfiles(tsContent) {
 
   for (const line of lines) {
     const t = line.trim();
-    if (t.includes('profilesLama: ProfileLama[] = [')) { inArray = true; continue; }
+    if (t.includes('profiles: Profile[] = [')) { inArray = true; continue; }
     if (!inArray) continue;
     if (t.startsWith('//') || t === ']' || t === '];') continue;
 
@@ -165,6 +165,25 @@ function extractProfiles(tsContent) {
         let val = m[2].trim();
         if (val.endsWith(',')) val = val.slice(0, -1);
         val = val.replace(/\s*\/\/.*$/, '').trim();
+
+        // inline object: kontak: { linkedin: '...', instagram: '...' }
+        const inlineObj = val.match(/^{(.+)}$/);
+        if (inlineObj) {
+          const inner = inlineObj[1];
+          const obj = {};
+          const pairs = inner.split(',').map(s => s.trim()).filter(Boolean);
+          for (const pair of pairs) {
+            const [k, ...v] = pair.split(':').map(s => s.trim());
+            let vv = v.join(':').trim();
+            if ((vv.startsWith("'") && vv.endsWith("'")) || (vv.startsWith('"') && vv.endsWith('"'))) {
+              vv = vv.slice(1, -1);
+            }
+            obj[k] = vv;
+          }
+          current[key] = obj;
+          continue;
+        }
+
         if ((val.startsWith("'") && val.endsWith("'")) ||
             (val.startsWith('"') && val.endsWith('"'))) {
           val = val.slice(1, -1);
