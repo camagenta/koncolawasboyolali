@@ -6,6 +6,8 @@ export interface ProfileLama {
   subkategori?: string
   angkatan: string
   posisi?: string
+  foto?: string
+  ringkasan?: string
 }
 
 export const profilesLama: ProfileLama[] = [
@@ -14,7 +16,8 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Seno Kusumoarjo',
     jabatan: 'Ketua Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-79'
+    angkatan: 'A-79',
+    ringkasan: 'Arsitek politik utama dan pemegang hegemoni PDIP di Boyolali. Pemrakarsa pembangunan Masjid Gedhe Kabupaten Boyolali di lahan 1,1 hektar. Mantan Ketua IKABI 2019-2022 yang mendorong pemisahan IKA dari IKABI.'
   },
   {
     nama: 'Dr. Drs. Budiyanto, S.H., M.H.',
@@ -38,19 +41,25 @@ export const profilesLama: ProfileLama[] = [
     nama: 'Djoko Kirmanto',
     jabatan: 'Anggota Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-61'
+    angkatan: 'A-61',
+    posisi: 'Menteri PU (2004–2014)',
+    ringkasan: 'Menteri Pekerjaan Umum selama satu dekade penuh. Arsitek penyelesaian Jembatan Suramadu dan Jalan Tol Cipularang. Dikenal sederhana — menolak pengawalan saat pulang kampung ke Boyolali.'
   },
   {
     nama: 'Susilo Siswoutomo',
     jabatan: 'Anggota Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-69'
+    angkatan: 'A-69',
+    posisi: 'Wakil Menteri ESDM (2013–2014)',
+    ringkasan: 'Wakil Menteri Energi dan Sumber Daya Mineral. Ujung tombak renegosiasi kontrak Freeport dan Newmont. Dianugerahi Bintang Mahaputera Utama oleh Presiden SBY.'
   },
   {
     nama: 'Sulaiman Arif Arianto',
     jabatan: 'Anggota Dewan Pembina',
     kategori: 'dewan-pembina',
-    angkatan: 'A-76'
+    angkatan: 'A-76',
+    posisi: 'Wakil Direktur Utama Bank Mandiri',
+    ringkasan: 'Puncak karier perbankan sebagai Wakil Presiden Direktur PT Bank Mandiri (Persero) Tbk. Pemegang sertifikasi manajemen risiko level tertinggi (Level 5).'
   },
   {
     nama: 'Dr. Djoepri Bandang, Ak.',
@@ -83,14 +92,16 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Ketua Dewan Penasehat',
     kategori: 'dewan-penasehat',
     angkatan: 'A-79',
-    posisi: 'Panglima TNI (2015–2017)'
+    posisi: 'Kepala Staf TNI AD (2015–2018)',
+    ringkasan: 'Jenderal bintang empat, mantan KSAD. Karier dibentuk di infanteri bareng hijau. Dikenal rendah hati dan religius — memulai pernikahan tanpa rumah pribadi. Pangdam Jaya, Pangkostrad, KSAD.'
   },
   {
     nama: 'Mayjen TNI (Purn) Sumardi',
     jabatan: 'Wakil Ketua Dewan Penasehat',
     kategori: 'dewan-penasehat',
     angkatan: 'A-79',
-    posisi: 'Pangdam V/Brawijaya (2015–2016)'
+    posisi: 'Dankodiklat TNI — Pangdam V/Brawijaya',
+    ringkasan: 'Jenderal bintang dua dari Kopassus (Baret Merah). Gubernur Akmil, Pangdam V/Brawijaya, Dankodiklat TNI. Karier dihabiskan di pasukan elite dan pendidikan militer.'
   },
   {
     nama: 'Irjen Pol (Purn) Erwin Triwanto',
@@ -153,7 +164,8 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Ketua Dewan Pakar',
     kategori: 'dewan-pakar',
     angkatan: 'A-77',
-    posisi: 'Mantan Deputi BPKP — Komisaris IFG'
+    posisi: 'Mantan Deputi BPKP — Komisaris IFG',
+    ringkasan: 'Deputi Bidang Pengawasan Keuangan di BPKP RI. Arsitek model kapabilitas audit internal (IA-CM) untuk APIP di seluruh Indonesia. Deretan sertifikasi global di bidang akuntansi forensik dan audit internal.'
   },
   {
     nama: 'Dr. Drs. Budiman Widodo, M.Si.',
@@ -224,14 +236,18 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Ketua Umum',
     kategori: 'pengurus-pusat',
     subkategori: 'Pimpinan',
-    angkatan: 'A-90'
+    angkatan: 'A-90',
+    posisi: 'Sekretaris Daerah Provinsi Jawa Tengah',
+    ringkasan: 'Sekda Provinsi Jawa Tengah, komandan birokrasi tertinggi di provinsi. Memegang kontrol langsung atas arus administrasi dan distribusi anggaran sektoral se-Jawa Tengah.'
   },
   {
     nama: 'Wahyu Irawan',
     jabatan: 'Ketua Harian I',
     kategori: 'pengurus-pusat',
     subkategori: 'Pimpinan',
-    angkatan: 'A-85'
+    angkatan: 'A-85',
+    posisi: 'Wakil Bupati Boyolali',
+    ringkasan: 'Wakil Bupati Boyolali aktif. Bersama Sumarno (Sekda Jateng) membentuk poros sinkronisasi birokrasi kabupaten-provinsi dalam satu wadah alumni.'
   },
   {
     nama: 'Gatot B Hastowo',
@@ -259,7 +275,9 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Sekretaris I',
     kategori: 'pengurus-pusat',
     subkategori: 'Pimpinan',
-    angkatan: 'A-90'
+    angkatan: 'A-90',
+    posisi: 'Kepala Dinas Kesehatan Boyolali',
+    ringkasan: 'Kepala Dinas Kesehatan Kabupaten Boyolali. Figur sentral dalam manajemen dan mitigasi wabah COVID-19 di Boyolali.'
   },
   {
     nama: 'Dony Mahendra',
@@ -442,7 +460,9 @@ export const profilesLama: ProfileLama[] = [
     jabatan: 'Bendahara I',
     kategori: 'pengurus-pusat',
     subkategori: 'Bendahara',
-    angkatan: 'A-91'
+    angkatan: 'A-91',
+    posisi: 'Pendiri & CEO Waroeng Spesial Sambal (SS)',
+    ringkasan: 'Pengusaha kuliner nasional — pendiri Waroeng SS dengan ratusan cabang hingga ekspansi ke Malaysia. Menerapkan konsep spiritual company: sebagian omzet untuk santunan kelompok marginal.'
   },
   {
     nama: 'Riang Soedarsono',
