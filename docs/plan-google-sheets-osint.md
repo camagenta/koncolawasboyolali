@@ -50,7 +50,7 @@ Buat tab baru bernama `PENGURUS LAMA` (atau `PENGURUS 2022-2025`) di sheet yang 
 
 ---
 
-## 2. Isi Data Awal (70 Baris)
+## 2. Isi Data Awal (95 Baris)
 
 Data TypeScript `profil-pengurus-lama.ts` → CSV → import ke Google Sheets.
 
@@ -66,7 +66,7 @@ foto              → Kolom I (URL Foto)
 ringkasan         → Kolom H (Ringkasan)
 ```
 
-Semua status awal → `🟡 Partial` (karena OSINT sudah jalan untuk 19 dari 70).
+Semua status awal → `❌ Belum` (OSINT sudah jalan untuk 14 dari 95 profil).
 
 ---
 
@@ -85,10 +85,12 @@ function generateSearchURLs() {
     const nama = values[i][4]; // Kolom E
     if (!nama) continue;
 
-    const encoded = encodeURIComponent(nama);
-    values[i][10] = `https://www.google.com/search?q=${encoded}+site:id.wikipedia.org`;
-    values[i][11] = `https://www.linkedin.com/search/results/all/?keywords=${encoded}`;
-    values[i][14] = `https://www.google.com/search?q=${encoded}+profil+biografi`;
+   const encoded = encodeURIComponent(nama);
+   values[i][9] = `https://www.google.com/search?q=${encoded}+site:id.wikipedia.org`;
+   values[i][10] = `https://www.linkedin.com/search/results/all/?keywords=${encoded}`;
+   values[i][11] = `https://www.google.com/search?q=${encoded}+instagram`;
+   values[i][12] = `https://scholar.google.com/scholar?q=${encoded}`;
+   values[i][13] = `https://www.google.com/search?q=${encoded}+profil+biografi`;
   }
 
   range.setValues(values);
@@ -184,24 +186,34 @@ function exportToJSON() {
 
 ---
 
-## 5. Quick Start
+## 5. Quick Start (via API)
 
-1. Buka https://docs.google.com/spreadsheets/d/1_-3Lh0-NIVkcbvHAbMjT59J4K1bZr1FGKRZrF6NUe7M/edit
-2. Buat tab baru: **PENGURUS LAMA**
-3. Paste header row dari section 1
-4. Import CSV data dari `scripts/export-pengurus-lama.csv` (akan digenerate)
-5. Jalankan Apps Script `generateSearchURLs()`
-6. Assign PIC per kategori (4 orang/agent)
-7. Mulai riset paralel per agent
+### Prasyarat (sekali)
+1. Buka https://console.cloud.google.com/ → buat project → enable **Google Sheets API**
+2. **Credentials → Create Service Account** → download JSON → `scripts/gcp-service-account.json`
+3. Share spreadsheet dengan **email service account** (Editor)
+
+### Isi Sheet (setiap update data)
+```bash
+npm install googleapis
+node scripts/push-to-sheet.js
+```
+Script akan: buat tab, tulis 95 profil, auto-search URL, prioritas P1/P2/P3, bold header, freeze row 1.
+
+### Fallback — Import CSV Manual
+Jika service account belum siap:
+1. Buka → tab **PENGURUS LAMA** → **File > Import > Upload** → `scripts/pengurus-lama-export.csv`
+2. **Extensions > Apps Script** → paste script section 3 → `generateSearchURLs()`
 
 ---
 
 ## 6. Todo (Masuk ke Git)
 
 - [x] Desain struktur sheet
-- [ ] Generate CSV dari data TypeScript → export ke Sheet
-- [ ] Buat tab PENGURUS LAMA di Google Sheet
-- [ ] Jalankan Apps Script automation
+- [x] Generate CSV dari data TypeScript
+- [x] Buat script Google Sheets API (push-to-sheet.js)
+- [ ] Setup service account → jalankan push-to-sheet.js
+- [ ] Buat tab PENGURUS LAMA di Google Sheet (auto via script)
 - [ ] Assign 4 agent OSINT paralel per kategori
 - [ ] Update profil-pengurus-lama.ts setelah riset selesai
 - [ ] Dokumentasi workflow di AGENTS.md
