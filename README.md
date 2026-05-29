@@ -106,6 +106,16 @@ pm2 start ecosystem.config.cjs
 pm2 save
 ```
 
+### Update Production (setelah perubahan kode)
+
+```bash
+npm run build                 # rebuild backend + frontend
+pm2 restart koncolawas-api koncolawas-web   # restart PM2 processes
+# Verifikasi: curl -s http://localhost:3002/ | grep <expected-text>
+```
+
+> ⚠️ **PENTING**: Setelah `npm run build`, PM2 WAJIB di-restart (`pm2 restart`). Tanpa restart, PM2 masih menjalankan build lama dan perubahan tidak akan nampak di live site. Selalu verifikasi dengan curl setelah restart.
+
 ---
 
 ## Fitur yang Dikembangkan
@@ -219,12 +229,14 @@ server {
 
 ### 2026-05-29
 - **Onboarding flow**: Pengguna baru diarahkan ke `/profile` untuk mengisi tahun masuk & tahun lulus sebelum mengakses fitur lain
-- **Logo & identity**: Logo SMAN 1 Boyolali sebagai favicon + tampil di beranda
+- **Logo & identity**: Logo SMAN 1 Boyolali (dari Wikipedia) sebagai favicon + tampil di beranda
 - **Gravatar fallback**: Foto alumni menggunakan Google avatar jika foto profil belum diupload
 - **Sorting alumni**: Default sorting diubah ke `createdAt desc` (terbaru duluan)
 - **Stats fix**: Perbaikan field name mismatch `byYear` → `byTahunLulus`
 - **Login cleanup**: Tombol login tengah di landing page dihapus
+- **Logo fix**: Ganti logo salah (sekolah umum) → logo resmi SMAN 1 Boyolali dari Wikipedia
 - **Issue patrol**: #36, #35, #33, #31, #24, #32, #23 resolved
+- **Deployment docs**: Update workflow — **Build → Deploy (`pm2 restart`) → Check E2E**
 
 ### 2026-05-28
 - **Kelas tracking**: `kelas1`, `kelas2`, `kelas3` di model, DTO, form, dan public profile

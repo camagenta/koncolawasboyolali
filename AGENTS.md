@@ -43,15 +43,18 @@
 
 ## Workflow Siklus Development
 
-Setiap siklus perubahan WAJIB mengikuti 4 langkah berikut:
+Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 
 1. **Plan** — analisis kebutuhan, buat todo list, bagi tugas ke agent paralel
 2. **Delegate** — dispatch agent untuk setiap task independen
 3. **Build** — `npx next build` (frontend) + `npx nest build` (backend) — pastikan kompilasi sukses
-4. **Check E2E** — jalankan test suite (`npm test`, `npm run test:e2e`, atau verifikasi build output)
-5. **Commit & Push** — git add → commit → push ke GitHub
+4. **Deploy** — `pm2 restart koncolawas-api koncolawas-web` — restart production service
+5. **Check E2E** — verifikasi build output & response live
+6. **Commit & Push** — git add → commit → push ke GitHub
 
-> Catatan: Jika build gagal, jangan push. Fix dulu sampai build sukses.
+> Catatan: Jika build gagal, jangan deploy. Fix dulu sampai build sukses.
+> 
+> ⚠️ **PENTING**: Setelah `pm2 restart`, selalu verifikasi dengan `curl -s http://localhost:3002/ | grep <expected-text>` untuk memastikan perubahan tampil di live.
 
 ---
 
@@ -88,10 +91,8 @@ Setiap siklus perubahan WAJIB mengikuti 4 langkah berikut:
 - **#31** Kelas 1/2/3 tracking — sudah di schema, DTO, dan frontend
 - **#24** Filter tahun alumni — sudah diperpanjang ke 80 tahun
 - **#30** Import sheets — sudah bisa via Google Sheets API + CSV
-
-### ⚠️ Butuh Perbaikan
-- **#32** Stats overview tidak lengkap — **TELAH DIPERBAIKI**: landing page pakai `byTahunLulus` (sebelumnya `byYear` mismatch)
-- **#23** Import Google Sheets timeout — **MASIH TERBUKA**: masih pakai `for` loop `create()` satu per satu, perlu `createMany` + chunking
+- **#32** Stats overview — landing page pakai `byTahunLulus` (sebelumnya `byYear` mismatch)
+- **#23** Import Google Sheets timeout — ganti `create()` loop jadi `createMany()` + chunk 500 rows
 
 ### ❌ Belum Terakomodir
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi
@@ -110,3 +111,22 @@ Setiap siklus perubahan WAJIB mengikuti 4 langkah berikut:
 7. **Issue #23**: Fix batch import — ganti `create()` loop jadi `createMany()` + chunk 500 rows
 8. **README**: Tambah CHANGELOG section, update fitur table
 9. **Build verification**: `npx next build` + `npx nest build` sukses ✅
+
+### Issues
+- **PM2 stale build**: Perubahan tidak nampak di live karena PM2 masih jalan dengan build lama (uptime 21h). Root cause: workflow tidak menyertakan `pm2 restart` setelah build.
+
+---
+
+## Session 2026-05-29 (Lanjutan)
+
+### Changes
+1. **Logo fix**: Ganti logo dari sman1boyolali.com → Wikipedia (`upload.wikimedia.org/wikipedia/id/1/10/Logo_SMAN_1_Boyolali.png`). Sebelumnya pakai logo sekolah umum yang salah.
+2. **Deployment docs**: Update workflow Build → **Deploy** → Check E2E. Tambah peringatan ⚠️ agar selalu `pm2 restart` + `curl` verifikasi setelah build.
+3. **Jest ESM fix**: Delegated ke background agent.
+4. **#34 MVP2 Planning**: Mulai dibahas — donasi, admin unit, gallery alumni, referral code.
+
+### Build verification
+- `npx next build` sukses (21.4s, TS pass, 23 routes)
+- `npx nest build` sukses
+- `pm2 restart koncolawas-api koncolawas-web` ✅
+- Live test: logo ✅, login button ✅, stats (71 alumni, 4 angkatan) ✅
