@@ -85,16 +85,19 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 ## Patroli GitHub Issues — 2026-05-29
 
 ### ✅ Terakomodir (Closed/Selesai)
-- **#36** Success Stories / Wall of Fame — sudah ada model, CRUD, frontend
-- **#35** Migrasi dari platform lama — sudah ada ImportController + fromLegacy
-- **#33** Kelas 3 di kartu alumni — sudah menampilkan `kelas3` di kartu
-- **#31** Kelas 1/2/3 tracking — sudah di schema, DTO, dan frontend
-- **#24** Filter tahun alumni — sudah diperpanjang ke 80 tahun
-- **#30** Import sheets — sudah bisa via Google Sheets API + CSV
-- **#32** Stats overview — landing page pakai `byTahunLulus` (sebelumnya `byYear` mismatch)
-- **#23** Import Google Sheets timeout — ganti `create()` loop jadi `createMany()` + chunk 500 rows
+- **#36** Success Stories / Wall of Fame
+- **#35** Migrasi dari platform lama
+- **#33** Kelas 3 di kartu alumni
+- **#31** Kelas 1/2/3 tracking
+- **#24** Filter tahun alumni
+- **#30** Import sheets
+- **#32** Stats overview fix (byYear → byTahunLulus)
+- **#23** Import Google Sheets timeout fix (createMany + chunk)
+- **#37** Login 2x klik fix (state:false, session:false)
+- **#38** Landing page UX + image compression
+- **#39** Build Prisma client hilang di dist (symlink fix)
 
-### ❌ Belum Terakomodir
+### ❌ Belum Terakomodir / Open Issues
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi
 
 ---
@@ -130,3 +133,26 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - `npx nest build` sukses
 - `pm2 restart koncolawas-api koncolawas-web` ✅
 - Live test: logo ✅, login button ✅, stats (71 alumni, 4 angkatan) ✅
+
+---
+
+## Session 2026-05-29 (Malam)
+
+### Changes
+1. **Favicon & logo**: Logo dikompres 212KB→38KB (pngquant). Favicon.ico dibuat dari logo compressed agar load lebih cepat.
+2. **Landing page redesign**: Header dihapus total. Tombol login cuma 1 di tengah (bawah nama sekolah). Tampilan lebih simpel dan fokus.
+3. **Login 2x klik fix**: Root cause — `passport-google-oauth20` default `state:true` (CSRF) + Passport `session` default tanpa session middleware. Fix: tambah `state: false` di GoogleStrategy + `session: false` di PassportModule.
+4. **Button rebrand**: "Login with Google" → "Masuk sebagai Alumni" + SVG logo Google di kiri.
+5. **Logout redirect**: Semua redirect `/login` diganti ke `/` (landing page), termasuk di auth-context, api.ts, callback, admin layout, app-shell.
+6. **Build fix**: Backend `npm run build` sudah pakai symlink `dist/src/generated → ../../src/generated` untuk Prisma client, tapi sebelumnya dijalanin `npx nest build` langsung tanpa symlink. Build script sudah benar (`npm run build`).
+
+### Bugs Fixed (sebagai issue tracker)
+- **#37** Login perlu 2x klik — fixed via `state:false` + `session:false`
+- **#38** Landing page jelek & lambat — fixed via redesign + kompresi gambar
+- **#39** Build gagal karena Prisma client hilang — fixed via `npm run build` (pakai symlink)
+
+### Build verification
+- `npx next build` sukses (13.2s, TS pass, 23 routes)
+- `npm run build` backend sukses
+- `pm2 restart koncolawas-api koncolawas-web` ✅
+- Live test: logo compressed ✅, "Masuk sebagai Alumni" ✅, Google SVG ✅, stats (71, 4, 1) ✅, no header ✅, 1 login button ✅

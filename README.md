@@ -229,13 +229,17 @@ server {
 
 ### 2026-05-29
 - **Onboarding flow**: Pengguna baru diarahkan ke `/profile` untuk mengisi tahun masuk & tahun lulus sebelum mengakses fitur lain
-- **Logo & identity**: Logo SMAN 1 Boyolali (dari Wikipedia) sebagai favicon + tampil di beranda
 - **Gravatar fallback**: Foto alumni menggunakan Google avatar jika foto profil belum diupload
 - **Sorting alumni**: Default sorting diubah ke `createdAt desc` (terbaru duluan)
 - **Stats fix**: Perbaikan field name mismatch `byYear` → `byTahunLulus`
-- **Login cleanup**: Tombol login tengah di landing page dihapus
-- **Logo fix**: Ganti logo salah (sekolah umum) → logo resmi SMAN 1 Boyolali dari Wikipedia
-- **Issue patrol**: #36, #35, #33, #31, #24, #32, #23 resolved
+- **Logo fix**: Ganti logo dari sekolah umum → logo resmi SMAN 1 Boyolali dari Wikipedia
+- **Kompresi gambar**: Logo 212KB → 38KB via pngquant. Favicon dari logo compressed.
+- **Landing page redesign**: Header dihapus, 1 tombol login di tengah, tampilan simpel.
+- **Login 2x klik fix**: Root cause `state:true` (CSRF) tanpa session → fix `state:false` + `session:false`
+- **Button rebrand**: "Login with Google" → "Masuk sebagai Alumni" + SVG logo Google
+- **Logout redirect**: Semua redirect `/login` → `/` (landing page)
+- **Build fix**: Backend pakai symlink `dist/src/generated → ../../src/generated` untuk Prisma client
+- **Issue #37 #38 #39**: Dibuat sebagai tracker bug
 - **Deployment docs**: Update workflow — **Build → Deploy (`pm2 restart`) → Check E2E**
 
 ### 2026-05-28
