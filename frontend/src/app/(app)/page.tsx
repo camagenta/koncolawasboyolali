@@ -103,6 +103,7 @@ export default function DashboardPage() {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([])
   const [displayCount, setDisplayCount] = useState(FEED_PAGE_SIZE)
   const [fetchErrors, setFetchErrors] = useState<string[]>([])
+  const [featuredStories, setFeaturedStories] = useState<any[]>([])
 
   useEffect(() => {
     async function fetchData() {
@@ -110,7 +111,7 @@ export default function DashboardPage() {
       setFetchErrors([])
       const errors: string[] = []
 
-      const [statsData, threadsData, jobsData, businessData, successData, skillData] =
+      const [statsData, threadsData, jobsData, businessData, successData, skillData, featuredData] =
         await Promise.all([
           fetchApi<StatsOverview>('/stats/overview').catch((err) => {
             errors.push(`stats: ${err.message}`)
@@ -126,10 +127,12 @@ export default function DashboardPage() {
             .catch(() => null),
           fetchApi<PaginatedResponse<SkillItem>>('/alumni-skill', { params: { limit: 5 } })
             .catch(() => null),
+          fetchApi<any[]>('/success-stories/featured').catch(() => []),
         ])
 
       if (statsData) setStats(statsData)
       if (errors.length > 0) setFetchErrors(errors)
+      if (Array.isArray(featuredData) && featuredData.length > 0) setFeaturedStories(featuredData)
 
       const items: FeedItem[] = []
 
@@ -476,6 +479,40 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+
+          {featuredStories.length > 0 && (
+            <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{'\u{1F3C6}'}</span>
+                  <h2 className="font-semibold text-gray-900">Alumni Berprestasi</h2>
+                </div>
+                <Link href="/sukses" className="text-xs text-amber-700 hover:text-amber-800 font-medium">
+                  Lihat Semua &rarr;
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {featuredStories.slice(0, 5).map((story) => (
+                  <Link
+                    key={story.id}
+                    href="/sukses"
+                    className="bg-white/80 backdrop-blur rounded-xl p-3 border border-amber-100 hover:shadow-md hover:bg-white transition-all text-center group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold text-sm mx-auto mb-2 shadow-sm overflow-hidden">
+                      {story.photoUrl ? (
+                        <img src={story.photoUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        story.name?.charAt(0)?.toUpperCase() || '?'
+                      )}
+                    </div>
+                    <p className="text-xs font-semibold text-gray-900 truncate group-hover:text-amber-700 transition-colors">{story.name}</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5 line-clamp-2 leading-tight">{story.achievement}</p>
+                    <p className="text-[10px] text-amber-600 font-medium mt-1">Angkatan {story.angkatan}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
