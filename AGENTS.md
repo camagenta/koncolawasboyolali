@@ -80,25 +80,39 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - [ ] **Gallery foto angkatan**: upload & tampilkan foto momen sekolah
 - [ ] **SEO & Open Graph**: meta tags untuk setiap halaman publik
 
+> **Catatan status aktual per 2026-05-29:**
+> - ✅ **Forum diskusi** — SUDAH implement (threads, nested comments/replies, likes, pagination, categories)
+> - ✅ **Upload foto profil** — SUDAH implement (2MB limit, preview, disk storage, old-file cleanup)
+> - ✅ **Pencarian & filter alumni** — SUDAH implement (search by nama/NIS, filter by tahun/jurusan/status)
+> - ✅ **Export data alumni** — SUDAH implement (CSV + Excel + Stats, admin-only)
+> - 🟡 **Dashboard admin** — SUDAH ada basic stats (4 KPI cards + recent users + export), belum ada charts/grafik
+> - ❌ **Registrasi alumni mandiri** — belum ada
+> - ❌ **Notifikasi email** — belum ada
+> - ❌ **Mobile responsive** — masih perlu refine
+> - ❌ **CI/CD pipeline** — belum ada
+> - ❌ **SEO & Open Graph** — baru terpasang di `/pengurus`, sisanya belum
+> 
+> Todo list di atas perlu direvisi — beberapa item sudah selesai tapi belum dihapus/ditandai. Priority sebaiknya difokuskan ke yang benar-benar belum ada.
+
 ---
 
 ## Patroli GitHub Issues — 2026-05-29
 
 ### ✅ Terakomodir (Closed/Selesai)
-- **#36** Success Stories / Wall of Fame
-- **#35** Migrasi dari platform lama
-- **#33** Kelas 3 di kartu alumni
+- **#9–#29** Seluruh issues fase MVP1 (login, profil, admin, forum, jobs, notifikasi, dll)
+- **#30** Import Google Sheets timeout fix (createMany + chunk)
 - **#31** Kelas 1/2/3 tracking
-- **#24** Filter tahun alumni
-- **#30** Import sheets
 - **#32** Stats overview fix (byYear → byTahunLulus)
-- **#23** Import Google Sheets timeout fix (createMany + chunk)
-- **#37** Login 2x klik fix (state:false, session:false)
-- **#38** Landing page UX + image compression
-- **#39** Build Prisma client hilang di dist (symlink fix)
+- **#33** Kelas 3 di kartu alumni
+- **#35** Migrasi dari platform lama
+- **#36** Success Stories / Wall of Fame
+- **#37** Landing page UX + image compression
+- **#38** Build Prisma client hilang di dist (symlink fix)
+- **#39** Login 2x klik fix (state:false, session:false)
 
 ### ❌ Belum Terakomodir / Open Issues
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi
+- **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) dengan foto & profil
 
 ---
 
@@ -112,12 +126,12 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 5. **Deploy prod**: pull → build → `pm2 restart koncolawas-web` — verified ✅
 
 ### Todo — Profil Pengurus (Prioritas)
-1. **Verifikasi Ali Mahfud** — nama terlalu umum, perlu konfirmasi via IKA Boy apakah Full Stack Engineer di Pakuwon Hotels adalah alumni SMAN 1 Boyolali
-2. **Cari foto profil** — via LinkedIn/IG untuk yang belum punya foto (Ali Mahfud, Yulianto, Adi Surya, dll)
-3. **Data masih hilang** — Dun Sridadi, Sayoeti Sukandi, Wartono, Yulianto (ambigu) — hubungi sekretariat IKA via IG @ikasmansaboy atau Facebook
-4. **Tambahkan kontak** — email/LinkedIn/IG untuk semua profil yang memungkinkan
-5. **SEO & meta tags** — untuk halaman `/pengurus`
-6. **Link di footer app-shell** — untuk pengguna yang sudah login (saat ini hanya di landing page)
+1. ✅ **Verifikasi Ali Mahfud** — Drs. H. Ali Mahfud, S.H. — Hakim PA Surakarta (bukan Full Stack Engineer)
+2. 🟡 **Cari foto profil** — sebagian sudah (Susilo, Amir, Agus S, Wimboh, Hartanto, Didik, Hadi, Sumardi, Agus I, Suwarno); sisanya via LinkedIn/IG
+3. 🔴 **Data masih hilang** — Dun Sridadi, Sayoeti Sukandi, Yulianto (ambigu) — hubungi sekretariat IKA via IG @ikasmansaboy atau Facebook; mayoritas anggota bidang tidak punya jejak digital
+4. ✅ **Tambahkan kontak** — LinkedIn/IG untuk semua profil yang memungkinkan
+5. ✅ **SEO & meta tags** — title, description, OG tags di `/pengurus` via `useEffect`
+6. ✅ **Link di footer app-shell** — untuk pengguna yang sudah login
 
 ---
 
@@ -166,9 +180,9 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 6. **Build fix**: Backend `npm run build` sudah pakai symlink `dist/src/generated → ../../src/generated` untuk Prisma client, tapi sebelumnya dijalanin `npx nest build` langsung tanpa symlink. Build script sudah benar (`npm run build`).
 
 ### Bugs Fixed (sebagai issue tracker)
-- **#37** Login perlu 2x klik — fixed via `state:false` + `session:false`
-- **#38** Landing page jelek & lambat — fixed via redesign + kompresi gambar
-- **#39** Build gagal karena Prisma client hilang — fixed via `npm run build` (pakai symlink)
+- **#39** Login perlu 2x klik — fixed via `state:false` + `session:false`
+- **#37** Landing page jelek & lambat — fixed via redesign + kompresi gambar
+- **#38** Build gagal karena Prisma client hilang — fixed via `npm run build` (pakai symlink)
 
 ### Build verification
 - `npx next build` sukses (13.2s, TS pass, 23 routes)
@@ -199,7 +213,17 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 - Dun Sridadi, Sayoeti Sukandi, Yulianto — tidak ditemukan data publik
 - Mayoritas bidang/sub-bidang tidak punya jejak digital
 
+### Commit history (7 commits dari sesi ini)
+- `dc89175` — docs: update session profil pengurus final
+- `e756351` — feat: tambah Prof. Suwarno, koreksi Bupati Agus Irawan, perkaya bio
+- `98df049` — Halaman kepengurusan lama + cross-ref SK
+- `ed34863` — Update profil: foto Amir Yanto, Hadi Pratomo, Sri Yunanto
+- `22a5a6a` — Update data: Ali Mahfud, Andy, Bambang, foto Hartanto & Didik, SEO, footer
+- `5a0047a` — update: Kurnia Adhiwibowo — data lengkap (BPS)
+- `2994241` — docs: update AGENTS.md — todo profil pengurus & session log
+
 ### Build & Deploy
 - `npx next build` sukses — 25 routes
 - push → ssh pull → build → `pm2 restart koncolawas-web koncolawas-api` ✅
 - Live verified: "SMANSA - Alumni SMAN 1 Boyolali" ✅, footer pengurus ✅
+
