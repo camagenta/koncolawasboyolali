@@ -20,7 +20,7 @@ async function getFeatured() {
     if (!res.ok) return []
     const json = await res.json()
     const items: any[] = json.data || []
-    return items.filter((x: any) => x.isFeatured)
+    return items.filter((x: any) => x.isFeatured && x.photoUrl)
   } catch {
     return []
   }
