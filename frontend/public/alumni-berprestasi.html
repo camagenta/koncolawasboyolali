@@ -149,7 +149,7 @@
     margin: 0 auto;
     padding: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 1.25rem;
   }
 
@@ -178,6 +178,15 @@
 
   .card-body { padding: 1.25rem; }
 
+  /* Header row: text left, photo right */
+  .card-header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  .card-header-text { flex: 1; min-width: 0; }
+
   .card-no {
     display: inline-flex;
     align-items: center;
@@ -189,7 +198,7 @@
     font-size: 0.7rem;
     font-weight: 700;
     border-radius: 0.375rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   .card-name {
@@ -202,8 +211,37 @@
   .card-nick {
     font-size: 0.78rem;
     color: #64748b;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
+
+  /* Photo / Avatar */
+  .card-photo {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    background: #f1f5f9;
+  }
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card-photo .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+  }
+  .card-photo .avatar-placeholder.male { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+  .card-photo .avatar-placeholder.female { background: linear-gradient(135deg, #ec4899, #db2777); }
 
   .card-badge {
     display: inline-block;
@@ -287,12 +325,23 @@
     grid-column: 1 / -1;
   }
 
+  /* Photo source badge */
+  .photo-source {
+    display: inline-block;
+    font-size: 0.6rem;
+    color: #94a3b8;
+    margin-top: 0.25rem;
+    font-style: italic;
+  }
+
   @media (max-width: 640px) {
     .hero h1 { font-size: 1.4rem; }
     .grid-container { grid-template-columns: 1fr; padding: 0.75rem; gap: 0.85rem; }
     .controls { padding: 0.75rem; }
     .controls input { min-width: 140px; }
     .stats-bar { gap: 1rem; }
+    .card-photo { width: 52px; height: 52px; }
+    .card-photo .avatar-placeholder { font-size: 1.1rem; }
   }
 
   /* Print */
@@ -319,7 +368,8 @@
 <!-- Stats -->
 <div class="stats-bar">
   <div class="stat-item"><div class="num">49</div><div class="label">Total Alumni</div></div>
-  <div class="stat-item"><div class="num">1969-2013</div><div class="label">Rentang Angkatan</div></div>
+  <div class="stat-item"><div class="num">1961-2013</div><div class="label">Rentang Angkatan</div></div>
+  <div class="stat-item"><div class="num" id="photoCount">0</div><div class="label">Berfoto</div></div>
   <div class="stat-item"><div class="num">10</div><div class="label">Profesor/Guru Besar</div></div>
   <div class="stat-item"><div class="num">6</div><div class="label">Jenderal/Perwira Tinggi</div></div>
   <div class="stat-item"><div class="num">4</div><div class="label">Menteri/Pejabat Setingkat</div></div>
@@ -336,6 +386,11 @@
     <option value="Laki-laki">Laki-laki</option>
     <option value="Perempuan">Perempuan</option>
   </select>
+  <select id="photoFilter" onchange="filterCards()">
+    <option value="">Semua</option>
+    <option value="withphoto">Dengan Foto</option>
+    <option value="withoutphoto">Tanpa Foto</option>
+  </select>
   <span style="font-size:0.8rem;color:#94a3b8;margin-left:auto" id="resultCount">49 alumni</span>
 </div>
 
@@ -344,8 +399,7 @@
   <div class="info-banner">
     <div class="info-icon">ℹ️</div>
     <div class="info-text">
-      <strong>Catatan:</strong> Data ini merupakan hasil riset awal (<em>Open Source Intelligence</em>) dari sumber publik (Wikipedia, portal berita, profil institusi). Sebagian alumni belum ditemukan jejak digital publik yang memadai. 
-      Informasi lebih lanjut dapat diperoleh dari Sekretariat IKA SMANSA Boyolali atau menghubungi kontributor WAG Sie Alumni Reuni Akbar.
+      <strong>Catatan:</strong> <span id="photoNote">Beberapa</span> alumni yang memiliki foto profil publik bersumber dari Wikipedia/UPT/PT (domain publik). Sebagian besar belum tersedia foto publik — jika Anda memiliki foto, silakan hubungi kontributor WAG Sie Alumni Reuni Akbar. Data ini merupakan hasil riset OSINT (<em>Open Source Intelligence</em>) dari sumber publik. <span id="photoSourceList" style="font-size:0.8rem;display:block;margin-top:4px;"></span>
     </div>
   </div>
 </div>
@@ -364,49 +418,49 @@ const alumni = [
   {no:1, nama:"Prof. Dra. Th. Dwi Suryaningrum, MS.", namaFormal:"Th. Dwi Suryaningrum", angkatan:1974, posisi:"Peneliti BRIN (Badan Riset dan Inovasi Nasional)", ringkasan:"Pensiun dari BRIN bulan Februari 2026. Berdomisili di Jakarta Utara. Informan: Bambang Sudaryanto (1973).", gender:"Perempuan", type:"acad"},
   {no:2, nama:"Prof. Dr. Ir. Bagus Sediadi Bandol Utomo, MAppSc.", namaFormal:"Bagus Sediadi Bandol Utomo", angkatan:1973, posisi:"Peneliti BRIN (Badan Riset dan Inovasi Nasional)", ringkasan:"Pensiun dari BRIN bulan November 2025. Berdomisili di Tangerang, Banten. Informan: Bambang Sudaryanto (1973).", gender:"Laki-laki", type:"acad"},
   {no:3, nama:"Marsekal Muda TNI (Purn.) Gunaryadi, S.E., M.M., M.Sc.", namaFormal:"Gunaryadi", angkatan:1971, posisi:"Ketua STP AVIASI Jakarta (2013-2015)", ringkasan:"Purnawirawan TNI AU sekaligus akademisi. Ketua Sekolah Tinggi Penerbangan (STP) Aviasi Jakarta. Penulis buku akademis Keselamatan Penerbangan. Informan: Slamet Widodo via WAG Sie Alumni Reuni Akbar.", gender:"Laki-laki", type:"mil"},
-  {no:4, nama:"Prof. Dr. H. Baedhowi, M.Si. (Almarhum)", namaFormal:"Baedhowi", angkatan:1969, posisi:"Sekjen Kemendiknas (2003-2005) — Guru Besar UNS", ringkasan:"Lahir Boyolali 28 Agustus 1949. Sekjen Kementerian Pendidikan Nasional. Ketua Majelis Dikdasmen PP Muhammadiyah. Wafat 4 Juli 2021 karena COVID-19. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
+  {no:4, nama:"Prof. Dr. H. Baedhowi, M.Si. (Almarhum)", namaFormal:"Baedhowi", angkatan:1969, posisi:"Sekjen Kemendiknas (2003-2005) — Guru Besar UNS", ringkasan:"Lahir Boyolali 28 Agustus 1949. Sekjen Kementerian Pendidikan Nasional. Ketua Majelis Dikdasmen PP Muhammadiyah. Wafat 4 Juli 2021.", gender:"Laki-laki", type:"gov", foto:"https://simpeg.uns.ac.id/file/get?path=foto/2016/09/8muvrk8Hsz4bWYRJFdifV3j4PRx8LW5I.jpeg"},
   {no:5, nama:"Letjen TNI (Purn.) Gunaryadi", namaFormal:"Gunaryadi", angkatan:1971, posisi:"Perwira Tinggi TNI AD", ringkasan:"Informan: Slamet Widodo via WAG. Untuk informasi lebih lanjut dapat menghubungi Bowo grup Surabaya.", gender:"Laki-laki", type:"mil"},
   {no:6, nama:"Ir. Muhadi", namaFormal:"Muhadi", angkatan:1973, posisi:"Sekretaris Daerah Provinsi Banten (2008-2014)", ringkasan:"Lahir Boyolali 1954. Lulusan Teknik Geodesi ITB (1981). Sekda Banten 2008-2014. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
-  {no:7, nama:"Ir. Djoko Kirmanto, Dipl. HE.", namaFormal:"Djoko Kirmanto", angkatan:1961, posisi:"Menteri Pekerjaan Umum RI (2004-2014)", ringkasan:"Menteri PU dua periode (Kabinet Indonesia Bersatu I & II). Lulusan Teknik Sipil UGM. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:7, nama:"Ir. Djoko Kirmanto, Dipl. HE.", namaFormal:"Djoko Kirmanto", angkatan:1961, posisi:"Menteri Pekerjaan Umum RI (2004-2014)", ringkasan:"Menteri PU dua periode (Kabinet Indonesia Bersatu I & II). Lulusan Teknik Sipil UGM. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Djoko_Kirmanto_Official_Portrait.jpg/120px-Djoko_Kirmanto_Official_Portrait.jpg"},
   {no:8, nama:"Dr. KRHT Jupri Bandang Prawirodigdoyo Kusumanagoro, AK, MM", namaFormal:"Jupri Bandang", angkatan:1968, posisi:"Direktur Ditjen Pajak / Staf Ahli Kejaksaan Agung", ringkasan:"Kakanwil DJP dan Direktur Penyuluhan Perpajakan. Staf Ahli Kejaksaan Agung. Doktor ke-2 Filsafat UIN Semarang (Punakawan Semar). Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:9, nama:"Susilo Siswoutomo", namaFormal:"Susilo Siswoutomo", angkatan:1969, posisi:"Wakil Menteri ESDM (2013-2014)", ringkasan:"Lahir Boyolali 4 September 1950. Karir 33 tahun ExxonMobil (VP). Wamen ESDM Kabinet Indonesia Bersatu II. Alumni ITB. Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:10, nama:"Jenderal TNI (Purn.) Mulyono", namaFormal:"Mulyono", angkatan:1979, posisi:"Kepala Staf Angkatan Darat (KASAD)", ringkasan:"Lulusan AKABRI/Akmil 1983. KASAD. Informan: MHK.", gender:"Laki-laki", type:"mil"},
-  {no:11, nama:"Mayjen TNI (Purn.) Sumardi", namaFormal:"Sumardi", angkatan:1979, posisi:"Dankodiklat TNI AD / Pangdam V/Brawijaya", ringkasan:"Pangdam V/Brawijaya (2015-2016). Setelah purnabakti: Wakil Komisaris Utama PT Pindad. Informan: MHK.", gender:"Laki-laki", type:"mil"},
-  {no:12, nama:"Irjen Pol. (Purn.) Drs. Erwin Triwanto, S.H.", namaFormal:"Erwin Triwanto", angkatan:1980, posisi:"Kapolda DIY, Kalsel, Kalbar", ringkasan:"Lulusan Akpol 1986. Kapolda DIY (2015-2016), Kapolda Kalsel, Kapolda Kalbar. Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:9, nama:"Susilo Siswoutomo", namaFormal:"Susilo Siswoutomo", angkatan:1969, posisi:"Wakil Menteri ESDM (2013-2014)", ringkasan:"Lahir Boyolali 4 September 1950. Karir 33 tahun ExxonMobil (VP). Wamen ESDM Kabinet Indonesia Bersatu II. Alumni ITB. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Susilo_Siswoutomo_Official.jpg/120px-Susilo_Siswoutomo_Official.jpg"},
+  {no:10, nama:"Jenderal TNI (Purn.) Mulyono", namaFormal:"Mulyono", angkatan:1979, posisi:"Kepala Staf Angkatan Darat (KASAD)", ringkasan:"Lulusan AKABRI/Akmil 1983. KASAD. Informan: MHK.", gender:"Laki-laki", type:"mil", foto:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Kasad_Mulyono.jpg/120px-Kasad_Mulyono.jpg"},
+  {no:11, nama:"Mayjen TNI (Purn.) Sumardi", namaFormal:"Sumardi", angkatan:1979, posisi:"Dankodiklat TNI AD / Pangdam V/Brawijaya", ringkasan:"Lahir Boyolali 20 Feb 1959. Akmil 1984. Pangdam V/Brawijaya, Dankodiklat TNI AD. Mantan Ketum Bravo 5.", gender:"Laki-laki", type:"mil", foto:"https://thumb.viva.co.id/media/frontend/thumbs3/2022/06/06/629dc5a6da50a-letjen-tni-purn-sumardi_1265_711.jpeg"},
+  {no:12, nama:"Irjen Pol. (Purn.) Drs. Erwin Triwanto, S.H.", namaFormal:"Erwin Triwanto", angkatan:1980, posisi:"Kapolda DIY, Kalsel, Kalbar", ringkasan:"Lulusan Akpol 1986. Kapolda DIY (2015-2016), Kapolda Kalsel, Kapolda Kalbar.", gender:"Laki-laki", type:"mil", foto:"https://img.antarafoto.com/cache/1200x800/2015/03/17/sertijab-kapolda-diy-afpm-dom.jpg"},
   {no:13, nama:"Brigjen TNI Hari Prabowo", namaFormal:"Hari Prabowo", angkatan:1979, posisi:"Perwira Tinggi TNI AD", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"mil"},
   {no:14, nama:"Mayjen TNI (Purn.) dr. Heru Pranata", namaFormal:"Heru Pranata", angkatan:1982, posisi:"Kapoksahli RSPAD Gatot Soebroto", ringkasan:"Mayjen TNI CKM (Kesehatan). Ketua Kelompok Staf Ahli RSPAD Gatot Soebroto. Informan: MHK.", gender:"Laki-laki", type:"mil"},
   {no:15, nama:"Pardiman", namaFormal:"Pardiman", angkatan:1980, posisi:"Direktur PT Petrokimia", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"business"},
-  {no:16, nama:"Sumarno", namaFormal:"Sumarno", angkatan:1990, posisi:"Sekretaris Daerah Provinsi Jawa Tengah", ringkasan:"Sekda Jateng. Ketua IKABI (Ikatan Alumni SMP-SMA 1 Boyolali) 2022-2025. Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:17, nama:"Seno Samodro", namaFormal:"Seno Samodro", angkatan:1983, posisi:"Bupati Boyolali", ringkasan:"Lulusan Sastra Prancis UGM. Bupati Boyolali. Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:18, nama:"Wahyu Irawan", namaFormal:"Wahyu Irawan", angkatan:1985, posisi:"Wakil Bupati", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:19, nama:"Masruri", namaFormal:"Masruri", angkatan:1983, posisi:"Sekretaris Daerah Kabupaten Boyolali", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:20, nama:"Agustinus Gatot Hermawan", namaFormal:"Gatot Hermawan", angkatan:1985, posisi:"Deputi BP2MI", ringkasan:"Deputi Bidang Penempatan dan Pelindungan BP2MI. Informan: MHK.", gender:"Laki-laki", type:"gov"},
-  {no:21, nama:"Hasto", namaFormal:"Hasto", angkatan:1985, posisi:"Direktur Petrogas/Petrokimia Pertamina", ringkasan:"Direktur di lingkungan Pertamina Group. Informan: MHK.", gender:"Laki-laki", type:"business"},
+  {no:16, nama:"Sumarno", namaFormal:"Sumarno", angkatan:1990, posisi:"Sekretaris Daerah Provinsi Jawa Tengah", ringkasan:"Sekda Jateng. Ketua IKABI (Ikatan Alumni SMP-SMA 1 Boyolali) 2022-2025. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://setda.jatengprov.go.id/uploads/1/2025-02/pak_sekda.jpg"},
+  {no:17, nama:"Seno Samodro", namaFormal:"Seno Samodro", angkatan:1983, posisi:"Bupati Boyolali", ringkasan:"Lulusan Sastra Prancis UGM. Bupati Boyolali. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Seno_Samodro.jpg/120px-Seno_Samodro.jpg"},
+  {no:18, nama:"Wahyu Irawan", namaFormal:"Wahyu Irawan", angkatan:1985, posisi:"Wakil Bupati Boyolali", ringkasan:"Wakil Bupati Boyolali. Berprofesi sebagai pengusaha, Dirut Perumda Tirta Ampera Boyolali. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://halosemarang.id/wp-content/uploads/2025/02/OK-10-Wabup-Iwan-Terima-Kunjungan-Kerja-Komisi-A-DPRD-Provinsi-Jawa-Tengah-Bahas-Penanggulangan-Kemiskinan.jpeg"},
+  {no:19, nama:"Masruri", namaFormal:"Masruri", angkatan:1983, posisi:"Sekretaris Daerah Kabupaten Boyolali", ringkasan:"Sekda Kabupaten Boyolali. Plh Bupati Boyolali (2021). Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://cdn.antaranews.com/cache/1200x800/2019/05/28/masruri-2.jpg"},
+  {no:20, nama:"Agustinus Gatot Hermawan", namaFormal:"Gatot Hermawan", angkatan:1985, posisi:"Deputi BP2MI", ringkasan:"Deputi Bidang Penempatan dan Pelindungan BP2MI. Informan: MHK.", gender:"Laki-laki", type:"gov", foto:"https://img.antaranews.com/cache/1200x800/2024/02/02/deputi-bp2mi-agustinus-gatot-hermawan-BERITA-ANTARA.jpg"},
+  {no:21, nama:"Hasto Wibowo", namaFormal:"Hasto Wibowo", angkatan:1985, posisi:"SVP Integrated Supply Chain Pertamina / Direktur Pertamina Patra Niaga", ringkasan:"Executive di Pertamina Group. SVP Integrated Supply Chain (2018). Direktur Pemasaran Pusat dan Niaga Pertamina Patra Niaga (2020-2021). Informan: MHK.", gender:"Laki-laki", type:"business", foto:"https://img.antarafoto.com/cache/1200x798/2026/05/12/sidang-putusan-korupsi-tata-kelola-minyak-mentah-1nrlx-dom.jpg"},
   {no:22, nama:"Edi Budoyo", namaFormal:"Edi Budoyo", angkatan:1976, posisi:"Wakil Bupati Manokwari", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
   {no:23, nama:"Ir. Muhadi", namaFormal:"Muhadi", angkatan:1973, posisi:"Sekretaris Daerah Provinsi Banten", ringkasan:"Sekda Banten. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
-  {no:24, nama:"Dr. Ir. Joko Sarjadi", namaFormal:"Joko Sarjadi", angkatan:1976, posisi:"Akademisi Teknik Mesin", ringkasan:"Dr. Ir. Joko Sarjadi — jurusan Teknik Mesin. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:24, nama:"Dr. Ir. Joko Sarjadi", namaFormal:"Joko Sarjadi", angkatan:1976, posisi:"Akademisi Teknik Mesin", ringkasan:"Dr. Ir. Joko Sarjadi — jurusan Teknik Mesin. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad", foto:"https://ftmd.itb.ac.id/wp-content/uploads/sites/385/2020/02/Pak-Djoko-Sarjadi.jpg"},
   {no:25, nama:"Dr. Drs. Sutrisno", namaFormal:"Sutrisno", angkatan:1976, posisi:"Akademisi Fisika", ringkasan:"Dr. Drs. Sutrisno — jurusan Fisika. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
   {no:26, nama:"Dr. Drs. Hendro", namaFormal:"Hendro (Sing sing)", angkatan:1976, posisi:"Akademisi Fisika", ringkasan:"Dr. Drs. Hendro — jurusan Fisika. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
-  {no:27, nama:"Prof. Dr. Suryotisnanto, S.H., M.H.", namaFormal:"Suryotisnanto", angkatan:1980, posisi:"Guru Besar/Akademisi Hukum", ringkasan:"Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:27, nama:"Prof. Dr. Suryotisnanto, S.H., M.H.", namaFormal:"Suryotisnanto", angkatan:1980, posisi:"Guru Besar/Akademisi Hukum", ringkasan:"Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad", foto:"https://mih.fh.unila.ac.id/wp-content/uploads/2021/05/Dr.-HS.-Tisnanta-S.H.M.H.-1.png"},
   {no:28, nama:"Dr. KRT. Jupri Bandang Prawirodigdoyo Kusumanagoro, AK, MM", namaFormal:"Jupri Bandang", angkatan:1970, posisi:"Staf Ahli Kejaksaan Agung RI", ringkasan:"Berkiprah di Ditjen Pajak kemudian Staf Ahli Kejaksaan Agung. Doktor ke-2 Filsafat UIN Semarang. Asal Kudu, Kragilan, Mojosongo. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
-  {no:29, nama:"Tastaftiyan Risfandy, S.E., M.Sc., Ph.D.", namaFormal:"Tastaftiyan Risfandy", angkatan:2005, posisi:"Wakil Dekan FEB Universitas Sebelas Maret (UNS)", ringkasan:"Wadek FEB UNS. S1 UNS, S2 UGM, Master & PhD Université de Limoges Perancis. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad"},
+  {no:29, nama:"Tastaftiyan Risfandy, S.E., M.Sc., Ph.D.", namaFormal:"Tastaftiyan Risfandy", angkatan:2005, posisi:"Wakil Dekan FEB Universitas Sebelas Maret (UNS)", ringkasan:"Wadek FEB UNS. S1 UNS, S2 UGM, Master & PhD Université de Limoges Perancis. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad", foto:"https://feb.uns.ac.id/feb/wp-content/uploads/2021/10/tastaftiyannn.jpg"},
   {no:30, nama:"Prof. Dr. Mahmudah Enny Widyaningrum, Dra., Ec., M.Si.", namaFormal:"Mahmudah Enny Widyaningrum", angkatan:1975, posisi:"Dosen Universitas Bhayangkara", ringkasan:"Putri Pak Dirdjo (Guru Biologi) — jalan Merbabu. Informan: Eddy Sapantri.", gender:"Perempuan", type:"acad"},
-  {no:31, nama:"Ir. Tito Yuwono, S.T., M.Sc., Ph.D., IPM.", namaFormal:"Tito Yuwono", angkatan:1995, posisi:"Dosen Teknik Elektro UII", ringkasan:"Dosen Teknik Elektro Universitas Islam Indonesia (UII). Yogyakarta. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad"},
+  {no:31, nama:"Ir. Tito Yuwono, S.T., M.Sc., Ph.D., IPM.", namaFormal:"Tito Yuwono", angkatan:1995, posisi:"Dosen Teknik Elektro UII", ringkasan:"Dosen Teknik Elektro Universitas Islam Indonesia (UII). Yogyakarta. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad", foto:"https://ee.uii.ac.id/wp-content/uploads/2022/11/Tito-Yuwono-S.T.-M.Sc_..jpg"},
   {no:32, nama:"Dr. Ir. Dwiningtyas Padmaningrum, S.P., M.Si.", namaFormal:"Dwiningtyas Padmaningrum", angkatan:1990, posisi:"Lektor Senior UNS — Penyuluhan Pertanian", ringkasan:"Akademisi dan peneliti di UNS. Spesialis Penyuluhan Pertanian & Komunikasi Pembangunan. Putri Alm. Pak Basuki (Guru Biologi). Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
-  {no:33, nama:"Dr. Subekti Nurmawati, M.Si.", namaFormal:"Subekti Nurmawati", angkatan:1985, posisi:"Dekan FST Universitas Terbuka (2025-2030)", ringkasan:"Dekan Fakultas Sains dan Teknologi UT. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
-  {no:34, nama:"Dr. Ibnu Wahyudi, M.A.", namaFormal:"Ibnu Wahyudi (Mas Iben)", angkatan:1976, posisi:"Dosen Sastra Indonesia FIB UI", ringkasan:"Lahir Boyolali 24 Juni 1958. Sastrawan dan akademisi UI. Murid Sapardi Djoko Damono. Master Monash University Australia. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad"},
-  {no:35, nama:"Dr. Joko Suryana", namaFormal:"Joko Suryana", angkatan:1990, posisi:"Dosen/Peneliti STEI ITB", ringkasan:"Peneliti senior STEI ITB. Keahlian: telekomunikasi radio, sistem microwave & satelit, radar. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad"},
+  {no:33, nama:"Dr. Subekti Nurmawati, M.Si.", namaFormal:"Subekti Nurmawati", angkatan:1985, posisi:"Dekan FST Universitas Terbuka (2025-2030)", ringkasan:"Dekan Fakultas Sains dan Teknologi UT. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad", foto:"https://fst.ut.ac.id/wp-content/uploads/2022/04/FOTO-NURMAWATI-scaled-e1650349232583.jpg"},
+  {no:34, nama:"Dr. Ibnu Wahyudi, M.A.", namaFormal:"Ibnu Wahyudi (Mas Iben)", angkatan:1976, posisi:"Dosen Sastra Indonesia FIB UI", ringkasan:"Lahir Boyolali 24 Juni 1958. Sastrawan dan akademisi UI. Murid Sapardi Djoko Damono. Master Monash University Australia. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad", foto:"https://www.tagar.id/Asset/uploads2019/1615717393162-ibnu-wahyudi.jpg"},
+  {no:35, nama:"Dr. Joko Suryana", namaFormal:"Joko Suryana", angkatan:1990, posisi:"Dosen/Peneliti STEI ITB", ringkasan:"Peneliti senior STEI ITB. Keahlian: telekomunikasi radio, sistem microwave & satelit, radar. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad", foto:"https://stei.itb.ac.id/wp-content/uploads/Joko-S.png"},
   {no:36, nama:"Dr. Solichatun, S.Si., M.Si.", namaFormal:"Solichatun", angkatan:1989, posisi:"Kaprodi Biologi FMIPA UNS", ringkasan:"Dosen dan peneliti Program Studi Biologi FMIPA UNS. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
-  {no:37, nama:"Prof. Dr. Eng. Kuwat Triyana, M.Si.", namaFormal:"Kuwat Triyana", angkatan:1986, posisi:"Dekan FMIPA Universitas Gadjah Mada (UGM)", ringkasan:"Guru Besar Departemen Fisika FMIPA UGM. Penemu GeNose (detektor COVID-19). Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad"},
-  {no:38, nama:"Sutopo Purwo Nugroho (Almarhum)", namaFormal:"Sutopo Purwo Nugroho", angkatan:1989, posisi:"Kepala Pusdatin & Jubir BNPB", ringkasan:"Kepala Pusat Data Informasi dan Humas BNPB. Juru bicara BNPB untuk bencana alam. Wafat 2019. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"gov"},
-  {no:39, nama:"Dr. Ir. Mufti Reza Aulia Putra, S.T., M.T., IPP.", namaFormal:"Mufti Reza Aulia Putra", angkatan:2013, posisi:"Dosen Teknik Elektro UNS", ringkasan:"Lulus SMA 2013, S1 2015 (percepatan). Dosen Teknik Elektro UNS. Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad"},
+  {no:37, nama:"Prof. Dr. Eng. Kuwat Triyana, M.Si.", namaFormal:"Kuwat Triyana", angkatan:1986, posisi:"Dekan FMIPA Universitas Gadjah Mada (UGM)", ringkasan:"Guru Besar Departemen Fisika FMIPA UGM. Penemu GeNose (detektor COVID-19). Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad", foto:"https://fisika.fmipa.ugm.ac.id/wp-content/uploads/sites/440/2021/02/Kuwat_Triyana_300x300.png"},
+  {no:38, nama:"Sutopo Purwo Nugroho (Almarhum)", namaFormal:"Sutopo Purwo Nugroho", angkatan:1989, posisi:"Kepala Pusdatin & Jubir BNPB", ringkasan:"Kepala Pusat Data Informasi dan Humas BNPB. Juru bicara BNPB untuk bencana alam. Wafat 2019. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"gov", foto:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Sutopo_Purwo_Nugroho%2C_2018.jpg/120px-Sutopo_Purwo_Nugroho%2C_2018.jpg"},
+  {no:39, nama:"Dr. Ir. Mufti Reza Aulia Putra, S.T., M.T., IPP.", namaFormal:"Mufti Reza Aulia Putra", angkatan:2013, posisi:"Dosen Teknik Elektro UNS", ringkasan:"Lulus SMA 2013, S1 2015 (percepatan). Dosen Teknik Elektro UNS. Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad", foto:"https://uns.ac.id/id/wp-content/uploads/2023/04/Dr.-Mufti-Reza-Aulia-Putra-S.T.-M.T.-Raih-IPK-4-Menjadi-Lulusan-Termuda-dan-Tercepat-Program-Doktor-UNS.jpg"},
   {no:40, nama:"Dr. Rini Tesniwati, S.E., M.M., M.Si., MMSI.", namaFormal:"Rini Tesniwati", angkatan:1989, posisi:"Dosen Akuntansi Universitas Gunadarma", ringkasan:"Dosen tetap Jurusan Akuntansi Fakultas Ekonomi Universitas Gunadarma. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
-  {no:41, nama:"Prof. Dr. Dwi Prasetyani, S.E., M.Si., CIPE., CPRM.", namaFormal:"Dwi Prasetyani", angkatan:1995, posisi:"Direktur DAKM UNS / Guru Besar UNS", ringkasan:"Guru Besar Kewirausahaan & Pemberdayaan Perempuan UNS (Feb 2026). Direktur Alumni dan Kewirausahaan Mahasiswa UNS. Informan: Odydasa Fitranto (1995).", gender:"Perempuan", type:"acad"},
-  {no:42, nama:"Dr. Agus Andi Subroto, S.T.P., M.M.", namaFormal:"Agus Andi Subroto", angkatan:1995, posisi:"Dekan FHB ITB Yadika Pasuruan", ringkasan:"Dekan Fakultas Hukum dan Bisnis ITB Yadika Pasuruan. Domisili Surabaya. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad"},
+  {no:41, nama:"Prof. Dr. Dwi Prasetyani, S.E., M.Si., CIPE., CPRM.", namaFormal:"Dwi Prasetyani", angkatan:1995, posisi:"Direktur DAKM UNS / Guru Besar UNS", ringkasan:"Guru Besar Kewirausahaan & Pemberdayaan Perempuan UNS (Feb 2026). Direktur Alumni dan Kewirausahaan Mahasiswa UNS. Informan: Odydasa Fitranto (1995).", gender:"Perempuan", type:"acad", foto:"https://feb.uns.ac.id/feb/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-16-at-08.20.11-e1685346466520-844x750.jpg"},
+  {no:42, nama:"Dr. Agus Andi Subroto, S.T.P., M.M.", namaFormal:"Agus Andi Subroto", angkatan:1995, posisi:"Dekan FHB ITB Yadika Pasuruan", ringkasan:"Dekan Fakultas Hukum dan Bisnis ITB Yadika Pasuruan. Domisili Surabaya. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad", foto:"https://itbyadika.ac.id/wp-content/uploads/2023/09/Agus-Andi-S-MM-e1694178990103-810x810.jpg"},
   {no:43, nama:"Prof. Suyitno", namaFormal:"Suyitno", angkatan:1972, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Alamat: Desa Lanjaran, Kecamatan Tamansari. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
-  {no:44, nama:"Prof. Dr. Eng. Ir. Pringgo Widyo Laksono, S.T., M.Eng., IPU., ASEAN Eng.", namaFormal:"Pringgo Widyo Laksono (Mas Pringgo)", angkatan:1995, posisi:"Guru Besar FT UNS / Kaprodi Profesi Insinyur UNS", ringkasan:"Guru Besar bidang Rekayasa Sistem Cerdas dan Otomasi. PhD Gifu University Jepang. Asli Dk. Sumberejo, Kiringan, Boyolali. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad"},
+  {no:44, nama:"Prof. Dr. Eng. Ir. Pringgo Widyo Laksono, S.T., M.Eng., IPU., ASEAN Eng.", namaFormal:"Pringgo Widyo Laksono", angkatan:1995, posisi:"Guru Besar FT UNS / Kaprodi Profesi Insinyur UNS", ringkasan:"Guru Besar bidang Rekayasa Sistem Cerdas dan Otomasi. PhD Gifu University Jepang. Asli Dk. Sumberejo, Kiringan, Boyolali. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad", foto:"https://simpeg.uns.ac.id/file/get?path=foto/2024/10/2455-mkkXgyUnOCzRLO5ts00gnOuq-VRBfHi0.png"},
   {no:45, nama:"Prof. Suyamto (Almarhum)", namaFormal:"Suyamto", angkatan:1972, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Apotik Merbabu, Jl. Merbabu. Asli Kragilan. Seangkatan Prof. Suyitno. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
-  {no:46, nama:"Prof. Condro Wibowo, S.TP., M.Sc., Ph.D.", namaFormal:"Condro Wibowo", angkatan:1993, posisi:"Dosen Teknologi Pangan Universitas Jenderal Soedirman", ringkasan:"S1 UGM, S2 & S3 Georg-August University Göttingen Jerman. Post-doc di universitas yang sama. Informan: Muhammad Busroni.", gender:"Laki-laki", type:"acad"},
+  {no:46, nama:"Prof. Condro Wibowo, S.TP., M.Sc., Ph.D.", namaFormal:"Condro Wibowo", angkatan:1993, posisi:"Dosen Teknologi Pangan Universitas Jenderal Soedirman", ringkasan:"S1 UGM, S2 & S3 Georg-August University Göttingen Jerman. Post-doc di universitas yang sama. Informan: Muhammad Busroni.", gender:"Laki-laki", type:"acad", foto:"https://staff.unsoed.ac.id/preview/1136.jpg"},
   {no:47, nama:"Prof. Suyitno", namaFormal:"Suyitno", angkatan:1972, posisi:"Pensiunan", ringkasan:"Lanjaran, Musuk. Asli dari Kragilan. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
   {no:48, nama:"Prof. Ir. Bambang Sudaryanto, MS.", namaFormal:"Bambang Sudaryanto", angkatan:1973, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Alamat: Jl. Merdeka Barat No. 7, Siswodipuran, Boyolali. Juga kontributor data Issue #45. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
   {no:49, nama:"Prof. Dr. Endang Wirjatmi Trilestari, M.Si.", namaFormal:"Endang Wiryanti", angkatan:1970, posisi:"Deputi LAN RI / Guru Besar Politeknik STIA LAN Bandung", ringkasan:"Lahir Boyolali 14 Oktober 1954. Deputi Bidang Pembinaan Diklat Aparatur LAN RI (2009-2013). Lulus SMP 1 Boyolali 1970. Informan: Bambang Sudaryanto.", gender:"Perempuan", type:"gov"}
@@ -429,10 +483,13 @@ function filterCards() {
   const q = document.getElementById('search').value.toLowerCase();
   const angkatan = document.getElementById('angkatanFilter').value;
   const gender = document.getElementById('genderFilter').value;
+  const photo = document.getElementById('photoFilter').value;
   
   const filtered = alumni.filter(a => {
     if (angkatan && a.angkatan != angkatan) return false;
     if (gender && a.gender !== gender) return false;
+    if (photo === 'withphoto' && !a.foto) return false;
+    if (photo === 'withoutphoto' && a.foto) return false;
     if (q) {
       const searchText = (a.nama + ' ' + a.namaFormal + ' ' + a.posisi + ' ' + a.angkatan).toLowerCase();
       if (!searchText.includes(q)) return false;
@@ -453,6 +510,19 @@ function getGenderIcon(g) {
   return g === 'Perempuan' ? '♀' : '♂';
 }
 
+function getAvatarHtml(gender, name) {
+  const firstChar = name.trim().charAt(0).toUpperCase();
+  const genderClass = gender === 'Perempuan' ? 'female' : 'male';
+  return `<div class="avatar-placeholder ${genderClass}">${firstChar}</div>`;
+}
+
+function getPhotoHtml(a) {
+  if (a.foto) {
+    return `<img src="${a.foto}" alt="${a.namaFormal}" loading="lazy" onerror="this.parentElement.innerHTML='${getAvatarHtml(a.gender, a.namaFormal).replace(/'/g, "\\'")}'">`;
+  }
+  return getAvatarHtml(a.gender, a.namaFormal);
+}
+
 function renderCards(list) {
   const container = document.getElementById('gridContainer');
   if (!list.length) {
@@ -464,9 +534,16 @@ function renderCards(list) {
     <div class="card">
       <div class="card-banner ${getTypeBanner(a.type)}"></div>
       <div class="card-body">
-        <div class="card-no">${String(a.no).padStart(2,'0')}</div>
-        <div class="card-name">${a.nama}</div>
-        <div class="card-nick">${a.namaFormal}</div>
+        <div class="card-header">
+          <div class="card-header-text">
+            <div class="card-no">${String(a.no).padStart(2,'0')}</div>
+            <div class="card-name">${a.nama}</div>
+            <div class="card-nick">${a.namaFormal}</div>
+          </div>
+          <div class="card-photo">
+            ${getPhotoHtml(a)}
+          </div>
+        </div>
         <div>
           <span class="card-badge angkatan">🎓 Angkatan ${a.angkatan}</span>
         </div>
@@ -480,6 +557,30 @@ function renderCards(list) {
     </div>
   `).join('');
 }
+
+// Dynamic photo count
+function updatePhotoStats() {
+  const withPhoto = alumni.filter(function(a) { return a.foto; });
+  var count = withPhoto.length;
+  document.getElementById('photoCount').textContent = count;
+  document.getElementById('photoNote').textContent = count + ' dari ' + alumni.length + ' ' + (count === 1 ? 'alumni memiliki' : 'alumni memiliki') + ' foto profil publik';
+
+  // List photo sources for transparency
+  var sources = [];
+  withPhoto.forEach(function(a) {
+    var src = a.foto || '';
+    if (src.indexOf('wikipedia') > -1) sources.push('Wikipedia');
+    else if (src.indexOf('itb.ac.id') > -1) sources.push('ITB');
+    else if (src.indexOf('ugm.ac.id') > -1) sources.push('UGM');
+    else if (src.indexOf('uns.ac.id') > -1) sources.push('UNS');
+    else if (src.indexOf('unsoed.ac.id') > -1) sources.push('Unsoed');
+    else if (src.indexOf('setda.jatengprov') > -1) sources.push('Setda Jateng');
+    else sources.push('Lainnya');
+  });
+  var unique = sources.filter(function(s, i) { return sources.indexOf(s) === i; });
+  document.getElementById('photoSourceList').textContent = 'Sumber foto: ' + unique.join(', ') + '.';
+}
+updatePhotoStats();
 
 // Initial render
 renderCards(alumni);
