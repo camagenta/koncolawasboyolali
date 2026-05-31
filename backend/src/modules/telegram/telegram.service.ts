@@ -76,6 +76,15 @@ export class TelegramService implements OnApplicationBootstrap {
     const fromUsername = message.from?.username || '';
     const fromName = `${message.from?.first_name || ''} ${message.from?.last_name || ''}`.trim();
 
+    if (text.toLowerCase() === 'ikasmansaboy') {
+      await this.sendTo(chatId,
+        `<b>🆔 Chat ID Telegram Kamu</b>\n\n` +
+        `<code>${chatId}</code>\n\n` +
+        `Kirimkan ID ini ke admin IKA untuk didaftarkan sebagai penerima notifikasi.`
+      );
+      return 'ok';
+    }
+
     if (!text.startsWith('/')) return 'ok';
 
     const ownerChatId = process.env.TELEGRAM_OWNER_CHAT_ID || '';
@@ -88,6 +97,8 @@ export class TelegramService implements OnApplicationBootstrap {
       await this.sendTo(chatId,
         `<b>🤖 KoncoLawas Bot</b>\n\n` +
         `Notifikasi aktivitas alumni.\n\n` +
+        `<b>Untuk Semua:</b>\n` +
+        `Ketik <code>ikasmansaboy</code> — dapatkan Chat ID Telegram kamu\n\n` +
         `<b>Perintah (owner only):</b>\n` +
         `/addnotif &lt;chatId&gt; — tambah penerima notifikasi\n` +
         `/addnotif &lt;chatId&gt; &lt;label&gt; — tambah dengan label\n` +
