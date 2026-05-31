@@ -519,8 +519,16 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 
 Handoff disimpan di `handoffs/` (committed ke git) untuk sync konteks antar environment.
 
+### Handoff Wajib Diikuti Git Sync
+Setiap kali handoff dijalankan, agent WAJIB:
+1. Simpan file handoff ke `handoffs/<date>-<topic>.md`
+2. `git add handoffs/<file>` + `git commit -m "docs: handoff <date> — <ringkasan>"` + `git push`
+3. Update `Latest Handoff` di AGENTS.md
+
+Handoff hanya output teks tanpa commit = **TIDAK SAH**.
+
 ### Latest Handoff
-- `handoffs/2026-05-31-223000.md` — overflow fix + OSINT #45 + knowledge sync
+- `handoffs/2026-05-31-issue51.md` — pentest remediasi, login fix, E2E planning
 
 ---
 
