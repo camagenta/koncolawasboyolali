@@ -9,3 +9,6 @@ dist/
 node_modules/
 scripts/gcp-service-account.json
 tmp/
+
+# Playwright
+frontend/test-results/
