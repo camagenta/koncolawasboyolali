@@ -133,6 +133,10 @@ pm2 restart koncolawas-api koncolawas-web   # restart PM2 processes
 | Alumni Berprestasi / Wall of Fame       | ✅ Selesai    |
 | Migrasi Data dari Platform Lama         | ✅ Selesai    |
 | Edu & Career History                    | ✅ Selesai    |
+| Business Directory (Usaha & Bisnis)     | ✅ Selesai    |
+| Volunteer Skill / Alumni Mengajar       | ✅ Selesai    |
+| UI/UX Sidebar Grouping (4 grup)         | ✅ Selesai    |
+| Mobile Bottom Navigation                | ✅ Selesai    |
 | Onboarding Flow (tahunMasuk/tahunLulus) | ✅ Selesai    |
 | Google Sheets Import (batch)            | ✅ Selesai    |
 | Gravatar/Google Avatar Fallback         | ✅ Selesai    |

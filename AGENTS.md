@@ -63,14 +63,17 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 
 ## Todo — Pengembangan Selanjutnya
 
-### High Priority
-- [ ] **UI/UX Overhaul**: activity feed, sidebar grouping, progressive disclosure
-- [ ] **Mobile Navigation**: bottom nav 4 tab + more sheet
-- [ ] **Business Directory**: direktori usaha alumni dengan approval flow & kategori
-- [ ] **Volunteer Skill / Alumni Mengajar**: direktori keahlian alumni yang bisa di-share
+### ✅ Completed (MVP2 — sesi 2026-05-30)
+- [x] **UI/UX Overhaul**: activity feed, sidebar grouping, progressive disclosure — #43
+- [x] **Mobile Navigation**: bottom nav 4 tab + more sheet — #44
+- [x] **Business Directory**: direktori usaha alumni dengan approval flow & kategori — #41
+- [x] **Volunteer Skill / Alumni Mengajar**: direktori keahlian alumni yang bisa di-share — #42
+
+### ✅ Completed (sesi 2026-05-31)
+- [x] **#45** — Add record alumni berprestasi (49 entries dari HTML → seed, dedup 4 internal + 6 overlap, 57 total) — ref #45
 
 ### Medium Priority
-- [ ] **Dashboard admin**: ringkasan statistik (total alumni, sukses stories, dll)
+- [ ] **Dashboard admin**: charts/grafik (current: basic stats 4 KPI cards)
 - [ ] **Notifikasi email**: konfirmasi registrasi, reset password (jika non-Google)
 - [ ] **Mobile responsive**: refine layout untuk tampilan HP
 - [ ] **CI/CD pipeline**: GitHub Actions untuk lint, build, deploy
@@ -82,25 +85,31 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 - [ ] **Gallery foto angkatan**: upload & tampilkan foto momen sekolah
 - [ ] **SEO & Open Graph**: meta tags untuk setiap halaman publik
 
-> **Catatan status aktual per 2026-05-30:**
+> **Catatan status aktual per 2026-05-31:**
 > - ✅ **Forum diskusi** — SUDAH implement (threads, nested comments/replies, likes, pagination, categories)
 > - ✅ **Upload foto profil** — SUDAH implement (2MB limit, preview, disk storage, old-file cleanup)
 > - ✅ **Pencarian & filter alumni** — SUDAH implement (search by nama/NIS, filter by tahun/jurusan/status)
 > - ✅ **Export data alumni** — SUDAH implement (CSV + Excel + Stats, admin-only)
-> - 🟡 **Dashboard admin** — SUDAH ada basic stats (4 KPI cards + recent users + export), belum ada charts/grafik
+> - ✅ **Business Directory (#41)** — SUDAH implement (CRUD, approval, kategorisasi, profile tab)
+> - ✅ **Volunteer Skill (#42)** — SUDAH implement (CRUD, kategorisasi, profile tab, admin panel)
+> - ✅ **UI/UX Sidebar Grouping (#43)** — SUDAH (4 grup: Jaringan, Karir & Usaha, Komunitas, Admin)
+> - ✅ **UI/UX Mobile Nav (#44)** — SUDAH (bottom nav 4 tab + BottomSheet)
+> - ✅ **Alumni Berprestasi (#36)** — SUDAH (dashboard spotlight + seed 18 alumni)
+> - ✅ **Alumni Berprestasi Card Redesign (#46)** — SUDAH (team member layout, HTML escaping fix)
+> - ✅ **Floating Filter FAB (#47)** — SUDAH (FAB bottom-right, slide-up panel, sticky heading)
+> - ✅ **Mobile Overflow Fix (#48)** — SUDAH (min-w-0 overflow-x-hidden, flex-wrap pagination)
+> - ✅ **Profil Saya Link (#49)** — SUDAH (sidebar group + header dropdown)
+> - ✅ **Sticky Header + Logo (#50)** — SUDAH (sticky top-0, logo kiri, h-14 mobile)
+> - 🟡 **Dashboard admin** — basic stats (4 KPI cards + recent users + export), belum ada charts/grafik
 > - ❌ **Registrasi alumni mandiri** — belum ada
 > - ❌ **Notifikasi email** — belum ada
 > - ❌ **Mobile responsive** — masih perlu refine
 > - ❌ **CI/CD pipeline** — belum ada
 > - ❌ **SEO & Open Graph** — baru terpasang di `/pengurus`, sisanya belum
-> - ❌ **Business Directory** — #41 baru dibuka, belum dikerjakan
-> - ❌ **Volunteer Skill** — #42 baru dibuka, belum dikerjakan
-> 
-> Todo list di atas perlu direvisi — beberapa item sudah selesai tapi belum dihapus/ditandai. Priority sebaiknya difokuskan ke yang benar-benar belum ada.
 
 ---
 
-## Patroli GitHub Issues — 2026-05-29
+## Patroli GitHub Issues — 2026-05-31 (updated)
 
 ### ✅ Terakomodir (Closed/Selesai)
 - **#9–#29** Seluruh issues fase MVP1 (login, profil, admin, forum, jobs, notifikasi, dll)
@@ -113,17 +122,31 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 - **#37** Landing page UX + image compression
 - **#38** Build Prisma client hilang di dist (symlink fix)
 - **#39** Login 2x klik fix (state:false, session:false)
+- **#41** Business Directory by Alumni (CRUD, approval flow, profile tab)
+- **#42** Volunteer Skill / Alumni Mengajar (CRUD, kategorisasi, admin panel)
+- **#43** Dashboard Activity Feed + Sidebar Restructure (4 grup navigasi)
+- **#44** Mobile Navigation Redesign (bottom nav 4 tab + BottomSheet)
+- **#46** alumni-berprestasi redesign card layout — team member style + fix HTML escaping
+- **#47** Redesign alumni-berprestasi filter — floating icon + sticky heading
+- **#48** Align /alumni card layout + fix mobile overflow horizontal
+- **#49** Add Profil Saya link to sidebar and header dropdown
+- **#50** Mobile layout: sticky header with logo + profile, consistent bottom nav
 
-### ❌ Belum Terakomodir / Open Issues
+### ❌ Belum Terakomodir / Open Issues (per 2026-05-31)
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi (roadmap revised)
-- **#41** MVP2 — Business Directory by Alumni (P1 — baru)
-- **#42** MVP2 — Volunteer Skill / Alumni Mengajar (P2 — baru)
-- **#43** UI/UX — Dashboard Activity Feed + Sidebar Restructure + Progressive Disclosure (P1 — baru)
-- **#44** UI/UX — Mobile Navigation Redesign (P1 — baru)
+- **#45** add record alumni berprestasi — ✅ Sudah diimplementasi (57 entries: 18 existing + 39 baru dari #45)
 
 ### ✅ Closed via commit (baru ditutup)
 - **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) — commit `24867cb` (iprakom)
+- **#41** Business Directory — commit `be55945` + `e293db2` + `b5697ce`
+- **#42** Volunteer Skill — commit `e10f91f` + `256421f`
+- **#43** Dashboard Feed + Sidebar — commit `be55945` + `a1af1b5`
+- **#44** Mobile Navigation — commit `a1af1b5`
 - **#46** Redesign alumni-berprestasi cards — team member layout + fix HTML escaping — commit `32c6965`
+- **#47** Floating filter icon + sticky heading — commit `ccf6534`
+- **#48** Align /alumni layout + fix mobile overflow — commit inline session
+- **#49** Add Profil Saya link to sidebar and header — commit inline session
+- **#50** Sticky header with logo + consistent bottom nav — commit inline session
 
 ---
 
@@ -498,4 +521,45 @@ Handoff disimpan di `handoffs/` (committed ke git) untuk sync konteks antar envi
 
 ### Latest Handoff
 - `handoffs/2026-05-31-223000.md` — overflow fix + OSINT #45 + knowledge sync
+
+---
+
+## Session 2026-05-31 — Patroli & Sync GitHub Issues
+
+### Findings
+1. **#41–#44 (MVP2)** — Semua sudah diimplementasi di kode ✅ tapi AGENTS.md & README belum mencerminkan
+2. **#45** — Seed hanya 18 alumni dari #36; 49+ entries dari body issue #45 belum masuk
+3. **#46–#50** — Semua sudah diimplementasi di kode ✅ (dari remote Git pull, parallel session)
+
+### Actions Taken
+- **AGENTS.md** — Todo list direvisi: MVP2 items dipindah ke ✅ Completed. Catatan status aktual diperbarui. Hanya #45 yang masih open. Patroli GitHub Issues di-update dengan #46-#50 di Terakomodir.
+- **README.md** — Business Directory, Volunteer Skill, Sidebar Grouping, Mobile Nav ditambahkan ke tabel fitur ✅ Selesai.
+
+---
+
+## Session 2026-05-31 — Alumni Berprestasi Seed Sync (#45)
+
+### Issues
+- **#45** — Add record alumni berprestasi (~49 entries dari issue body + WAG alumni)
+
+### Perubahan
+1. **Extract script** (`scripts/extract-berprestasi-seed.mjs` — one-shot, dihapus setelah selesai): Membaca 49 entries dari `frontend/public/alumni-berprestasi.html`, menduplikasi internal (#5=#3 Gunaryadi, #23=#6 Muhadi, #28=#8 Jupri Bandang, #47=#43 Suyitno), mencocokkan dengan seed existing (18 entries — 6 overlap: Susilo, Djoko Kirmanto, Mulyono, Sumardi, Erwin Triwanto, Sumarno), dan menghasilkan 39 entries baru.
+2. **Seed file**: `backend/prisma/seed-success-stories.mjs` diperbarui dari 18 → 57 entries. Data diperkaya dengan `photoUrl` (20 entries dengan foto) dari HTML.
+3. **Database**: Seed dijalankan — `Seeded 57 success stories`.
+4. **Verifikasi**: Prisma query langsung ke DB — count=57, featured=13, withPhoto=20 ✅
+5. **Build**: Backend (`npx nest build`) ✅, Frontend (`npx next build` — 30 routes) ✅
+
+### Detail Data
+| Sumber | Entri | Keterangan |
+|--------|-------|------------|
+| Seed existing (#36) | 18 | isFeatured sesuai verifikasi manual |
+| HTML #45 (49 entries) | 49 | Dari issue body + WAG alumni |
+| Internal duplikat #45 | -4 | #5=#3 (Gunaryadi), #23=#6 (Muhadi), #28=#8 (Jupri Bandang), #47=#43 (Suyitno) |
+| Overlap dengan seed | -6 | Susilo, Djoko, Mulyono, Sumardi, Erwin, Sumarno |
+| **Total baru dari #45** | **39** | |
+| **Total final** | **57** | |
+
+### File Changed
+- `backend/prisma/seed-success-stories.mjs` — 18 → 57 entries, +photoUrl dari HTML
+- `AGENTS.md` — #45 dipindah ke ✅ Completed
 
