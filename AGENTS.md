@@ -106,6 +106,8 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 > - ❌ **Mobile responsive** — masih perlu refine
 > - ❌ **CI/CD pipeline** — belum ada
 > - ❌ **SEO & Open Graph** — baru terpasang di `/pengurus`, sisanya belum
+>
+> ⚠️ **CDN-First untuk Foto Alumni Berprestasi**: Semua foto featured alumni WAJIB langsung disimpan ke CDN jsDelivr (`frontend/public/images/alumni-berprestasi/`), bukan hotlink dari sumber asli. Workflow detail di `docs/osint-agent-system.md`.
 
 ---
 
@@ -599,6 +601,9 @@ Handoff hanya output teks tanpa commit = **TIDAK SAH**.
 - `backend/prisma/seed-success-stories.mjs` — URLs diganti ke CDN, Sutopo/Agustinus/Subekti removed from featured
 - `frontend/src/app/page.tsx` — safety filter `isFeatured && photoUrl` + hero padding reduced
 
+### CDN-First Rule (baru)
+Setiap OSINT foto ke depannya WAJIB langsung disimpan ke CDN (jsDelivr), bukan hotlink. Detail workflow di `docs/osint-agent-system.md`.
+
 ### Commit
-- `818c753` — feat: migrate featured photos to jsDelivr CDN for faster load — ref #45
+- `818c753` — feat: migrate featured photos to jsDelivr CDN for faster load — ref #54
 

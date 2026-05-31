@@ -342,6 +342,23 @@ Kompak top-down (64px circular photo) → side-by-side (120px photo left + info 
 }
 ```
 
+### CDN-First: Simpan Foto Langsung ke GitHub + jsDelivr
+
+Setiap foto yang ditemukan saat OSINT WAJIB disimpan langsung ke CDN — **JANGAN hotlink dari sumber asli**.
+
+Alasan:
+- Sumber asli bisa 404 kapan saja (Wikipedia, universitas, news site)
+- Hotlink membebani server sumber + slow load
+- jsDelivr = CDN global gratis dari GitHub, load lebih cepat
+
+Workflow:
+1. Download foto dari sumber OSINT → simpan di `frontend/public/images/alumni-berprestasi/`
+2. Gunakan filename: `{slugified-name}.{ext}` (lowercase, hyphens)
+3. Update photoUrl di seed/DB ke: `https://cdn.jsdelivr.net/gh/camagenta/koncolawasboyolali@main/frontend/public/images/alumni-berprestasi/{slug}.{ext}`
+4. Jika download gagal (404/403/0 bytes), cari sumber alternatif. Jika tidak ada, jangan featured-kan.
+
+> ⚠️ **PENTING**: Jangan pernah menyisipkan URL sumber asli ke seed/DB. Langsung CDN atau tidak sama sekali untuk featured entries.
+
 ### Verifikasi Foto Sebelum Integrasi
 
 Foto yang gagal load (403, 404, 0-byte) harus terdeteksi sebelum deploy:
