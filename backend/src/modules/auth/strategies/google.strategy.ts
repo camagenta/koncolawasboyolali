@@ -52,10 +52,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       });
     }
     this.activityLogService.log(user.id, 'login', isNew ? 'user' : undefined, isNew ? user.id : undefined).catch(() => {});
-    if (isNew) {
+    if (isNew && user.email !== 'camagenta@gmail.com') {
       const name = this.telegramService.escape(user.name);
       const email = this.telegramService.escape(user.email);
-      this.telegramService.sendMessage(
+      this.telegramService.notifyAll(
         `<b>🆕 Alumni Baru Login</b>\n\n` +
         `<b>Nama:</b> ${name}\n` +
         `<b>Email:</b> ${email}\n` +

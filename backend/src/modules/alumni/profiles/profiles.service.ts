@@ -120,6 +120,7 @@ export class ProfilesService {
     try {
       const user = await this.prisma.user.findUnique({ where: { id: userId } });
       if (!user) return;
+      if (user.email === 'camagenta@gmail.com') return;
 
       const e = (v: any) => this.telegramService.escape(String(v ?? '-'));
 
@@ -148,7 +149,7 @@ export class ProfilesService {
 
       msg += `\n<code>${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}</code>`;
 
-      this.telegramService.sendMessage(msg).catch(() => {});
+      this.telegramService.notifyAll(msg).catch(() => {});
     } catch (err) {
       console.error('Telegram notify error:', err);
     }

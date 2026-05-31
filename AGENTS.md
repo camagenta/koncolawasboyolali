@@ -607,3 +607,50 @@ Setiap OSINT foto ke depannya WAJIB langsung disimpan ke CDN (jsDelivr), bukan h
 ### Commit
 - `818c753` — feat: migrate featured photos to jsDelivr CDN for faster load — ref #54
 
+---
+
+## Session 2026-05-31 — Telegram Bot Notifications (#53)
+
+### Issue
+- **#53** — Telegram Bot Notifications for new user login & profile save
+
+### Perubahan
+1. **TelegramModule + TelegramService** (`backend/src/modules/telegram/`): Service baru yang mengirim pesan HTML ke Telegram Bot API via `fetch()` — tanpa npm dependencies tambahan.
+2. **Notifikasi login baru** (`GoogleStrategy`): Saat user baru login via Google untuk pertama kali (`isNew === true`), bot mengirim nama, email, dan timestamp ke admin.
+3. **Notifikasi simpan profil** (`ProfilesService`): Saat user membuat (`create`) atau memperbarui (`update`) profil, bot mengirim semua data profil yang diinput (nama, no HP, tahun masuk/lulus, kelas 1-3, jurusan, domisili, kecamatan, alamat, LinkedIn, Instagram, status utama, pekerjaan, nama panggilan).
+
+### Konfigurasi
+- `TELEGRAM_BOT_TOKEN` — token dari @BotFather
+- `TELEGRAM_CHAT_ID` — chat ID admin (dapat dari `getUpdates`)
+- Kedua variabel diisi di `backend/.env` (tidak di-commit)
+
+### Files Changed
+- `backend/src/modules/telegram/telegram.service.ts` — service baru
+- `backend/src/modules/telegram/telegram.module.ts` — module baru
+- `backend/src/modules/auth/strategies/google.strategy.ts` — +TelegramService, notif login baru
+- `backend/src/modules/auth/auth.module.ts` — import TelegramModule
+- `backend/src/modules/alumni/profiles/profiles.module.ts` — import TelegramModule
+- `backend/src/modules/alumni/profiles/profiles.service.ts` — +TelegramService, notif create/update
+- `backend/src/app.module.ts` — register TelegramModule
+
+---
+
+## Session 2026-05-31 — Telegram Bot DB-Based Recipients + Bot Commands (#53)
+
+### Perubahan lanjutan
+1. **Model `NotificationRecipient`** ditambahkan ke Prisma — chatId, label, isActive
+2. **TelegramService.notifyAll()** — kirim ke SEMUA recipient aktif dari DB
+3. **Webhook endpoint** `POST /api/telegram/webhook` — terima command dari bot
+4. **Bot commands**: `/addnotif <chatId> [label]`, `/removenotif <chatId>`, `/listnotif`
+5. **Auto-seed** owner sebagai recipient pertama saat aplikasi start
+6. **Filter owner**: hanya `TELEGRAM_OWNER_CHAT_ID` yang bisa manage recipients
+7. **Set webhook** via `GET /api/telegram/set-webhook` (admin only)
+
+### Files Changed
+- `backend/prisma/schema.prisma` — +NotificationRecipient model
+- `backend/src/modules/telegram/telegram.service.ts` — notifyAll, handleWebhook, OnApplicationBootstrap
+- `backend/src/modules/telegram/telegram.controller.ts` — controller baru
+- `backend/src/modules/telegram/telegram.module.ts` — +controller
+- `backend/src/modules/auth/strategies/google.strategy.ts` — sendMessage → notifyAll
+- `backend/src/modules/alumni/profiles/profiles.service.ts` — sendMessage → notifyAll
+

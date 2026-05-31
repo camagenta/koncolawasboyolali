@@ -442,6 +442,16 @@ model AlumniSkill {
   @@map("alumni_skills")
 }
 
+model NotificationRecipient {
+  id        String   @id @default(uuid()) @db.Char(36)
+  chatId    String   @unique @map("chat_id")
+  label     String?  @map("label")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("notification_recipients")
+}
+
 model SkillRequest {
   id            String      @id @default(uuid()) @db.Char(36)
   requesterId   String      @map("requester_id") @db.Char(36)
