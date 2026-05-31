@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumni Berprestasi — SMA N 1 Boyolali</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1d4ed8 100%);
+    color: white;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .hero h1 span { color: #fbbf24; }
+  .hero p {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    color: #bfdbfe;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+  .hero .badge {
+    display: inline-block;
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: #fbbf24;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+  }
+
+  /* Attribution */
+  .attribution {
+    background: #fef3c7;
+    border-bottom: 1px solid #fde68a;
+    padding: 0.85rem 1.5rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: #92400e;
+  }
+  .attribution strong { color: #78350f; }
+  .attribution a {
+    color: #1d4ed8;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-item .num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1e3a5f;
+  }
+  .stat-item .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-top: 0.1rem;
+  }
+
+  /* Search & Filter */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .controls input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .controls input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .controls select {
+    padding: 0.6rem 2rem 0.6rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+  }
+
+  /* Grid */
+  .grid-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* Card */
+  .card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  .card:hover {
+    border-color: #93c5fd;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-banner {
+    height: 8px;
+    background: linear-gradient(90deg, #2563eb, #7dd3fc);
+  }
+  .card-banner.mil { background: linear-gradient(90deg, #dc2626, #fca5a5); }
+  .card-banner.gov { background: linear-gradient(90deg, #059669, #6ee7b7); }
+  .card-banner.acad { background: linear-gradient(90deg, #7c3aed, #c4b5fd); }
+  .card-banner.business { background: linear-gradient(90deg, #d97706, #fbbf24); }
+
+  .card-body { padding: 1.25rem; }
+
+  .card-no {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.3;
+    margin-bottom: 0.15rem;
+  }
+  .card-nick {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .card-badge.angkatan {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .card-posisi {
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    margin: 0.5rem 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1e293b;
+    border-left: 3px solid #2563eb;
+  }
+
+  .card-ringkasan {
+    font-size: 0.78rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.7rem;
+    color: #94a3b8;
+  }
+
+  .card-footer .gender {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* Info Banner */
+  .info-banner {
+    max-width: 1280px;
+    margin: 0 auto 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 0.75rem;
+    border: 1px solid #f59e0b;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .info-banner .info-icon { font-size: 1.5rem; }
+  .info-banner .info-text { font-size: 0.85rem; color: #78350f; line-height: 1.6; }
+
+  /* Footer bar */
+  .site-footer {
+    background: #1e293b;
+    color: #94a3b8;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.75rem;
+    margin-top: 2rem;
+  }
+  .site-footer a { color: #93c5fd; text-decoration: none; }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.4rem; }
+    .grid-container { grid-template-columns: 1fr; padding: 0.75rem; gap: 0.85rem; }
+    .controls { padding: 0.75rem; }
+    .controls input { min-width: 140px; }
+    .stats-bar { gap: 1rem; }
+  }
+
+  /* Print */
+  @media print {
+    .controls, .stats-bar, .site-footer { display: none; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>🏆 Alumni <span>Berprestasi</span></h1>
+  <p>SMA Negeri 1 Boyolali — Para putra-putri terbaik yang mengharumkan nama almamater di berbagai bidang, dari akademisi, birokrasi, militer, hingga dunia usaha.</p>
+  <div class="badge">📋 49 Alumni Tercatat · Diperbarui 31 Mei 2026</div>
+</div>
+
+<!-- Attribution -->
+<div class="attribution">
+  <strong>Sumber Data Awal:</strong> Daftar alumni dihimpun dari <strong>WhatsApp Group Sie Alumni Reuni Akbar</strong> yang dihimpun melalui Issue #45 GitHub. Kontributor informasi: Bambang Sudaryanto (1973), Slamet Widodo, MHK, Rusno Setiawan, Eddy Sapantri, Odydasa Fitranto, Adimas Suryo Tribowo, Luqman Taufiq, Muhammad Busroni — beserta para informan dari WAG Sie Alumni Reuni Akbar.
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="num">49</div><div class="label">Total Alumni</div></div>
+  <div class="stat-item"><div class="num">1969-2013</div><div class="label">Rentang Angkatan</div></div>
+  <div class="stat-item"><div class="num">10</div><div class="label">Profesor/Guru Besar</div></div>
+  <div class="stat-item"><div class="num">6</div><div class="label">Jenderal/Perwira Tinggi</div></div>
+  <div class="stat-item"><div class="num">4</div><div class="label">Menteri/Pejabat Setingkat</div></div>
+</div>
+
+<!-- Search -->
+<div class="controls">
+  <input type="text" id="search" placeholder="Cari alumni berdasarkan nama, jabatan, atau angkatan..." oninput="filterCards()">
+  <select id="angkatanFilter" onchange="filterCards()">
+    <option value="">Semua Angkatan</option>
+  </select>
+  <select id="genderFilter" onchange="filterCards()">
+    <option value="">Semua Gender</option>
+    <option value="Laki-laki">Laki-laki</option>
+    <option value="Perempuan">Perempuan</option>
+  </select>
+  <span style="font-size:0.8rem;color:#94a3b8;margin-left:auto" id="resultCount">49 alumni</span>
+</div>
+
+<!-- Info -->
+<div style="max-width:1280px;margin:0.75rem auto 0;padding:0 1.5rem">
+  <div class="info-banner">
+    <div class="info-icon">ℹ️</div>
+    <div class="info-text">
+      <strong>Catatan:</strong> Data ini merupakan hasil riset awal (<em>Open Source Intelligence</em>) dari sumber publik (Wikipedia, portal berita, profil institusi). Sebagian alumni belum ditemukan jejak digital publik yang memadai. 
+      Informasi lebih lanjut dapat diperoleh dari Sekretariat IKA SMANSA Boyolali atau menghubungi kontributor WAG Sie Alumni Reuni Akbar.
+    </div>
+  </div>
+</div>
+
+<!-- Grid -->
+<div class="grid-container" id="gridContainer"></div>
+
+<div class="site-footer">
+  © 2026 IKA SMA Negeri 1 Boyolali · Data dikumpulkan secara kolaboratif oleh alumni melalui WAG Sie Alumni Reuni Akbar & Issue #45 GitHub · 
+  <a href="https://github.com/camagenta/koncolawasboyolali/issues/45" target="_blank">Issue #45</a> · 
+  <a href="https://sma.kotakpasir.my.id" target="_blank">Portal Alumni</a>
+</div>
+
+<script>
+const alumni = [
+  {no:1, nama:"Prof. Dra. Th. Dwi Suryaningrum, MS.", namaFormal:"Th. Dwi Suryaningrum", angkatan:1974, posisi:"Peneliti BRIN (Badan Riset dan Inovasi Nasional)", ringkasan:"Pensiun dari BRIN bulan Februari 2026. Berdomisili di Jakarta Utara. Informan: Bambang Sudaryanto (1973).", gender:"Perempuan", type:"acad"},
+  {no:2, nama:"Prof. Dr. Ir. Bagus Sediadi Bandol Utomo, MAppSc.", namaFormal:"Bagus Sediadi Bandol Utomo", angkatan:1973, posisi:"Peneliti BRIN (Badan Riset dan Inovasi Nasional)", ringkasan:"Pensiun dari BRIN bulan November 2025. Berdomisili di Tangerang, Banten. Informan: Bambang Sudaryanto (1973).", gender:"Laki-laki", type:"acad"},
+  {no:3, nama:"Marsekal Muda TNI (Purn.) Gunaryadi, S.E., M.M., M.Sc.", namaFormal:"Gunaryadi", angkatan:1971, posisi:"Ketua STP AVIASI Jakarta (2013-2015)", ringkasan:"Purnawirawan TNI AU sekaligus akademisi. Ketua Sekolah Tinggi Penerbangan (STP) Aviasi Jakarta. Penulis buku akademis Keselamatan Penerbangan. Informan: Slamet Widodo via WAG Sie Alumni Reuni Akbar.", gender:"Laki-laki", type:"mil"},
+  {no:4, nama:"Prof. Dr. H. Baedhowi, M.Si. (Almarhum)", namaFormal:"Baedhowi", angkatan:1969, posisi:"Sekjen Kemendiknas (2003-2005) — Guru Besar UNS", ringkasan:"Lahir Boyolali 28 Agustus 1949. Sekjen Kementerian Pendidikan Nasional. Ketua Majelis Dikdasmen PP Muhammadiyah. Wafat 4 Juli 2021 karena COVID-19. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
+  {no:5, nama:"Letjen TNI (Purn.) Gunaryadi", namaFormal:"Gunaryadi", angkatan:1971, posisi:"Perwira Tinggi TNI AD", ringkasan:"Informan: Slamet Widodo via WAG. Untuk informasi lebih lanjut dapat menghubungi Bowo grup Surabaya.", gender:"Laki-laki", type:"mil"},
+  {no:6, nama:"Ir. Muhadi", namaFormal:"Muhadi", angkatan:1973, posisi:"Sekretaris Daerah Provinsi Banten (2008-2014)", ringkasan:"Lahir Boyolali 1954. Lulusan Teknik Geodesi ITB (1981). Sekda Banten 2008-2014. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
+  {no:7, nama:"Ir. Djoko Kirmanto, Dipl. HE.", namaFormal:"Djoko Kirmanto", angkatan:1961, posisi:"Menteri Pekerjaan Umum RI (2004-2014)", ringkasan:"Menteri PU dua periode (Kabinet Indonesia Bersatu I & II). Lulusan Teknik Sipil UGM. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:8, nama:"Dr. KRHT Jupri Bandang Prawirodigdoyo Kusumanagoro, AK, MM", namaFormal:"Jupri Bandang", angkatan:1968, posisi:"Direktur Ditjen Pajak / Staf Ahli Kejaksaan Agung", ringkasan:"Kakanwil DJP dan Direktur Penyuluhan Perpajakan. Staf Ahli Kejaksaan Agung. Doktor ke-2 Filsafat UIN Semarang (Punakawan Semar). Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:9, nama:"Susilo Siswoutomo", namaFormal:"Susilo Siswoutomo", angkatan:1969, posisi:"Wakil Menteri ESDM (2013-2014)", ringkasan:"Lahir Boyolali 4 September 1950. Karir 33 tahun ExxonMobil (VP). Wamen ESDM Kabinet Indonesia Bersatu II. Alumni ITB. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:10, nama:"Jenderal TNI (Purn.) Mulyono", namaFormal:"Mulyono", angkatan:1979, posisi:"Kepala Staf Angkatan Darat (KASAD)", ringkasan:"Lulusan AKABRI/Akmil 1983. KASAD. Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:11, nama:"Mayjen TNI (Purn.) Sumardi", namaFormal:"Sumardi", angkatan:1979, posisi:"Dankodiklat TNI AD / Pangdam V/Brawijaya", ringkasan:"Pangdam V/Brawijaya (2015-2016). Setelah purnabakti: Wakil Komisaris Utama PT Pindad. Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:12, nama:"Irjen Pol. (Purn.) Drs. Erwin Triwanto, S.H.", namaFormal:"Erwin Triwanto", angkatan:1980, posisi:"Kapolda DIY, Kalsel, Kalbar", ringkasan:"Lulusan Akpol 1986. Kapolda DIY (2015-2016), Kapolda Kalsel, Kapolda Kalbar. Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:13, nama:"Brigjen TNI Hari Prabowo", namaFormal:"Hari Prabowo", angkatan:1979, posisi:"Perwira Tinggi TNI AD", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:14, nama:"Mayjen TNI (Purn.) dr. Heru Pranata", namaFormal:"Heru Pranata", angkatan:1982, posisi:"Kapoksahli RSPAD Gatot Soebroto", ringkasan:"Mayjen TNI CKM (Kesehatan). Ketua Kelompok Staf Ahli RSPAD Gatot Soebroto. Informan: MHK.", gender:"Laki-laki", type:"mil"},
+  {no:15, nama:"Pardiman", namaFormal:"Pardiman", angkatan:1980, posisi:"Direktur PT Petrokimia", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"business"},
+  {no:16, nama:"Sumarno", namaFormal:"Sumarno", angkatan:1990, posisi:"Sekretaris Daerah Provinsi Jawa Tengah", ringkasan:"Sekda Jateng. Ketua IKABI (Ikatan Alumni SMP-SMA 1 Boyolali) 2022-2025. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:17, nama:"Seno Samodro", namaFormal:"Seno Samodro", angkatan:1983, posisi:"Bupati Boyolali", ringkasan:"Lulusan Sastra Prancis UGM. Bupati Boyolali. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:18, nama:"Wahyu Irawan", namaFormal:"Wahyu Irawan", angkatan:1985, posisi:"Wakil Bupati", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:19, nama:"Masruri", namaFormal:"Masruri", angkatan:1983, posisi:"Sekretaris Daerah Kabupaten Boyolali", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:20, nama:"Agustinus Gatot Hermawan", namaFormal:"Gatot Hermawan", angkatan:1985, posisi:"Deputi BP2MI", ringkasan:"Deputi Bidang Penempatan dan Pelindungan BP2MI. Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:21, nama:"Hasto", namaFormal:"Hasto", angkatan:1985, posisi:"Direktur Petrogas/Petrokimia Pertamina", ringkasan:"Direktur di lingkungan Pertamina Group. Informan: MHK.", gender:"Laki-laki", type:"business"},
+  {no:22, nama:"Edi Budoyo", namaFormal:"Edi Budoyo", angkatan:1976, posisi:"Wakil Bupati Manokwari", ringkasan:"Informan: MHK.", gender:"Laki-laki", type:"gov"},
+  {no:23, nama:"Ir. Muhadi", namaFormal:"Muhadi", angkatan:1973, posisi:"Sekretaris Daerah Provinsi Banten", ringkasan:"Sekda Banten. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
+  {no:24, nama:"Dr. Ir. Joko Sarjadi", namaFormal:"Joko Sarjadi", angkatan:1976, posisi:"Akademisi Teknik Mesin", ringkasan:"Dr. Ir. Joko Sarjadi — jurusan Teknik Mesin. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:25, nama:"Dr. Drs. Sutrisno", namaFormal:"Sutrisno", angkatan:1976, posisi:"Akademisi Fisika", ringkasan:"Dr. Drs. Sutrisno — jurusan Fisika. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:26, nama:"Dr. Drs. Hendro", namaFormal:"Hendro (Sing sing)", angkatan:1976, posisi:"Akademisi Fisika", ringkasan:"Dr. Drs. Hendro — jurusan Fisika. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:27, nama:"Prof. Dr. Suryotisnanto, S.H., M.H.", namaFormal:"Suryotisnanto", angkatan:1980, posisi:"Guru Besar/Akademisi Hukum", ringkasan:"Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:28, nama:"Dr. KRT. Jupri Bandang Prawirodigdoyo Kusumanagoro, AK, MM", namaFormal:"Jupri Bandang", angkatan:1970, posisi:"Staf Ahli Kejaksaan Agung RI", ringkasan:"Berkiprah di Ditjen Pajak kemudian Staf Ahli Kejaksaan Agung. Doktor ke-2 Filsafat UIN Semarang. Asal Kudu, Kragilan, Mojosongo. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"gov"},
+  {no:29, nama:"Tastaftiyan Risfandy, S.E., M.Sc., Ph.D.", namaFormal:"Tastaftiyan Risfandy", angkatan:2005, posisi:"Wakil Dekan FEB Universitas Sebelas Maret (UNS)", ringkasan:"Wadek FEB UNS. S1 UNS, S2 UGM, Master & PhD Université de Limoges Perancis. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad"},
+  {no:30, nama:"Prof. Dr. Mahmudah Enny Widyaningrum, Dra., Ec., M.Si.", namaFormal:"Mahmudah Enny Widyaningrum", angkatan:1975, posisi:"Dosen Universitas Bhayangkara", ringkasan:"Putri Pak Dirdjo (Guru Biologi) — jalan Merbabu. Informan: Eddy Sapantri.", gender:"Perempuan", type:"acad"},
+  {no:31, nama:"Ir. Tito Yuwono, S.T., M.Sc., Ph.D., IPM.", namaFormal:"Tito Yuwono", angkatan:1995, posisi:"Dosen Teknik Elektro UII", ringkasan:"Dosen Teknik Elektro Universitas Islam Indonesia (UII). Yogyakarta. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad"},
+  {no:32, nama:"Dr. Ir. Dwiningtyas Padmaningrum, S.P., M.Si.", namaFormal:"Dwiningtyas Padmaningrum", angkatan:1990, posisi:"Lektor Senior UNS — Penyuluhan Pertanian", ringkasan:"Akademisi dan peneliti di UNS. Spesialis Penyuluhan Pertanian & Komunikasi Pembangunan. Putri Alm. Pak Basuki (Guru Biologi). Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
+  {no:33, nama:"Dr. Subekti Nurmawati, M.Si.", namaFormal:"Subekti Nurmawati", angkatan:1985, posisi:"Dekan FST Universitas Terbuka (2025-2030)", ringkasan:"Dekan Fakultas Sains dan Teknologi UT. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
+  {no:34, nama:"Dr. Ibnu Wahyudi, M.A.", namaFormal:"Ibnu Wahyudi (Mas Iben)", angkatan:1976, posisi:"Dosen Sastra Indonesia FIB UI", ringkasan:"Lahir Boyolali 24 Juni 1958. Sastrawan dan akademisi UI. Murid Sapardi Djoko Damono. Master Monash University Australia. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad"},
+  {no:35, nama:"Dr. Joko Suryana", namaFormal:"Joko Suryana", angkatan:1990, posisi:"Dosen/Peneliti STEI ITB", ringkasan:"Peneliti senior STEI ITB. Keahlian: telekomunikasi radio, sistem microwave & satelit, radar. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"acad"},
+  {no:36, nama:"Dr. Solichatun, S.Si., M.Si.", namaFormal:"Solichatun", angkatan:1989, posisi:"Kaprodi Biologi FMIPA UNS", ringkasan:"Dosen dan peneliti Program Studi Biologi FMIPA UNS. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
+  {no:37, nama:"Prof. Dr. Eng. Kuwat Triyana, M.Si.", namaFormal:"Kuwat Triyana", angkatan:1986, posisi:"Dekan FMIPA Universitas Gadjah Mada (UGM)", ringkasan:"Guru Besar Departemen Fisika FMIPA UGM. Penemu GeNose (detektor COVID-19). Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad"},
+  {no:38, nama:"Sutopo Purwo Nugroho (Almarhum)", namaFormal:"Sutopo Purwo Nugroho", angkatan:1989, posisi:"Kepala Pusdatin & Jubir BNPB", ringkasan:"Kepala Pusat Data Informasi dan Humas BNPB. Juru bicara BNPB untuk bencana alam. Wafat 2019. Informan: Adimas Suryo Tribowo.", gender:"Laki-laki", type:"gov"},
+  {no:39, nama:"Dr. Ir. Mufti Reza Aulia Putra, S.T., M.T., IPP.", namaFormal:"Mufti Reza Aulia Putra", angkatan:2013, posisi:"Dosen Teknik Elektro UNS", ringkasan:"Lulus SMA 2013, S1 2015 (percepatan). Dosen Teknik Elektro UNS. Informan: Luqman Taufiq.", gender:"Laki-laki", type:"acad"},
+  {no:40, nama:"Dr. Rini Tesniwati, S.E., M.M., M.Si., MMSI.", namaFormal:"Rini Tesniwati", angkatan:1989, posisi:"Dosen Akuntansi Universitas Gunadarma", ringkasan:"Dosen tetap Jurusan Akuntansi Fakultas Ekonomi Universitas Gunadarma. Informan: Adimas Suryo Tribowo.", gender:"Perempuan", type:"acad"},
+  {no:41, nama:"Prof. Dr. Dwi Prasetyani, S.E., M.Si., CIPE., CPRM.", namaFormal:"Dwi Prasetyani", angkatan:1995, posisi:"Direktur DAKM UNS / Guru Besar UNS", ringkasan:"Guru Besar Kewirausahaan & Pemberdayaan Perempuan UNS (Feb 2026). Direktur Alumni dan Kewirausahaan Mahasiswa UNS. Informan: Odydasa Fitranto (1995).", gender:"Perempuan", type:"acad"},
+  {no:42, nama:"Dr. Agus Andi Subroto, S.T.P., M.M.", namaFormal:"Agus Andi Subroto", angkatan:1995, posisi:"Dekan FHB ITB Yadika Pasuruan", ringkasan:"Dekan Fakultas Hukum dan Bisnis ITB Yadika Pasuruan. Domisili Surabaya. Informan: Odydasa Fitranto (1995).", gender:"Laki-laki", type:"acad"},
+  {no:43, nama:"Prof. Suyitno", namaFormal:"Suyitno", angkatan:1972, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Alamat: Desa Lanjaran, Kecamatan Tamansari. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
+  {no:44, nama:"Prof. Dr. Eng. Ir. Pringgo Widyo Laksono, S.T., M.Eng., IPU., ASEAN Eng.", namaFormal:"Pringgo Widyo Laksono (Mas Pringgo)", angkatan:1995, posisi:"Guru Besar FT UNS / Kaprodi Profesi Insinyur UNS", ringkasan:"Guru Besar bidang Rekayasa Sistem Cerdas dan Otomasi. PhD Gifu University Jepang. Asli Dk. Sumberejo, Kiringan, Boyolali. Informan: Rusno Setiawan.", gender:"Laki-laki", type:"acad"},
+  {no:45, nama:"Prof. Suyamto (Almarhum)", namaFormal:"Suyamto", angkatan:1972, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Apotik Merbabu, Jl. Merbabu. Asli Kragilan. Seangkatan Prof. Suyitno. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
+  {no:46, nama:"Prof. Condro Wibowo, S.TP., M.Sc., Ph.D.", namaFormal:"Condro Wibowo", angkatan:1993, posisi:"Dosen Teknologi Pangan Universitas Jenderal Soedirman", ringkasan:"S1 UGM, S2 & S3 Georg-August University Göttingen Jerman. Post-doc di universitas yang sama. Informan: Muhammad Busroni.", gender:"Laki-laki", type:"acad"},
+  {no:47, nama:"Prof. Suyitno", namaFormal:"Suyitno", angkatan:1972, posisi:"Pensiunan", ringkasan:"Lanjaran, Musuk. Asli dari Kragilan. Informan: Slamet Widodo.", gender:"Laki-laki", type:"acad"},
+  {no:48, nama:"Prof. Ir. Bambang Sudaryanto, MS.", namaFormal:"Bambang Sudaryanto", angkatan:1973, posisi:"Pensiunan Kementerian Pertanian", ringkasan:"Alamat: Jl. Merdeka Barat No. 7, Siswodipuran, Boyolali. Juga kontributor data Issue #45. Informan: Bambang Sudaryanto.", gender:"Laki-laki", type:"acad"},
+  {no:49, nama:"Prof. Dr. Endang Wirjatmi Trilestari, M.Si.", namaFormal:"Endang Wiryanti", angkatan:1970, posisi:"Deputi LAN RI / Guru Besar Politeknik STIA LAN Bandung", ringkasan:"Lahir Boyolali 14 Oktober 1954. Deputi Bidang Pembinaan Diklat Aparatur LAN RI (2009-2013). Lulus SMP 1 Boyolali 1970. Informan: Bambang Sudaryanto.", gender:"Perempuan", type:"gov"}
+];
+
+// Populate filter
+(function(){
+  const angkatanSet = new Set();
+  alumni.forEach(a => angkatanSet.add(a.angkatan));
+  const sorted = [...angkatanSet].sort((a,b) => b-a);
+  const sel = document.getElementById('angkatanFilter');
+  sorted.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = 'Angkatan ' + y;
+    sel.appendChild(opt);
+  });
+})();
+
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const angkatan = document.getElementById('angkatanFilter').value;
+  const gender = document.getElementById('genderFilter').value;
+  
+  const filtered = alumni.filter(a => {
+    if (angkatan && a.angkatan != angkatan) return false;
+    if (gender && a.gender !== gender) return false;
+    if (q) {
+      const searchText = (a.nama + ' ' + a.namaFormal + ' ' + a.posisi + ' ' + a.angkatan).toLowerCase();
+      if (!searchText.includes(q)) return false;
+    }
+    return true;
+  });
+  
+  document.getElementById('resultCount').textContent = filtered.length + ' alumni';
+  renderCards(filtered);
+}
+
+function getTypeBanner(type) {
+  const map = {mil:'mil', gov:'gov', acad:'acad', business:'business'};
+  return map[type] || '';
+}
+
+function getGenderIcon(g) {
+  return g === 'Perempuan' ? '♀' : '♂';
+}
+
+function renderCards(list) {
+  const container = document.getElementById('gridContainer');
+  if (!list.length) {
+    container.innerHTML = '<div class="empty-state">🔍 Tidak ada alumni yang ditemukan dengan filter tersebut.</div>';
+    return;
+  }
+  
+  container.innerHTML = list.map(a => `
+    <div class="card">
+      <div class="card-banner ${getTypeBanner(a.type)}"></div>
+      <div class="card-body">
+        <div class="card-no">${String(a.no).padStart(2,'0')}</div>
+        <div class="card-name">${a.nama}</div>
+        <div class="card-nick">${a.namaFormal}</div>
+        <div>
+          <span class="card-badge angkatan">🎓 Angkatan ${a.angkatan}</span>
+        </div>
+        <div class="card-posisi">${a.posisi}</div>
+        <div class="card-ringkasan">${a.ringkasan}</div>
+        <div class="card-footer">
+          <span class="gender">${getGenderIcon(a.gender)} ${a.gender}</span>
+          <span>#${String(a.no).padStart(2,'0')}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Initial render
+renderCards(alumni);
+</script>
+
+</body>
+</html>
