@@ -122,7 +122,7 @@ function TabButton({ active, onClick, label, icon }: { active: boolean; onClick:
   )
 }
 
-export default function PengurusPage() {
+export default function PengurusIkaboyPage() {
   const [activeTab, setActiveTab] = useState<string>('dewan-pembina')
 
   useEffect(() => {
@@ -146,7 +146,7 @@ export default function PengurusPage() {
     setMeta('og:title', 'Profil Pengurus IKA - SMA N 1 Boyolali', 'og:title')
     setMeta('og:description', 'Profil lengkap pengurus Ikatan Alumni SMA Negeri 1 Boyolali periode 2025-2030 — Dewan Pembina, Dewan Pengawas, Pengurus Pusat, dan Bidang.', 'og:description')
     setMeta('og:type', 'website', 'og:type')
-    setMeta('og:url', 'https://ikasmansaboy.com/pengurus', 'og:url')
+    setMeta('og:url', 'https://ikasmansaboy.com/pengurus/ikaboy', 'og:url')
   }, [])
 
   const filtered = profiles.filter((p) => p.kategori === activeTab)
@@ -194,7 +194,7 @@ export default function PengurusPage() {
         <div className="bg-amber-50 border-t border-amber-200 px-4 py-3 text-center">
           <p className="text-xs text-amber-800">
             📜 Lihat struktur kepengurusan{' '}
-            <a href="/pengurus/sebelumnya" className="font-semibold text-amber-900 underline hover:text-amber-700">
+            <a href="/pengurus/ikasmansaboy" className="font-semibold text-amber-900 underline hover:text-amber-700">
               periode sebelumnya (2022–2025)
             </a>
           </p>

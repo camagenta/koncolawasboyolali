@@ -88,7 +88,7 @@ function SubkategoriSection({ title, members }: { title: string; members: Profil
   )
 }
 
-export default function PengurusSebelumnyaPage() {
+export default function PengurusIkasmansaboyPage() {
   const [activeTab, setActiveTab] = useState<string>('dewan-pembina')
   const filtered = profilesLama.filter((p) => p.kategori === activeTab)
 
@@ -166,7 +166,7 @@ export default function PengurusSebelumnyaPage() {
             Data diarsipkan untuk dokumentasi kepengurusan IKA SMA Negeri 1 Boyolali
           </p>
           <div className="mt-3">
-            <a href="/pengurus" className="text-xs text-blue-600 hover:underline">
+            <a href="/pengurus/ikaboy" className="text-xs text-blue-600 hover:underline">
               ← Kembali ke pengurus periode saat ini
             </a>
           </div>

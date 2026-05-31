@@ -146,7 +146,7 @@ export default async function LandingPage() {
       <footer className="border-t border-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400">
           <div className="flex items-center justify-center gap-4 mb-3">
-            <a href="/pengurus" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+            <a href="/pengurus/ikasmansaboy" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
               Profil Pengurus IKA
             </a>
           </div>
