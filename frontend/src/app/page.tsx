@@ -33,7 +33,7 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
-        <section className="max-w-6xl mx-auto px-4 pt-20 md:pt-32 pb-10 md:pb-14 text-center">
+        <section className="max-w-6xl mx-auto px-4 pt-12 md:pt-20 pb-6 md:pb-10 text-center">
           <img src="/logo-sma1.png" alt="Logo SMAN 1 Boyolali" className="w-24 h-24 mx-auto mb-6" loading="eager" />
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
             IKASMANSA
