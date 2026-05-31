@@ -232,6 +232,7 @@ server {
 ## Changelog
 
 ### 2026-05-31
+- **Issue #54**: Migrate featured alumni photos to CDN (jsDelivr) — 17 foto dipindah dari sumber eksternal ke CDN global, 3 tanpa foto dihapus dari featured
 - **Issue #46**: Redesign `alumni-berprestasi.html` — team member card layout (120px photo left + info right), stacks on mobile
 - **Bug fix**: HTML escaping `">` visible text — ganti inline `onerror` dengan `handleImageError()` JS function
 - **Typography**: Playfair Display + Source Sans 3 (Google Fonts) — lebih editorial

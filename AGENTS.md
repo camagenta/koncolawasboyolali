@@ -134,7 +134,6 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 
 ### ❌ Belum Terakomodir / Open Issues (per 2026-05-31)
 - **#34** MVP2 Planning — Admin unit, gallery alumni, referral code, donasi (roadmap revised)
-- **#45** add record alumni berprestasi — ✅ Sudah diimplementasi (57 entries: 18 existing + 39 baru dari #45)
 
 ### ✅ Closed via commit (baru ditutup)
 - **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) — commit `24867cb` (iprakom)
@@ -144,6 +143,7 @@ Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 - **#44** Mobile Navigation — commit `a1af1b5`
 - **#46** Redesign alumni-berprestasi cards — team member layout + fix HTML escaping — commit `32c6965`
 - **#47** Floating filter icon + sticky heading — commit `ccf6534`
+- **#54** CDN migration featured photos — commit `818c753`
 - **#48** Align /alumni layout + fix mobile overflow — commit inline session
 - **#49** Add Profil Saya link to sidebar and header — commit inline session
 - **#50** Sticky header with logo + consistent bottom nav — commit inline session
@@ -570,4 +570,35 @@ Handoff hanya output teks tanpa commit = **TIDAK SAH**.
 ### File Changed
 - `backend/prisma/seed-success-stories.mjs` — 18 → 57 entries, +photoUrl dari HTML
 - `AGENTS.md` — #45 dipindah ke ✅ Completed
+
+---
+
+## Session 2026-05-31 — CDN Migration Featured Photos (#54)
+
+### Issue
+- **#54** — Migrate featured alumni photos to CDN (jsDelivr) for faster load
+
+### Latar Belakang
+20 foto featured sebelumnya diambil dari sumber eksternal (Wikipedia, universitas, antaranews) — load time bervariasi dan beberapa sumber mulai 404. Perlu dipindah ke CDN global tanpa menyimpan file fisik di VPS.
+
+### Perubahan
+1. **17 foto featured** didownload dan disimpan di `frontend/public/images/alumni-berprestasi/` — dari Wikipedia, UNS, ITB, UGM, UII, Unsoed, UT, antaranews, halosemarang, tagar.id, ftmd.itb.ac.id
+2. **Seed URLs** diupdate dari sumber eksternal → `cdn.jsdelivr.net/gh/camagenta/koncolawasboyolali@main/frontend/public/images/alumni-berprestasi/{slug}.{ext}`
+3. **3 entries tanpa foto** (Sutopo Purwo Nugroho — Wikipedia 404, Agustinus Gatot Hermawan — antaranews 0 bytes, Dr. Subekti Nurmawati — UT unreachable) dihapus dari featured
+4. **Seno Samodro** — foto alternatif dari tribunnews (Wikipedia Commons 404)
+5. **Safety filter** `isFeatured && photoUrl` ditambahkan di `getFeatured()` landing page
+6. **Landing page padding** dikurangi (hero: `pt-20 md:pt-32` → `pt-12 md:pt-20`) agar konten lebih di tengah
+
+### Deployment
+- `Seeded 56 success stories` — 17 featured dengan CDN ✅
+- Frontend build sukses (30 routes) ✅
+- PM2 restart + verifikasi API ✅
+
+### Files Changed
+- `frontend/public/images/alumni-berprestasi/*` — 17 photo files (via git)
+- `backend/prisma/seed-success-stories.mjs` — URLs diganti ke CDN, Sutopo/Agustinus/Subekti removed from featured
+- `frontend/src/app/page.tsx` — safety filter `isFeatured && photoUrl` + hero padding reduced
+
+### Commit
+- `818c753` — feat: migrate featured photos to jsDelivr CDN for faster load — ref #45
 
