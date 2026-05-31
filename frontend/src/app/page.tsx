@@ -11,6 +11,19 @@ async function getStats() {
   }
 }
 
+async function getFacebookGroupStats() {
+  try {
+    const apiUrl = process.env.API_INTERNAL_URL || 'http://localhost:3001'
+    const res = await fetch(`${apiUrl}/api/facebook/group-stats`, {
+      next: { revalidate: 300 },
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
+  }
+}
+
 async function getFeatured() {
   try {
     const apiUrl = process.env.API_INTERNAL_URL || 'http://localhost:3001'
@@ -29,6 +42,8 @@ async function getFeatured() {
 export default async function LandingPage() {
   const stats = await getStats()
   const featured = await getFeatured()
+  const fbGroup = await getFacebookGroupStats()
+  const memberCount = fbGroup?.configured ? fbGroup.memberCount : null
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -162,6 +177,11 @@ export default async function LandingPage() {
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
               Join Facebook Group IKA
+              {memberCount !== null && (
+                <span className="ml-1 text-xs bg-blue-50 text-blue-700 font-semibold px-1.5 py-0.5 rounded-full">
+                  {memberCount.toLocaleString('id-ID')}
+                </span>
+              )}
             </a>
           </div>
           &copy; {new Date().getFullYear()} IKASMANSA - Ikatan Alumni SMA N 1 Boyolali

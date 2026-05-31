@@ -16,6 +16,7 @@ import { SuccessStoriesModule } from './modules/success-stories/success-stories.
 import { BusinessModule } from './modules/business/business.module.js';
 import { AlumniSkillModule } from './modules/alumni-skill/alumni-skill.module.js';
 import { TelegramModule } from './modules/telegram/telegram.module.js';
+import { FacebookModule } from './modules/facebook/facebook.module.js';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { TelegramModule } from './modules/telegram/telegram.module.js';
     BusinessModule,
     AlumniSkillModule,
     TelegramModule,
+    FacebookModule,
   ],
 })
 export class AppModule {}
