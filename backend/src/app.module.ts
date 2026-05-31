@@ -15,6 +15,7 @@ import { ExportModule } from './modules/export/export.module.js';
 import { SuccessStoriesModule } from './modules/success-stories/success-stories.module.js';
 import { BusinessModule } from './modules/business/business.module.js';
 import { AlumniSkillModule } from './modules/alumni-skill/alumni-skill.module.js';
+import { TelegramModule } from './modules/telegram/telegram.module.js';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AlumniSkillModule } from './modules/alumni-skill/alumni-skill.module.js
     SuccessStoriesModule,
     BusinessModule,
     AlumniSkillModule,
+    TelegramModule,
   ],
 })
 export class AppModule {}

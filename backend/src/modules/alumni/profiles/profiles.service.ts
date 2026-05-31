@@ -2,12 +2,16 @@ import { Injectable, NotFoundException, ConflictException, BadRequestException }
 import { PrismaService } from '../../../common/prisma/prisma.service.js';
 import { CreateProfileDto } from './dto/create-profile.dto.js';
 import { UpdateProfileDto } from './dto/update-profile.dto.js';
+import { TelegramService } from '../../telegram/telegram.service.js';
 
 const VALID_STATUS_UTAMA = ['Bekerja', 'Kuliah', 'Wirausaha', 'Belum_Bekerja', 'Lainnya'];
 
 @Injectable()
 export class ProfilesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly telegramService: TelegramService,
+  ) {}
 
   async findAll(query: {
     q?: string;
@@ -112,23 +116,69 @@ export class ProfilesService {
     return profile;
   }
 
+  private async notifyTelegram(userId: string, dto: Record<string, any>, isNew: boolean) {
+    try {
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) return;
+
+      const e = (v: any) => this.telegramService.escape(String(v ?? '-'));
+
+      let msg =
+        `<b>${isNew ? '🆕 Profil Alumni Baru' : '✏️ Profil Alumni Diperbarui'}</b>\n\n` +
+        `<b>Email:</b> ${e(user.email)}\n` +
+        `<b>Nama Lengkap:</b> ${e(dto.namaLengkap)}\n` +
+        `<b>No HP:</b> ${e(dto.noHp)}\n` +
+        `<b>Tahun Masuk:</b> ${e(dto.tahunMasuk)}\n` +
+        `<b>Tahun Lulus:</b> ${e(dto.tahunLulus)}\n`;
+
+      if (dto.kelas1) msg += `<b>Kelas 1:</b> ${e(dto.kelas1)}\n`;
+      if (dto.kelas2) msg += `<b>Kelas 2:</b> ${e(dto.kelas2)}\n`;
+      msg += `<b>Kelas 3:</b> ${e(dto.kelas3)}\n`;
+
+      if ((dto as any).jurusan) msg += `<b>Jurusan:</b> ${e((dto as any).jurusan)}\n`;
+      msg += `<b>Kota Domisili:</b> ${e(dto.kotaDomisili)}\n`;
+      msg += `<b>Kecamatan Asal:</b> ${e(dto.kecamatanAsalBoyolali)}\n`;
+
+      if ((dto as any).alamatLengkap) msg += `<b>Alamat:</b> ${e((dto as any).alamatLengkap)}\n`;
+      if ((dto as any).linkLinkedin) msg += `<b>LinkedIn:</b> ${e((dto as any).linkLinkedin)}\n`;
+      if ((dto as any).linkInstagram) msg += `<b>Instagram:</b> ${e((dto as any).linkInstagram)}\n`;
+      if ((dto as any).statusUtama) msg += `<b>Status Utama:</b> ${e((dto as any).statusUtama)}\n`;
+      if ((dto as any).namaPanggilan) msg += `<b>Nama Panggilan:</b> ${e((dto as any).namaPanggilan)}\n`;
+      if ((dto as any).pekerjaan) msg += `<b>Pekerjaan:</b> ${e((dto as any).pekerjaan)}\n`;
+
+      msg += `\n<code>${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}</code>`;
+
+      this.telegramService.sendMessage(msg).catch(() => {});
+    } catch (err) {
+      console.error('Telegram notify error:', err);
+    }
+  }
+
   async create(userId: string, dto: CreateProfileDto) {
     const existing = await this.prisma.alumniProfile.findUnique({ where: { userId } });
     if (existing) throw new ConflictException('Profil alumni sudah ada');
 
-    return this.prisma.alumniProfile.create({
+    const profile = await this.prisma.alumniProfile.create({
       data: { userId, ...dto },
     });
+
+    this.notifyTelegram(userId, dto, true).catch(() => {});
+
+    return profile;
   }
 
   async update(userId: string, dto: UpdateProfileDto) {
     const existing = await this.prisma.alumniProfile.findUnique({ where: { userId } });
     if (!existing) throw new NotFoundException('Profil alumni tidak ditemukan');
 
-    return this.prisma.alumniProfile.update({
+    const profile = await this.prisma.alumniProfile.update({
       where: { userId },
       data: dto,
     });
+
+    this.notifyTelegram(userId, { ...existing, ...dto }, false).catch(() => {});
+
+    return profile;
   }
 
   async updatePhoto(userId: string, photoUrl: string) {
