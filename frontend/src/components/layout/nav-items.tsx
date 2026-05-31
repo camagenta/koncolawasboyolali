@@ -112,6 +112,13 @@ const ChevronIcon = (
 
 export const navGroups: NavGroup[] = [
   {
+    labelKey: 'Profil',
+    icon: ProfileIcon,
+    children: [
+      { href: '/profile', labelKey: 'Profil Saya', icon: ProfileIcon },
+    ],
+  },
+  {
     labelKey: 'Jaringan',
     icon: UsersIcon,
     children: [
