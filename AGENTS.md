@@ -540,6 +540,7 @@ Handoff hanya output teks tanpa commit = **TIDAK SAH**.
 
 ### Latest Handoff
 - `handoffs/2026-05-31-issue51.md` — pentest remediasi, login fix, E2E planning
+- `handoffs/2026-05-31-telegram-notification.md` — Telegram bot notification, DB-based recipients, bot commands, FB group button
 
 ---
 
