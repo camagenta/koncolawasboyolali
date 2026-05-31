@@ -11,13 +11,29 @@ async function getStats() {
   }
 }
 
+async function getFeatured() {
+  try {
+    const apiUrl = process.env.API_INTERNAL_URL || 'http://localhost:3001'
+    const res = await fetch(`${apiUrl}/api/success-stories?limit=100`, {
+      next: { revalidate: 60 },
+    })
+    if (!res.ok) return []
+    const json = await res.json()
+    const items: any[] = json.data || []
+    return items.filter((x: any) => x.isFeatured)
+  } catch {
+    return []
+  }
+}
+
 export default async function LandingPage() {
   const stats = await getStats()
+  const featured = await getFeatured()
 
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
-        <section className="max-w-6xl mx-auto px-4 py-20 md:py-32 text-center">
+        <section className="max-w-6xl mx-auto px-4 pt-20 md:pt-32 pb-10 md:pb-14 text-center">
           <img src="/logo-sma1.png" alt="Logo SMAN 1 Boyolali" className="w-24 h-24 mx-auto mb-6" loading="eager" />
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
             IKASMANSA
@@ -38,6 +54,65 @@ export default async function LandingPage() {
             Masuk sebagai Alumni
           </a>
         </section>
+
+        {featured.length > 0 && (
+          <section className="pb-16 md:pb-20">
+            <div className="max-w-6xl mx-auto px-4 text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                Alumni Berprestasi
+              </h2>
+              <p className="text-gray-500 text-sm md:text-base">
+                profil alumni yang telah mengharumkan nama SMA N 1 Boyolali
+              </p>
+            </div>
+            <div
+              className="relative overflow-hidden py-4"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+              }}
+            >
+              <style>{`
+                @keyframes scroll-ltr {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .carousel-track {
+                  display: flex;
+                  gap: 1.5rem;
+                  width: max-content;
+                  animation: scroll-ltr 40s linear infinite;
+                }
+                .carousel-track:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+              <div className="carousel-track">
+                {[...featured, ...featured].map((a, i) => (
+                  <div
+                    key={`${a.id}-${i}`}
+                    className="flex-shrink-0 w-[220px] md:w-[260px] bg-white rounded-2xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-shadow"
+                  >
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full mx-auto mb-4 overflow-hidden bg-gray-100 ring-2 ring-amber-100">
+                      <img
+                        src={a.photoUrl}
+                        alt={a.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 text-sm md:text-base leading-snug line-clamp-2">
+                      {a.name}
+                    </h3>
+                    <p className="text-xs md:text-sm text-gray-500 mt-2 leading-relaxed line-clamp-2">
+                      {a.achievement}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {stats && (
           <section className="bg-gray-50 py-16">
