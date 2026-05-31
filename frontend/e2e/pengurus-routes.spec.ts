@@ -27,10 +27,10 @@ test.describe('Pengurus Routes Restructure #55', () => {
     await expect(page.locator('h1')).toContainText('PROFIL PENGURUS IKA')
   })
 
-  test('old /pengurus route returns 404', async ({ page }) => {
-    const response = await page.goto('/pengurus', { waitUntil: 'commit' })
-    // Could be 404 or redirect; either is acceptable
-    // The important thing is it's NOT the old pengurus page
-    expect(response?.status() === 404 || response?.status() === 302 || response?.status() === 200).toBeTruthy()
+  test('old /pengurus redirects to /pengurus/ikasmansaboy', async ({ page }) => {
+    await page.goto('/pengurus', { waitUntil: 'commit' })
+    // Next.js 308 permanent redirect → should land on ikasmansaboy
+    await expect(page).toHaveURL(/\/pengurus\/ikasmansaboy/)
+    await expect(page.locator('h1')).toContainText('PENGURUS IKA SMANSA BOY')
   })
 })
