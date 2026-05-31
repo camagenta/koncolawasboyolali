@@ -451,3 +451,51 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 - `pm2 restart koncolawas-web` ✅
 - Live verified: `curl -s http://localhost:3002/alumni-berprestasi.html | grep -o 'sticky-heading\|filter-fab'` ✅
 
+---
+
+## Session 2026-05-31 — Align /alumni card layout with /sukses & /jobs + Fix mobile overflow
+
+### Issues
+- #48 — (informal) /alumni overflow horizontal di mobile
+
+### Perubahan
+
+#### Restruktur Alumni Cards (sesuai /sukses)
+- Filter card di /alumni restruktur mengikuti pola /jobs: `p-4`, `gap-4` di grid, spacing konsisten
+- Grid cards di /alumni restruktur mengikuti pola /sukses: single centered stack (avatar, nama, angkatan, kelas3+domisili inline, status badge), padding `p-4 sm:p-5`, spacing internal lebih rapat
+- Skeleton loading diupdate mengikuti layout centered yang baru
+
+#### Fix Horizontal Overflow (Root Cause)
+- **Root cause**: `frontend/src/components/layout/app-shell.tsx:88` — Div `flex-1 flex-col` di dalam flex container. Default CSS `min-width: auto` pada flex item mencegah penyusutan di bawah intrinsic width konten. Saat viewport 375px, container memaksa jadi 551px.
+- **Fix**: Tambah `min-w-0 overflow-x-hidden` ke content wrapper di app-shell — flex item bisa shrink sesuai parent.
+- **Pagination**: Ganti `overflow-x-auto > w-max` dengan `flex-wrap` agar tombol wrap alami tanpa overflow.
+
+#### Verifikasi (Playwright di 375px viewport)
+| Halaman | docScrollWidth | Status |
+|---------|---------------|--------|
+| `/alumni` | 375px | ✅ (was 551px) |
+| `/sukses` | 375px | ✅ |
+| `/jobs` | 375px | ✅ |
+| `/bisnis` | 375px | ✅ |
+| `/alumni-mengajar` | 375px | ✅ |
+
+- 320px viewport juga verified: docScrollWidth == 320 ✅
+- Bottom sheet di /alumni renders dengan overlay + nav panel ✅
+- Pagination wraps ke 2 baris (1-5 atas, 6-7+Selanjutnya bawah) ✅
+- `npx next build`: 30 routes, no errors ✅
+- `pm2 restart koncolawas-web koncolawas-api` ✅
+- Belum di-commit (inline session, belum ada GitHub Issue formal)
+
+### File Changed
+- `frontend/src/components/layout/app-shell.tsx` — `min-w-0 overflow-x-hidden` pada flex wrapper (line 88)
+- `frontend/src/app/(app)/alumni/page.tsx` — restruktur filter card + grid cards + pagination flex-wrap
+
+---
+
+## Handoff System
+
+Handoff disimpan di `handoffs/` (committed ke git) untuk sync konteks antar environment.
+
+### Latest Handoff
+- `handoffs/2026-05-31-223000.md` — overflow fix + OSINT #45 + knowledge sync
+
