@@ -108,12 +108,30 @@ export function Header() {
   }
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
-      <div className="flex items-center gap-3">
-        <h2 className="text-lg font-semibold text-gray-800 lg:hidden">{t('app.name')}</h2>
+    <header className="sticky top-0 z-30 h-14 lg:h-16 bg-white border-b border-gray-200 flex items-center justify-between px-3 lg:px-6">
+      <div className="flex items-center gap-2 lg:gap-3 min-w-0">
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <img
+            src="/logo-sma1.png"
+            alt="Logo SMA N 1 Boyolali"
+            className="w-7 h-7 lg:w-8 lg:h-8 rounded-full object-cover"
+          />
+          <span className="text-sm lg:text-base font-bold text-gray-800 truncate">
+            Konco Lawas
+          </span>
+        </Link>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1 lg:gap-2">
+        <Link
+          href="/profile"
+          className="lg:hidden flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:bg-gray-100 transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+          </svg>
+        </Link>
+
         <button
           onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
           className="px-2 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
