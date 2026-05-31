@@ -7,6 +7,7 @@ backend/src/generated/
 backend/uploads/
 dist/
 node_modules/
+.omo/
 scripts/gcp-service-account.json
 tmp/
 

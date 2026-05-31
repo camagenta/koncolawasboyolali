@@ -664,3 +664,39 @@ Setiap OSINT foto ke depannya WAJIB langsung disimpan ke CDN (jsDelivr), bukan h
 - `backend/src/modules/auth/strategies/google.strategy.ts` — sendMessage → notifyAll
 - `backend/src/modules/alumni/profiles/profiles.service.ts` — sendMessage → notifyAll
 
+---
+
+## Session 2026-06-01 — Facebook Graph API Group Member Count (#56) — WIP
+
+### Status
+WIP — App Access Token tidak cukup untuk query grup. Butuh User Access Token dengan `groups_access_member_info`.
+
+### Changes
+1. **FacebookModule** (`backend/src/modules/facebook/`): Service + Controller + Module baru
+   - `GET /api/facebook/group-stats` — endpoint public
+   - App Access Token via App ID + App Secret
+   - 5 menit in-memory cache
+2. **Frontend landing page** (`frontend/src/app/page.tsx`): fetch group stats, tampilkan badge member count di footer
+3. **Deploy**: Production live — endpoint returns `configured: false` karena token insufisien
+
+### Blocker
+```
+Facebook Graph API error: (#3) Missing Permission
+```
+Group `member_count` lewat Graph API butuh **User Access Token** (bukan App Token) dengan permission `groups_access_member_info`. Ini butuh setup Facebook Login + App Review.
+
+### Issue
+- **#56** — [MVP2] Facebook Graph API group member count
+
+### Files Changed
+- `backend/src/modules/facebook/facebook.service.ts` — service baru
+- `backend/src/modules/facebook/facebook.controller.ts` — controller baru
+- `backend/src/modules/facebook/facebook.module.ts` — module baru
+- `backend/src/app.module.ts` — register FacebookModule
+- `backend/.env` — add FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_GROUP_ID
+- `frontend/src/app/page.tsx` — fetch group stats + badge di footer
+- `backend/package-lock.json` — fixed Tencent mirror URLs
+
+### Commit
+- `ed2e1f4` — feat: Facebook Graph API — group member count in footer — ref #56
+
