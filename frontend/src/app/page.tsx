@@ -58,12 +58,9 @@ export default async function LandingPage() {
         {featured.length > 0 && (
           <section className="pb-16 md:pb-20">
             <div className="max-w-6xl mx-auto px-4 text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                 Alumni Berprestasi
               </h2>
-              <p className="text-gray-500 text-sm md:text-base">
-                profil alumni yang telah mengharumkan nama SMA N 1 Boyolali
-              </p>
             </div>
             <div
               className="relative overflow-hidden py-4"
@@ -104,6 +101,9 @@ export default async function LandingPage() {
                     <h3 className="font-semibold text-gray-900 text-sm md:text-base leading-snug line-clamp-2">
                       {a.name}
                     </h3>
+                    <p className="text-xs text-amber-700 font-medium mt-1">
+                      Angkatan {a.angkatan}
+                    </p>
                     <p className="text-xs md:text-sm text-gray-500 mt-2 leading-relaxed line-clamp-2">
                       {a.achievement}
                     </p>
