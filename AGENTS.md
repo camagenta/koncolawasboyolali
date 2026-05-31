@@ -427,7 +427,7 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 
 ### Issue #47 — Created
 - Issue: [Redesign alumni-berprestasi filter — floating icon + sticky heading](https://github.com/camagenta/koncolawasboyolali/issues/47)
-- Commit: `# akan diisi setelah commit`
+- Closing commit: `ccf6534` — ref #47
 
 ### Perubahan
 - **Hapus sticky filter bar**: Persistent `.controls` dengan `position: sticky; top: 0;` yang memakan vertical space saat scroll dihapus.
