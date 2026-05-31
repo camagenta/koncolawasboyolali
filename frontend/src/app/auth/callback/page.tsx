@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 const TOKEN_KEY = 'ikasmansa_token'
 const USER_KEY = 'ikasmansa_user'
 
 function CallbackHandler() {
-  const router = useRouter()
   const searchParams = useSearchParams()
 
   useEffect(() => {
@@ -19,14 +18,17 @@ function CallbackHandler() {
         const user = JSON.parse(atob(userEncoded))
         localStorage.setItem(TOKEN_KEY, token)
         localStorage.setItem(USER_KEY, JSON.stringify(user))
-        router.push('/alumni')
+        // Full page reload required: AuthProvider reads localStorage on mount.
+        // router.push would not re-initialize AuthProvider, causing a race
+        // condition where AppShell sees isAuthenticated=false and redirects away.
+        window.location.href = '/alumni'
       } catch {
-        router.push('/?error=invalid_data')
+        window.location.href = '/?error=invalid_data'
       }
     } else {
-      router.push('/?error=no_token')
+      window.location.href = '/?error=no_token'
     }
-  }, [searchParams, router])
+  }, [searchParams])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">

@@ -16,9 +16,7 @@ export class AuthController {
       `?response_type=code` +
       `&client_id=${encodeURIComponent(clientId)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-      `&scope=${encodeURIComponent('email profile')}` +
-      `&access_type=offline` +
-      `&prompt=consent`;
+      `&scope=${encodeURIComponent('email profile')}`;
     return res.redirect(url);
   }
 
