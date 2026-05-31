@@ -43,18 +43,21 @@
 
 ## Workflow Siklus Development
 
-Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
+Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
 
+0. **Issue First** — Setiap perubahan WAJIB didahului oleh GitHub Issue. Buat issue dulu, baru kerja. Reference issue number di commit message (`closes #NN` atau `ref #NN`).
 1. **Plan** — analisis kebutuhan, buat todo list, bagi tugas ke agent paralel
 2. **Delegate** — dispatch agent untuk setiap task independen
 3. **Build** — `npx next build` (frontend) + `npx nest build` (backend) — pastikan kompilasi sukses
 4. **Deploy** — `pm2 restart koncolawas-api koncolawas-web` — restart production service
-5. **Check E2E** — verifikasi build output & response live
-6. **Commit & Push** — git add → commit → push ke GitHub
+5. **Check E2E** — verifikasi build output & response live dengan `curl`
+6. **Commit & Push** — git add → commit → push ke GitHub. Commit message WAJIB mention issue number.
 
 > Catatan: Jika build gagal, jangan deploy. Fix dulu sampai build sukses.
 > 
 > ⚠️ **PENTING**: Setelah `pm2 restart`, selalu verifikasi dengan `curl -s http://localhost:3002/ | grep <expected-text>` untuk memastikan perubahan tampil di live.
+> 
+> 🔴 **ISSUE-FIRST RULE**: JANGAN pernah memulai pekerjaan tanpa GitHub Issue. Inisiasi harus dari issue, baru implementasi. Commit message harus mention `closes #N` atau `ref #N`.
 
 ---
 
@@ -120,6 +123,7 @@ Setiap siklus perubahan WAJIB mengikuti 5 langkah berikut:
 
 ### ✅ Closed via commit (baru ditutup)
 - **#40** Redesign halaman pengurus periode sebelumnya (2022–2025) — commit `24867cb` (iprakom)
+- **#46** Redesign alumni-berprestasi cards — team member layout + fix HTML escaping — commit `32c6965`
 
 ---
 
@@ -379,4 +383,41 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 - **P2:** Fitur "Tertarik" / Express Interest dari user lain
 - **P2:** Testimonial / review untuk setiap usaha
 - **P3:** Approve/reject langsung dari list admin (current: edit modal)
+
+---
+
+## Session 2026-05-31 — Alumni Berprestasi Card Redesign + OSINT System
+
+### Issue #46 — Created
+- Issue: [Redesign alumni-berprestasi cards — team member layout + fix HTML escaping](https://github.com/camagenta/koncolawasboyolali/issues/46)
+- Closing commit: `32c6965` — ref #46
+
+### Bug Fixed
+- **HTML escaping `">` visible text**: `getPhotoHtml()` used inline `onerror` attribute with double-quoted HTML inside double-quoted attribute. Fix: replaced with `handleImageError()` JS function that receives DOM element directly, avoiding HTML attribute concatenation.
+
+### Design Changes
+- **Card layout**: From compact top-down (64px circular photo) → **team-member style**: 120x120px photo left, info panel right. On mobile (<640px): flex-direction column, photo stacks on top.
+- **Typography**: From Inter/system → **Playfair Display** (serif for names) + **Source Sans 3** (sans for body), loaded via Google Fonts.
+- **Info hierarchy**: badge (angkatan + gender inline) → nama (big serif) → nickname → posisi (amber left border) → ringkasan → social icons → citation block.
+- **Gender**: Moved from separate card-footer into inline with badge: `🎓 Angkatan 1980 · ♂ Laki-laki`
+- **Social media**: Added `linkedin`, `instagram`, `twitter` optional fields to all 49 entries (empty). SVG icon row renders only when data present.
+- **Citation extraction**: Auto-splits `ringkasan` on `"Informan:"` — extracts source to dedicated `card-citation` block at card bottom (dashed border, italic).
+- **Color palette**: Navy `#1e3a5f` + amber `#d97706` accent, radial gradient overlay on hero.
+
+### OSINT System Documentation
+- Created `docs/osint-agent-system.md` (297 lines) — retrospective hit rates, source priority chains per profile type, Playwright bypass protocol, agent prompt template, verification workflow, batch runner script, quick reference URL patterns by institution.
+- Created `scripts/merge_findings.js` — database of 49 alumni photo findings with confidence and source attribution.
+
+### Git Issue-First Workflow Reinforcement
+- Workflow siklus development di AGENTS.md diperbarui: **Step 0 — Issue First** ditambahkan sebagai langkah wajib.
+- Commit message WAJIB mention issue number (`closes #NN` / `ref #NN`).
+- Semua inisiasi pekerjaan harus dari GitHub Issue, bukan dari chat langsung.
+
+### Build & Deploy
+- `npx next build` sukses (30 routes ✅)
+- `pm2 restart koncolawas-web` ✅
+- Live verified: `/alumni-berprestasi.html` loads, cards render with photos ✅
+
+### Commit
+- `32c6965` — feat: redesign alumni-berprestasi cards team member layout fix HTML escaping
 

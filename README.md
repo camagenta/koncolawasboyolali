@@ -227,6 +227,16 @@ server {
 
 ## Changelog
 
+### 2026-05-31
+- **Issue #46**: Redesign `alumni-berprestasi.html` — team member card layout (120px photo left + info right), stacks on mobile
+- **Bug fix**: HTML escaping `">` visible text — ganti inline `onerror` dengan `handleImageError()` JS function
+- **Typography**: Playfair Display + Source Sans 3 (Google Fonts) — lebih editorial
+- **Gender inline**: Pindah dari card-footer ke badge angkatan
+- **Social media**: field `linkedin`/`instagram`/`twitter` + SVG icon row (render jika data ada)
+- **Citation**: Auto-extract `Informan:` dari ringkasan ke blok khusus di card bottom
+- **OSINT system**: Dokumentasi lengkap di `docs/osint-agent-system.md` — source priority chains, Playwright protocol, verification workflow, batch runner script
+- **Workflow diperkuat**: Setiap perubahan WAJIB mulai dari GitHub Issue (#0), commit Wajib mention issue
+
 ### 2026-05-29
 - **Onboarding flow**: Pengguna baru diarahkan ke `/profile` untuk mengisi tahun masuk & tahun lulus sebelum mengakses fitur lain
 - **Gravatar fallback**: Foto alumni menggunakan Google avatar jika foto profil belum diupload

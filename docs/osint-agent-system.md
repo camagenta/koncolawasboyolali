@@ -295,3 +295,66 @@ Input: Daftar N + Source Priority per tipe
 6. **Viva.co.id thumbnails** — format predictable: `thumb.viva.co.id/...`
 7. **Jangan percaya relative path** — `images/stories/gambar/fotopagun.jpg` → sering 404
 8. **OG:image meta tag adalah sumber paling reliable** — banyak site pasang foto di OG tag
+
+---
+
+## Lessons Learned dari Redesign (2026-05-31)
+
+### HTML Escaping: Jangan pernah pakai inline `onerror` di template string
+
+**Masalah:**
+```javascript
+// SALAH — onerror berisi HTML dengan double-quote di dalam double-quoted attribute
+return `<img src="${url}" onerror="this.parentElement.innerHTML='<div class="avatar male">${char}</div>'">`;
+```
+Ini menghasilkan `">` visible di browser karena `"` di `class="avatar"` menutup atribut `onerror`.
+
+**Solusi:**
+```javascript
+// BENAR — JS function handler, DOM method, bukan HTML string concatenation
+window.handleImageError = function(imgElement, gender, name) {
+  const parent = imgElement.parentElement;
+  parent.innerHTML = getAvatarHtml(gender, name);
+};
+
+// Panggil di template string dengan escaped args
+photoHtml = `<img src="${url}" loading="lazy" onerror="handleImageError(this, '${escapedGender}', '${escapedName}')">`;
+```
+
+Atau lebih baik lagi: set `onerror` via JS, bukan inline HTML.
+
+### Layout Team Member Card untuk Foto Besar
+
+Kompak top-down (64px circular photo) → side-by-side (120px photo left + info right):
+- Desktop: Card flex-direction row, photo container 160px fixed, body flex:1
+- Mobile (<640px): flex-direction column, photo stacks on top
+- Hover: card naik 4px, shadow membesar, foto zoom 1.05x
+- Hasil: foto lebih prominent, informasi lebih terbaca
+
+**CSS Pattern:**
+```css
+.card { display: flex; flex-direction: row; }
+.card-photo-container { width: 160px; flex-shrink: 0; }
+.card-body { flex: 1; }
+@media (max-width: 640px) {
+  .card { flex-direction: column; }
+  .card-photo-container { width: 100%; }
+}
+```
+
+### Verifikasi Foto Sebelum Integrasi
+
+Foto yang gagal load (403, 404, 0-byte) harus terdeteksi sebelum deploy:
+1. `curl -sI "URL" | grep -E "HTTP|Content-Type|Content-Length"`
+2. Valid: HTTP 200 + Content-Type image/* + Content-Length > 5KB
+3. Jika foto dari news site (ANTARA, JPNN) mungkin return 0-byte via curl tapi OK di browser
+
+### Git Issue-First Flow
+
+Setiap perubahan WAJIB:
+1. Buat GitHub Issue dulu
+2. Kerjakan implementasi
+3. Commit dengan `closes #NN`
+4. Update AGENTS.md + README changelog
+
+Ini mencegah work tanpa tracking dan memastikan semua perubahan terdokumentasi.
