@@ -43,19 +43,28 @@
 
 ## Workflow Siklus Development
 
-Setiap siklus perubahan WAJIB mengikuti 7 langkah berikut:
+Setiap siklus perubahan WAJIB mengikuti 8 langkah berikut:
 
 0. **Issue First** — Setiap perubahan WAJIB didahului oleh GitHub Issue. Buat issue dulu, baru kerja. Reference issue number di commit message (`closes #NN` atau `ref #NN`).
 1. **Plan** — analisis kebutuhan, buat todo list, bagi tugas ke agent paralel
 2. **Delegate** — dispatch agent untuk setiap task independen
 3. **Build** — `npx next build` (frontend) + `npx nest build` (backend) — pastikan kompilasi sukses
 4. **Deploy** — `pm2 restart koncolawas-api koncolawas-web` — restart production service
-5. **Check E2E** — verifikasi build output & response live dengan `curl`
-6. **Commit & Push** — git add → commit → push ke GitHub. Commit message WAJIB mention issue number.
+5. **Smoke Test (curl)** — verifikasi halaman live tidak 404/500: `curl -s http://localhost:3002/<path> | grep <expected-text>`
+6. **E2E Test (Playwright)** — jalankan Playwright E2E test untuk skenario yang relevan dengan perubahan. Wajib untuk setiap perubahan yang memengaruhi:
+   - Login / auth flow
+   - Navigasi & routing baru
+   - Form submission
+   - Tampilan halaman publik
+   - Admin panel
+   
+   Jika belum ada test spec untuk fitur tersebut, agent WAJIB membuat test spec Playwright minimal (happy path) sebelum melanjutkan.
+   Test dijalankan dengan: `npx playwright test --project=chromium`
+7. **Commit & Push** — git add → commit → push ke GitHub. Commit message WAJIB mention issue number.
 
 > Catatan: Jika build gagal, jangan deploy. Fix dulu sampai build sukses.
 > 
-> ⚠️ **PENTING**: Setelah `pm2 restart`, selalu verifikasi dengan `curl -s http://localhost:3002/ | grep <expected-text>` untuk memastikan perubahan tampil di live.
+> ⚠️ **PENTING**: Langkah 5 (Smoke Test) dan Langkah 6 (E2E Test) adalah dua hal BERBEDA. Smoke test = cek hidup/mati dengan curl. E2E test = verifikasi fungsionalitas dengan Playwright (browser nyata). Keduanya WAJIB dilakukan.
 > 
 > 🔴 **ISSUE-FIRST RULE**: JANGAN pernah memulai pekerjaan tanpa GitHub Issue. Inisiasi harus dari issue, baru implementasi. Commit message harus mention `closes #N` atau `ref #N`.
 
