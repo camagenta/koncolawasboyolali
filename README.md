@@ -236,6 +236,7 @@ server {
 - **Citation**: Auto-extract `Informan:` dari ringkasan ke blok khusus di card bottom
 - **OSINT system**: Dokumentasi lengkap di `docs/osint-agent-system.md` — source priority chains, Playwright protocol, verification workflow, batch runner script
 - **Workflow diperkuat**: Setiap perubahan WAJIB mulai dari GitHub Issue (#0), commit Wajib mention issue
+- **Issue #47**: Floating filter icon — sticky filter bar diganti dengan FAB (floating action button) di pojok kanan bawah + slide-up filter panel + sticky heading "Alumni Berprestasi" saja saat scroll
 
 ### 2026-05-29
 - **Onboarding flow**: Pengguna baru diarahkan ke `/profile` untuk mengisi tahun masuk & tahun lulus sebelum mengakses fitur lain

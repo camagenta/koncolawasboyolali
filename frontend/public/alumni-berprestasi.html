@@ -122,25 +122,122 @@
     font-weight: 600;
   }
 
-  /* Search & Filter */
-  .controls {
+  /* Sticky heading — replaces old sticky filter bar */
+  .sticky-heading {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(8px);
-    padding: 1rem 1.5rem;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
     border-bottom: 1px solid var(--color-border);
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    gap: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .controls input {
+  .sticky-heading h2 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary);
     flex: 1;
-    min-width: 250px;
-    padding: 0.7rem 1.2rem;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sticky-heading .result-count {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Filter FAB (floating action button) */
+  .filter-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 30;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(30,58,95,0.3);
+    transition: all 0.25s ease;
+  }
+  .filter-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 24px rgba(30,58,95,0.4);
+  }
+  .filter-fab:active { transform: scale(0.95); }
+  .filter-fab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Filter panel overlay */
+  .filter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+  }
+  .filter-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .filter-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 41;
+    background: white;
+    border-radius: 1.25rem 1.25rem 0 0;
+    padding: 1.5rem;
+    padding-top: 0.75rem;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.12);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .filter-overlay.open .filter-panel {
+    transform: translateY(0);
+  }
+
+  .filter-panel .panel-handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #d1d5db;
+    margin: 0 auto 1rem;
+  }
+  .filter-panel .panel-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 1.25rem;
+  }
+  .filter-panel .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .filter-panel .controls input {
+    width: 100%;
+    padding: 0.75rem 1rem;
     border: 1px solid #cbd5e1;
     border-radius: 0.5rem;
     font-size: 0.95rem;
@@ -148,12 +245,13 @@
     outline: none;
     transition: all 0.2s;
   }
-  .controls input:focus {
+  .filter-panel .controls input:focus {
     border-color: var(--color-primary-light);
     box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
   }
-  .controls select {
-    padding: 0.7rem 2.5rem 0.7rem 1.2rem;
+  .filter-panel .controls select {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
     border: 1px solid #cbd5e1;
     border-radius: 0.5rem;
     font-size: 0.9rem;
@@ -169,14 +267,38 @@
     background-position: right 1rem center;
     transition: border-color 0.2s;
   }
-  .controls select:focus {
+  .filter-panel .controls select:focus {
     border-color: var(--color-primary-light);
   }
-  .result-count {
+  .filter-panel .controls .filter-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .filter-panel .controls .filter-actions button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
     font-size: 0.9rem;
-    color: var(--color-text-light);
-    margin-left: auto;
     font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .filter-panel .controls .filter-actions .btn-apply {
+    background: var(--color-primary);
+    color: white;
+  }
+  .filter-panel .controls .filter-actions .btn-apply:hover {
+    background: #0f172a;
+  }
+  .filter-panel .controls .filter-actions .btn-reset {
+    background: #f1f5f9;
+    color: var(--color-text);
+  }
+  .filter-panel .controls .filter-actions .btn-reset:hover {
+    background: #e2e8f0;
   }
 
   /* Info Banner */
@@ -409,11 +531,10 @@
   @media (max-width: 768px) {
     .hero h1 { font-size: 2rem; }
     .grid-container { grid-template-columns: 1fr; padding: 1.5rem 1rem; gap: 1rem; }
-    .controls { padding: 1rem; gap: 0.75rem; }
-    .controls input, .controls select { min-width: 100%; flex: none; }
-    .result-count { width: 100%; text-align: left; }
     .stats-bar { gap: 1.5rem; padding: 1rem; }
     .stat-item .num { font-size: 1.4rem; }
+    .sticky-heading { padding: 0.6rem 1rem; }
+    .sticky-heading h2 { font-size: 1rem; }
   }
 
   @media (max-width: 640px) {
@@ -422,11 +543,13 @@
     .card-photo-container { width: 100%; border-right: none; border-bottom: 1px solid var(--color-border); padding: 2rem 1rem 1.5rem; }
     .card-photo { width: 90px; height: 90px; }
     .card-body { padding: 1.25rem; }
+    .filter-fab { bottom: 1rem; right: 1rem; width: 48px; height: 48px; }
+    .filter-panel { padding: 1rem; }
   }
 
   /* Print */
   @media print {
-    .controls, .stats-bar, .site-footer { display: none; }
+    .controls, .stats-bar, .site-footer, .sticky-heading, .filter-fab, .filter-overlay { display: none; }
     .card { break-inside: avoid; }
   }
 </style>
@@ -455,23 +578,42 @@
   <div class="stat-item"><div class="num">4</div><div class="label">Menteri/Pejabat</div></div>
 </div>
 
-<!-- Search -->
-<div class="controls">
-  <input type="text" id="search" placeholder="Cari alumni berdasarkan nama, jabatan, atau angkatan..." oninput="filterCards()">
-  <select id="angkatanFilter" onchange="filterCards()">
-    <option value="">Semua Angkatan</option>
-  </select>
-  <select id="genderFilter" onchange="filterCards()">
-    <option value="">Semua Gender</option>
-    <option value="Laki-laki">Laki-laki</option>
-    <option value="Perempuan">Perempuan</option>
-  </select>
-  <select id="photoFilter" onchange="filterCards()">
-    <option value="">Semua Foto</option>
-    <option value="withphoto">Dengan Foto</option>
-    <option value="withoutphoto">Tanpa Foto</option>
-  </select>
+<!-- Sticky Heading (replaces old sticky filter bar) -->
+<div class="sticky-heading">
+  <h2>🏆 Alumni Berprestasi</h2>
   <span class="result-count" id="resultCount">49 alumni</span>
+</div>
+
+<!-- Filter FAB + Overlay Panel -->
+<button class="filter-fab" id="filterFab" onclick="toggleFilterPanel()" aria-label="Filter">
+  <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+</button>
+
+<div class="filter-overlay" id="filterOverlay" onclick="closeFilterPanel(event)">
+  <div class="filter-panel" onclick="event.stopPropagation()">
+    <div class="panel-handle"></div>
+    <div class="panel-title">Filter &amp; Cari</div>
+    <div class="controls">
+      <input type="text" id="search" placeholder="Cari nama, jabatan, atau angkatan..." oninput="filterCards()">
+      <select id="angkatanFilter" onchange="filterCards()">
+        <option value="">Semua Angkatan</option>
+      </select>
+      <select id="genderFilter" onchange="filterCards()">
+        <option value="">Semua Gender</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+      </select>
+      <select id="photoFilter" onchange="filterCards()">
+        <option value="">Semua Foto</option>
+        <option value="withphoto">Dengan Foto</option>
+        <option value="withoutphoto">Tanpa Foto</option>
+      </select>
+      <div class="filter-actions">
+        <button class="btn-apply" onclick="closeFilterPanel()">Terapkan</button>
+        <button class="btn-reset" onclick="resetFilters()">Reset</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Info -->
@@ -596,6 +738,33 @@ function getAvatarHtml(gender, name) {
   const genderClass = gender === 'Perempuan' ? 'female' : 'male';
   return `<div class="avatar-placeholder ${genderClass}">${firstChar}</div>`;
 }
+
+// Filter panel controls
+function toggleFilterPanel() {
+  document.getElementById('filterOverlay').classList.toggle('open');
+}
+
+function closeFilterPanel(e) {
+  if (!e || e.target === e.currentTarget) {
+    document.getElementById('filterOverlay').classList.remove('open');
+  }
+}
+
+function resetFilters() {
+  document.getElementById('search').value = '';
+  document.getElementById('angkatanFilter').value = '';
+  document.getElementById('genderFilter').value = '';
+  document.getElementById('photoFilter').value = '';
+  filterCards();
+  closeFilterPanel();
+}
+
+// Close filter panel on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('filterOverlay').classList.remove('open');
+  }
+});
 
 // Fixed Error Handler for Images
 window.handleImageError = function(imgElement, gender, name) {

@@ -421,3 +421,33 @@ Platform punya 8+ fitur → user non-teknis kewalahan. Mitigasi via 3 strategi:
 ### Commit
 - `32c6965` — feat: redesign alumni-berprestasi cards team member layout fix HTML escaping
 
+---
+
+## Session 2026-05-31 — Filter Floating Icon + Sticky Heading
+
+### Issue #47 — Created
+- Issue: [Redesign alumni-berprestasi filter — floating icon + sticky heading](https://github.com/camagenta/koncolawasboyolali/issues/47)
+- Commit: `# akan diisi setelah commit`
+
+### Perubahan
+- **Hapus sticky filter bar**: Persistent `.controls` dengan `position: sticky; top: 0;` yang memakan vertical space saat scroll dihapus.
+- **Floating Action Button (FAB)**: Tombol filter ikon di pojok kanan bawah (`position: fixed; bottom: 1.5rem; right: 1.5rem;`), circular 56px, warna navy, bayangan.
+- **Filter panel modal**: Klik FAB → slide-up panel dari bawah dengan handle + judul "Filter & Cari" + search input + 3 dropdown (angkatan, gender, foto) + tombol Terapkan/Reset.
+- **Sticky heading**: Element sticky baru `.sticky-heading` — hanya menampilkan "🏆 Alumni Berprestasi" + result count. Compact, backdrop-filter blur.
+- **Close mechanism**: Klik overlay (backdrop), klik "Terapkan", atau tekan Escape → panel tertutup.
+- **Reset filters**: Tombol "Reset" mengosongkan semua filter, menjalankan `filterCards()`, dan menutup panel.
+- **Print styles**: `sticky-heading`, `filter-fab`, `filter-overlay` ikut disembunyikan di print.
+
+### Teknis
+- File: `frontend/public/alumni-berprestasi.html` — 869 lines (naik dari 700)
+- CSS: ~170 baris baru untuk sticky-heading, filter-fab, filter-overlay, filter-panel, filter-actions
+- JS: 3 fungsi baru (`toggleFilterPanel`, `closeFilterPanel`, `resetFilters`) + Escape key listener
+- Semua filter logic tetap sama (filterCards() pakai DOM IDs yang tidak berubah)
+- Mobile: FAB 48px, filter-panel padding 1rem
+- Print: tambah `.sticky-heading, .filter-fab, .filter-overlay` ke `display: none`
+
+### Build & Deploy
+- `npx next build` sukses (30 routes ✅)
+- `pm2 restart koncolawas-web` ✅
+- Live verified: `curl -s http://localhost:3002/alumni-berprestasi.html | grep -o 'sticky-heading\|filter-fab'` ✅
+
